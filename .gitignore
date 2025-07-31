@@ -1,0 +1,200 @@
+# Environment files (contains secrets!)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+backend/venv/
+backend/.venv/
+
+# PyCharm/IntelliJ
+.idea/
+*.iml
+*.iws
+
+# VS Code
+.vscode/
+.history/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+*.log
+logs/
+backend/logs/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+.dockerignore.local
+
+# Alembic (keep only structure, ignore temp files)
+backend/alembic/versions/.tmp*
+
+# Redis dumps
+dump.rdb
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Testing
+.tox/
+.nox/
+.testmondata
+
+# Node.js (if frontend JS/TS is added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# iOS Development
+## Build generated
+frontend/ios/build/
+frontend/ios/DerivedData/
+
+## Various settings
+frontend/ios/*.pbxuser
+frontend/ios/!default.pbxuser
+frontend/ios/*.mode1v3
+frontend/ios/!default.mode1v3
+frontend/ios/*.mode2v3
+frontend/ios/!default.mode2v3
+frontend/ios/*.perspectivev3
+frontend/ios/!default.perspectivev3
+frontend/ios/xcuserdata/
+
+## Xcode Patch
+frontend/ios/*.xcodeproj/*
+!frontend/ios/*.xcodeproj/project.pbxproj
+!frontend/ios/*.xcodeproj/xcshareddata/
+
+## CocoaPods
+frontend/ios/Pods/
+frontend/ios/Podfile.lock
+
+## Carthage
+frontend/ios/Carthage/Build/
+
+## fastlane
+frontend/ios/fastlane/report.xml
+frontend/ios/fastlane/Preview.html
+frontend/ios/fastlane/screenshots/**/*.png
+frontend/ios/fastlane/test_output
+
+## App Store Connect API Key
+frontend/ios/AuthKey_*.p8
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# API Documentation (auto-generated)
+docs/api/generated/
+
+# Local development files
+.local
+local.ini
+local.py
+
+# IDE configurations
+*.sublime-*
+.vscode/settings.json
+
+# MacOS
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Windows
+*.lnk
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# JetBrains
+.idea/
+*.iml
+out/
+
+# Certificates and keys (IMPORTANT!)
+*.pem
+*.key
+*.crt
+*.p12
+*.mobileprovision
+
+# Local scripts and notes
+notes.md
+TODO.local
+scratch.py
