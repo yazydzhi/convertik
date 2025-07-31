@@ -195,7 +195,8 @@ BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.azg.convertik.refres
 | ad_impression    | ad_unit_id           | delegate AdMob              |
 | subscribe_start  | plan_id              | Tap кнопки «Подписаться»    |
 | subscribe_success| plan_id, price       | `Transaction` success       |
-| subscribe_cancel | plan_id              | S2S notification            |
+| subscribe_renew  | plan_id, period      | S2S notification DID_RENEW |
+| subscribe_cancel | plan_id, reason      | S2S notification CANCEL    |
 
 ---
 

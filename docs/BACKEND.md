@@ -36,7 +36,8 @@ backend/
 │   ├ models/              # SQLAlchemy ORM модели
 │   │     ├ rate.py
 │   │     ├ usage_event.py
-│   │     └ iap_receipt.py
+│   │     ├ iap_receipt.py
+│   │     └ push_token.py
 │   ├ routes/
 │   │     ├ rates.py
 │   │     ├ stats.py
