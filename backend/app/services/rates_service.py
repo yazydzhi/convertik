@@ -86,7 +86,8 @@ class RatesService:
         try:
             params = {
                 "app_id": self.api_key,
-                "base": "RUB"  # Базовая валюта - рубль
+                # Free plan only supports USD as base currency
+                # We'll convert to RUB base in the code below
             }
             
             async with httpx.AsyncClient(timeout=30.0) as client:
@@ -95,6 +96,25 @@ class RatesService:
                 
                 data = response.json()
                 logger.info("External API response received", status_code=response.status_code)
+                
+                # Convert from USD-based rates to RUB-based rates
+                if "rates" in data and "RUB" in data["rates"]:
+                    usd_to_rub = data["rates"]["RUB"]  # e.g., 1 USD = 90 RUB
+                    
+                    # Convert all rates to RUB base
+                    # If USD->EUR = 0.85 and USD->RUB = 90, then RUB->EUR = 0.85/90
+                    rub_based_rates = {}
+                    for currency, usd_rate in data["rates"].items():
+                        if currency != "RUB":  # Skip RUB itself
+                            rub_based_rates[currency] = usd_rate / usd_to_rub
+                    
+                    # Update the response to have RUB as base
+                    data["base"] = "RUB"
+                    data["rates"] = rub_based_rates
+                    
+                    logger.info("Converted rates from USD to RUB base", 
+                              usd_to_rub_rate=usd_to_rub, 
+                              currencies_count=len(rub_based_rates))
                 
                 return data
                 
