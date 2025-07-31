@@ -22,15 +22,72 @@ class RatesService:
         self.api_url = settings.rates_api_url
         self.api_key = settings.rates_api_key
         
-    async def update_rates_from_external_api(self) -> Dict[str, Any]:
+    async def should_update_rates(self) -> bool:
         """
-        Обновляет курсы валют из внешнего API
+        Проверяет, нужно ли обновлять курсы валют (rate limiting)
+        Обновляем не чаще чем раз в час для соблюдения лимитов Free Plan
+        
+        Returns:
+            bool: True если можно обновлять, False если нужно подождать
+        """
+        try:
+            # Получаем последнюю запись из БД
+            async with async_sessionmaker() as session:
+                result = await session.execute(
+                    select(Rate).order_by(Rate.updated_at.desc()).limit(1)
+                )
+                latest_rate = result.scalar_one_or_none()
+                
+                if not latest_rate:
+                    logger.info("No rates in database, update needed")
+                    return True
+                
+                # Проверяем время последнего обновления
+                time_since_update = datetime.utcnow() - latest_rate.updated_at.replace(tzinfo=None)
+                minutes_since_update = time_since_update.total_seconds() / 60
+                min_interval = settings.rates_update_interval_minutes
+                
+                if minutes_since_update >= min_interval:
+                    logger.info(
+                        "Rate limiting check: update allowed",
+                        minutes_since_last_update=round(minutes_since_update, 1),
+                        min_interval_minutes=min_interval
+                    )
+                    return True
+                else:
+                    logger.info(
+                        "Rate limiting check: update skipped",
+                        minutes_since_last_update=round(minutes_since_update, 1),
+                        min_interval_minutes=min_interval,
+                        wait_minutes=round(min_interval - minutes_since_update, 1)
+                    )
+                    return False
+                    
+        except Exception as e:
+            logger.error("Error checking rate limiting", error=str(e))
+            # В случае ошибки разрешаем обновление
+            return True
+
+    async def update_rates_from_external_api(self, force: bool = False) -> Dict[str, Any]:
+        """
+        Обновляет курсы валют из внешнего API с учетом rate limiting
+        
+        Args:
+            force: bool - принудительное обновление (игнорировать rate limiting)
         
         Returns:
             Dict с результатом операции
         """
         try:
-            logger.info("Starting rates update from external API")
+            # Проверка rate limiting (если не принудительное обновление)
+            if not force and not await self.should_update_rates():
+                return {
+                    "success": False, 
+                    "skipped": True,
+                    "reason": "Rate limiting: too soon since last update"
+                }
+            
+            logger.info("Starting rates update from external API", forced=force)
             
             # Запрашиваем данные из внешнего API
             rates_data = await self._fetch_rates_from_api()

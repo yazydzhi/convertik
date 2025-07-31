@@ -7,6 +7,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 import structlog
 
 from ..services.rates_service import rates_service
+from ..config import settings
 
 logger = structlog.get_logger()
 
@@ -25,12 +26,14 @@ class TaskScheduler:
             return
         
         try:
-            # Добавляем задачу обновления курсов каждые 6 часов
+            # Добавляем задачу умной проверки обновления курсов каждые 30 минут
+            # (но обновляем только если прошло достаточно времени для rate limiting)
+            check_interval = settings.rates_check_interval_minutes
             self.scheduler.add_job(
-                self._update_rates_job,
-                trigger=IntervalTrigger(hours=6),
-                id="update_rates",
-                name="Update exchange rates",
+                self._smart_rates_update_job,
+                trigger=IntervalTrigger(minutes=check_interval),
+                id="smart_update_rates",
+                name=f"Smart exchange rates update check (every {check_interval}min)",
                 replace_existing=True,
                 max_instances=1  # Не запускать одновременно
             )
@@ -68,10 +71,10 @@ class TaskScheduler:
         except Exception as e:
             logger.error("Error stopping scheduler", error=str(e))
     
-    async def _update_rates_job(self):
-        """Задача обновления курсов валют"""
+    async def _smart_rates_update_job(self):
+        """Умная задача обновления курсов валют с rate limiting"""
         try:
-            logger.info("Starting scheduled rates update")
+            logger.info("Starting smart scheduled rates update check")
             result = await rates_service.update_rates_from_external_api()
             
             if result.get("success"):
@@ -79,6 +82,11 @@ class TaskScheduler:
                     "Scheduled rates update completed successfully",
                     updated_count=result.get("updated_count"),
                     rates_count=result.get("rates_count")
+                )
+            elif result.get("skipped"):
+                logger.debug(
+                    "Scheduled rates update skipped due to rate limiting",
+                    reason=result.get("reason")
                 )
             else:
                 logger.error(
@@ -134,10 +142,10 @@ class TaskScheduler:
         }
     
     async def trigger_rates_update_now(self) -> dict:
-        """Принудительно запускает обновление курсов"""
+        """Принудительно запускает обновление курсов (игнорирует rate limiting)"""
         try:
-            logger.info("Manual rates update triggered")
-            result = await rates_service.update_rates_from_external_api()
+            logger.info("Manual rates update triggered (forced)")
+            result = await rates_service.update_rates_from_external_api(force=True)
             return result
         except Exception as e:
             logger.error("Error in manual rates update", error=str(e))
