@@ -6,16 +6,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://convertik:convertik@db:5432/convertik
+      - DATABASE_URL=postgresql+asyncpg://convertik:convertik@db:5432/convertik
       - REDIS_URL=redis://redis:6379/0
-      - RATES_API_URL=https://openexchangerates.org/api/latest.json
-      - RATES_API_KEY=${RATES_API_KEY}
-      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - DEBUG=true
     depends_on:
       - db
       - redis
     volumes:
-      - ./app:/app/app
+      - .:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   db:
@@ -28,11 +26,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U convertik -d convertik"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -40,11 +33,6 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   postgres_data:
