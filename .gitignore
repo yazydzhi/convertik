@@ -198,3 +198,44 @@ out/
 notes.md
 TODO.local
 scratch.py
+
+# Verification and testing reports
+*_VERIFICATION.md
+GITIGNORE_*.md
+
+# Testing artifacts and temporary files (not actual test code)
+frontend/ios/test_ui_*.py
+frontend/ios/test_final_*.py
+frontend/ios/debug_*.py
+frontend/ios/accessibility_*.py
+frontend/ios/simple_*.py
+frontend/ios/fixed_*.py
+frontend/ios/final_*.py
+frontend/ios/*_ui_test.py
+frontend/ios/ui_*_test.py
+
+# Test screenshots and directories
+frontend/ios/*screenshots/
+frontend/ios/*_screenshots/
+frontend/ios/ui_screenshots/
+frontend/ios/debug_screenshots/
+frontend/ios/final_fix_screenshots/
+frontend/ios/fixed_test_screenshots/
+
+# Test reports and artifacts
+frontend/ios/*_REPORT.md
+frontend/ios/*_TEST*.md
+frontend/ios/TESTING*.md
+frontend/ios/SUCCESS_REPORT.md
+frontend/ios/UI_*.md
+frontend/ios/FINAL_*.md
+frontend/ios/*_report.json
+frontend/ios/test_results.*
+
+# Test automation scripts (generated helpers)
+frontend/ios/add_test_targets.sh
+frontend/ios/run_tests.sh
+frontend/ios/create_test_targets.py
+
+# Note: ConvertikTests/ and ConvertikUITests/ should be tracked in git
+# They contain actual test code, not temporary artifacts

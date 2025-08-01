@@ -6,25 +6,25 @@ struct PaywallView: View {
     @EnvironmentObject private var settingsService: SettingsService
     @StateObject private var storeService = StoreService.shared
     @StateObject private var analyticsService = AnalyticsService.shared
-    
+
     @State private var isLoading = false
     @State private var showingError = false
     @State private var errorMessage = ""
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 24) {
                 // Заголовок
                 headerSection
-                
+
                 // Преимущества Premium
                 benefitsSection
-                
+
                 Spacer()
-                
+
                 // Кнопки покупки и восстановления
                 purchaseSection
-                
+
                 // Мелкий текст
                 disclaimerSection
             }
@@ -48,26 +48,26 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     // MARK: - Sections
-    
+
     private var headerSection: some View {
         VStack(spacing: 16) {
             Image(systemName: "crown.fill")
                 .font(.system(size: 60))
                 .foregroundColor(.yellow)
-            
+
             Text("Convertik Premium")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
+
             Text("Уберите рекламу и получите полный доступ")
                 .font(.headline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
         }
     }
-    
+
     private var benefitsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             BenefitRow(
@@ -75,13 +75,13 @@ struct PaywallView: View {
                 title: "Без рекламы",
                 description: "Никаких баннеров и отвлекающей рекламы"
             )
-            
+
             BenefitRow(
                 icon: "bolt.fill",
                 title: "Быстрая работа",
                 description: "Приложение работает ещё быстрее"
             )
-            
+
             BenefitRow(
                 icon: "heart.fill",
                 title: "Поддержка разработки",
@@ -94,7 +94,7 @@ struct PaywallView: View {
                 .fill(Color(.systemGray6))
         )
     }
-    
+
     private var purchaseSection: some View {
         VStack(spacing: 12) {
             if let product = storeService.monthlyProduct {
@@ -104,9 +104,9 @@ struct PaywallView: View {
                     HStack {
                         Text("Подписаться")
                             .fontWeight(.semibold)
-                        
+
                         Spacer()
-                        
+
                         Text(product.displayPrice)
                             .fontWeight(.semibold)
                     }
@@ -116,7 +116,7 @@ struct PaywallView: View {
                     .cornerRadius(12)
                 }
                 .disabled(isLoading)
-                
+
                 Text("199 ₽ в месяц, автопродление")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -124,7 +124,7 @@ struct PaywallView: View {
                 ProgressView("Загрузка...")
                     .frame(height: 50)
             }
-            
+
             Button("Восстановить покупки") {
                 restorePurchases()
             }
@@ -139,14 +139,14 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     private var disclaimerSection: some View {
         VStack(spacing: 8) {
             Text("Подписка автоматически продлевается. Отменить можно в настройках Apple ID.")
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            
+
             HStack(spacing: 16) {
                 Link("Условия", destination: URL(string: "https://convertik.app/terms")!)
                 Link("Конфиденциальность", destination: URL(string: "https://convertik.app/privacy")!)
@@ -155,13 +155,13 @@ struct PaywallView: View {
             .foregroundColor(.accentColor)
         }
     }
-    
+
     // MARK: - Actions
-    
+
     private func purchaseProduct(_ product: Product) {
         isLoading = true
         analyticsService.trackSubscribeStart(planId: product.id)
-        
+
         Task {
             do {
                 let result = try await storeService.purchase(product)
@@ -184,10 +184,10 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     private func restorePurchases() {
         isLoading = true
-        
+
         Task {
             do {
                 try await storeService.restorePurchases()
@@ -209,23 +209,23 @@ struct BenefitRow: View {
     let icon: String
     let title: String
     let description: String
-    
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(.accentColor)
                 .frame(width: 24)
-            
+
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.headline)
-                
+
                 Text(description)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
         }
     }

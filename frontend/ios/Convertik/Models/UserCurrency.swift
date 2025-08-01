@@ -4,9 +4,9 @@ struct UserCurrency: Identifiable, Hashable {
     let code: String
     let isEnabled: Bool
     let order: Int
-    
+
     var id: String { code }
-    
+
     init(code: String, isEnabled: Bool = true, order: Int = 0) {
         self.code = code
         self.isEnabled = isEnabled

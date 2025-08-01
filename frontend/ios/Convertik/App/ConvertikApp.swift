@@ -5,17 +5,17 @@ import CoreData
 struct ConvertikApp: App {
     // CoreData stack
     let persistenceContainer = CoreDataStack.shared.persistentContainer
-    
+
     // Services
     @StateObject private var ratesRepository = RatesRepository.shared
     @StateObject private var settingsService = SettingsService.shared
     private let backgroundService = BackgroundService.shared
-    
+
     init() {
         // Регистрируем фоновые задачи
         backgroundService.registerBackgroundTasks()
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()

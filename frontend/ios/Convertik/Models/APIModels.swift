@@ -6,7 +6,7 @@ struct RatesResponse: Codable {
     let updatedAt: Date
     let base: String
     let rates: [String: Double]
-    
+
     enum CodingKeys: String, CodingKey {
         case updatedAt = "updated_at"
         case base
@@ -19,7 +19,7 @@ struct StatsEvent: Codable {
     let deviceId: String
     let timestamp: TimeInterval
     let params: [String: AnyCodable]?
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case deviceId = "device_id"
@@ -31,14 +31,14 @@ struct StatsEvent: Codable {
 // Helper для Any в JSON
 struct AnyCodable: Codable {
     let value: Any
-    
+
     init(_ value: Any) {
         self.value = value
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        
+
         if let bool = try? container.decode(Bool.self) {
             value = bool
         } else if let int = try? container.decode(Int.self) {
@@ -54,10 +54,10 @@ struct AnyCodable: Codable {
             )
         }
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        
+
         switch value {
         case let bool as Bool:
             try container.encode(bool)

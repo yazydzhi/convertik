@@ -4,9 +4,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settingsService: SettingsService
     @StateObject private var analyticsService = AnalyticsService.shared
-    
+
     @State private var showingPaywall = false
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -16,18 +16,18 @@ struct SettingsView: View {
                         Image(systemName: "moon.fill")
                             .foregroundColor(.indigo)
                             .frame(width: 24)
-                        
+
                         Text("Тёмная тема")
-                        
+
                         Spacer()
-                        
+
                         Toggle("", isOn: $settingsService.isDarkMode)
                             .onChange(of: settingsService.isDarkMode) { newValue in
                                 analyticsService.trackThemeChanged(isDark: newValue)
                             }
                     }
                 }
-                
+
                 // Раздел Premium
                 Section("Premium") {
                     Button {
@@ -38,11 +38,11 @@ struct SettingsView: View {
                             Image(systemName: "crown.fill")
                                 .foregroundColor(.yellow)
                                 .frame(width: 24)
-                            
+
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("Convertik Premium")
                                     .foregroundColor(.primary)
-                                
+
                                 if settingsService.isPremium {
                                     Text("Активна")
                                         .font(.caption)
@@ -53,9 +53,9 @@ struct SettingsView: View {
                                         .foregroundColor(.secondary)
                                 }
                             }
-                            
+
                             Spacer()
-                            
+
                             if settingsService.isPremium {
                                 Image(systemName: "checkmark.circle.fill")
                                     .foregroundColor(.green)
@@ -68,7 +68,7 @@ struct SettingsView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
-                
+
                 // Раздел информации
                 Section("Информация") {
                     Link(destination: URL(string: "https://convertik.app/privacy")!) {
@@ -76,42 +76,42 @@ struct SettingsView: View {
                             Image(systemName: "hand.raised.fill")
                                 .foregroundColor(.blue)
                                 .frame(width: 24)
-                            
+
                             Text("Политика конфиденциальности")
-                            
+
                             Spacer()
-                            
+
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
+
                     Link(destination: URL(string: "https://convertik.app/terms")!) {
                         HStack {
                             Image(systemName: "doc.text.fill")
                                 .foregroundColor(.green)
                                 .frame(width: 24)
-                            
+
                             Text("Условия использования")
-                            
+
                             Spacer()
-                            
+
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
+
                     HStack {
                         Image(systemName: "info.circle.fill")
                             .foregroundColor(.gray)
                             .frame(width: 24)
-                        
+
                         Text("Версия")
-                        
+
                         Spacer()
-                        
+
                         Text(appVersion)
                             .foregroundColor(.secondary)
                     }
@@ -134,7 +134,7 @@ struct SettingsView: View {
             }
         }
     }
-    
+
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
