@@ -233,13 +233,27 @@ BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.azg.convertik.refres
 
 ```bash
 # Предустановки
-brew install swiftlint
+brew install xcodegen
+xcodebuild -downloadPlatform iOS
+
+# Генерация проекта
+xcodegen generate
+
 # Зависимости
 xcodebuild -resolvePackageDependencies
+
 # Линт
 swiftlint
+
+# Сборка и установка на симулятор
+xcodebuild -project Convertik.xcodeproj -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro" -derivedDataPath ./build install
+
+# Запуск приложения
+xcrun simctl launch <SIMULATOR_UDID> com.azg.Convertik
+open -a Simulator
+
 # Тесты
-xcodebuild test -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 15"
+xcodebuild test -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro"
 ```
 
 ---

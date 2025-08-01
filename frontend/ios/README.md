@@ -2,6 +2,9 @@
 
 Нативное iOS приложение для конвертации валют с поддержкой оффлайн режима.
 
+**🎉 Текущая версия: 1.2**  
+**🌐 Production API:** https://convertik.ponravilos.ru
+
 ## 🚀 Возможности
 
 - **Мгновенная конвертация** валют в оффлайн режиме
@@ -10,6 +13,7 @@
 - **Тёмная/светлая тема** с автоматическим переключением
 - **Аналитика** с отправкой на backend для улучшения UX
 - **Локализация** на русском и английском языках
+- **Базовые валюты** доступны сразу при первом запуске
 
 ## 🛠 Технологии
 
@@ -20,6 +24,7 @@
 - **Монетизация**: StoreKit2 + AdMob SDK
 - **Фон**: BackgroundTasks для обновления курсов
 - **Минимальная версия**: iOS 15.0
+- **Сборка**: xcodegen для генерации проекта
 
 ## 📱 Экраны
 
@@ -47,33 +52,37 @@
 ## 🏗 Архитектура
 
 ```
-Sources/Convertik/
-├── App/                    # Точка входа приложения
-│   ├── ConvertikApp.swift
-│   └── ContentView.swift
-├── Models/                 # Модели данных
-│   ├── Rate.swift
-│   ├── UserCurrency.swift
-│   └── APIModels.swift
-├── Services/               # Бизнес-логика
-│   ├── RatesRepository.swift
-│   ├── APIService.swift
-│   ├── ConversionService.swift
-│   ├── SettingsService.swift
-│   ├── AnalyticsService.swift
-│   ├── StoreService.swift
-│   └── BackgroundService.swift
-├── Persistence/           # CoreData стек
-│   ├── CoreDataStack.swift
-│   ├── RateEntity+CoreDataClass.swift
-│   └── ConvertikDataModel.xcdatamodeld
-├── Modules/              # UI модули
-│   ├── MainCurrencyList/
-│   ├── AddCurrency/
-│   ├── Settings/
-│   └── Paywall/
-└── Components/           # Переиспользуемые компоненты
-    └── AdBannerView.swift
+frontend/ios/
+├── Convertik/              # Исходный код приложения
+│   ├── App/                # Точка входа приложения
+│   │   ├── ConvertikApp.swift
+│   │   └── ContentView.swift
+│   ├── Models/             # Модели данных
+│   │   ├── Rate.swift
+│   │   ├── UserCurrency.swift
+│   │   └── APIModels.swift
+│   ├── Services/           # Бизнес-логика
+│   │   ├── RatesRepository.swift
+│   │   ├── APIService.swift
+│   │   ├── ConversionService.swift
+│   │   ├── SettingsService.swift
+│   │   ├── AnalyticsService.swift
+│   │   ├── StoreService.swift
+│   │   └── BackgroundService.swift
+│   ├── Persistence/        # CoreData стек
+│   │   ├── CoreDataStack.swift
+│   │   ├── RateEntity+CoreDataClass.swift
+│   │   └── ConvertikDataModel.xcdatamodeld
+│   ├── Modules/            # UI модули
+│   │   ├── MainCurrencyList/
+│   │   ├── AddCurrency/
+│   │   ├── Settings/
+│   │   └── Paywall/
+│   └── Components/         # Переиспользуемые компоненты
+│       └── AdBannerView.swift
+├── project.yml             # Конфигурация xcodegen
+├── Info.plist              # Настройки приложения
+└── Convertik.xcodeproj/    # Сгенерированный проект Xcode
 ```
 
 ## 🔄 Поток данных
@@ -83,6 +92,7 @@ Sources/Convertik/
 3. **Конвертация**: Локальные вычисления без сети
 4. **Аналитика**: Батчинг событий → отправка на `/stats` API
 5. **Premium**: StoreKit2 покупка → валидация на `/iap/verify`
+6. **Оффлайн**: Базовые валюты доступны сразу при первом запуске
 
 ## 🛠 Сборка и запуск
 
@@ -90,40 +100,60 @@ Sources/Convertik/
 - Xcode 15.0+
 - iOS 15.0+ (device/simulator)
 - Swift 5.9+
+- xcodegen (установка: `brew install xcodegen`)
 
 ### Локальная разработка
 
-1. **Запустите backend сервер**:
+1. **Установите зависимости**:
 ```bash
-cd ../../backend
-docker-compose up -d
+# Установка xcodegen
+brew install xcodegen
+
+# Установка iOS runtime (если нужно)
+xcodebuild -downloadPlatform iOS
 ```
 
-2. **Откройте проект в Xcode**:
+2. **Сгенерируйте проект**:
 ```bash
-open ConvertikApp.xcodeproj
+cd frontend/ios
+xcodegen generate
 ```
 
-3. **Выберите target и устройство, нажмите Run**
+3. **Соберите и установите на симулятор**:
+```bash
+# Сборка
+xcodebuild -project Convertik.xcodeproj -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro" -derivedDataPath ./build build
+
+# Установка
+xcodebuild -project Convertik.xcodeproj -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro" -derivedDataPath ./build install
+
+# Запуск
+xcrun simctl launch <SIMULATOR_UDID> com.azg.Convertik
+```
+
+4. **Откройте симулятор**:
+```bash
+open -a Simulator
+```
 
 ### Конфигурация
 
 Основные настройки в `Info.plist`:
 - `BGTaskSchedulerPermittedIdentifiers` для фоновых задач
-- `NSAppTransportSecurity` для HTTP localhost в DEBUG
-- Bundle Identifier: `com.azg.convertik`
+- `NSAppTransportSecurity` для HTTPS соединений
+- Bundle Identifier: `com.azg.Convertik`
+- Версия: 1.2 (CFBundleShortVersionString)
 
 ### API Endpoint
 
 В `APIService.swift` настроен базовый URL:
-- **Development**: `http://localhost:8000/api/v1`
-- **Production**: `https://api.convertik.app/api/v1` (будет изменено)
+- **Production**: `https://convertik.ponravilos.ru/api/v1`
 
 ## 🧪 Тестирование
 
 ```bash
 # Unit тесты
-xcodebuild test -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 15"
+xcodebuild test -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro"
 
 # SwiftLint проверка кода
 swiftlint
@@ -170,6 +200,20 @@ xcodebuild test -scheme ConvertikSnapshotTests
 - `ad_impression` - показы рекламы
 
 События батчатся и отправляются на backend при наличии сети.
+
+## 🔧 Устранение неполадок
+
+### Приложение не обновляется на симуляторе
+```bash
+# Принудительная переустановка
+xcrun simctl uninstall <SIMULATOR_UDID> com.azg.Convertik
+xcodebuild -project Convertik.xcodeproj -scheme Convertik -destination "platform=iOS Simulator,name=iPhone 16 Pro" -derivedDataPath ./build install
+```
+
+### Проверка версии установленного приложения
+```bash
+plutil -p "/Users/azg/Library/Developer/CoreSimulator/Devices/<SIMULATOR_UDID>/data/Containers/Bundle/Application/*/Convertik.app/Info.plist" | grep -E "(CFBundleShortVersionString|CFBundleVersion)"
+```
 
 ## 🤝 Contributing
 
