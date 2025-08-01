@@ -11,6 +11,7 @@ class Rate(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     code = Column(String(3), nullable=False, unique=True, index=True)  # ISO код валюты (USD, EUR, etc.)
+    name = Column(String(100), nullable=False)  # Название валюты (Доллар США, Евро, etc.)
     value = Column(Numeric(18, 6), nullable=False)  # Сколько рублей за 1 единицу валюты
     updated_at = Column(
         DateTime(timezone=True), 
@@ -21,4 +22,4 @@ class Rate(Base):
     )
 
     def __repr__(self):
-        return f"<Rate(code='{self.code}', value={self.value})>"
+        return f"<Rate(code='{self.code}', name='{self.name}', value={self.value})>"

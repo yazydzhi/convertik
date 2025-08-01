@@ -44,7 +44,8 @@ final class RatesRepository: ObservableObject {
 
         do {
             let response = try await apiService.fetchRates()
-            await updateLocalRates(from: response)
+            let namesResponse = try await apiService.fetchCurrencyNames()
+            await updateLocalRates(from: response, names: namesResponse.names)
             isLoading = false
         } catch {
             self.error = error
@@ -98,14 +99,14 @@ final class RatesRepository: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func updateLocalRates(from response: RatesResponse) async {
+    private func updateLocalRates(from response: RatesResponse, names: [String: String]) async {
         let context = coreDataStack.persistentContainer.newBackgroundContext()
 
         await context.perform {
             // Добавляем базовую валюту (RUB)
             _ = self.createOrUpdateRate(
                 code: response.base,
-                name: Rate.currencyNames[response.base] ?? response.base,
+                name: names[response.base] ?? response.base,
                 value: 1.0,
                 updatedAt: response.updatedAt,
                 in: context
@@ -113,10 +114,9 @@ final class RatesRepository: ObservableObject {
 
             // Добавляем остальные валюты
             for (code, value) in response.rates {
-                let name = Rate.currencyNames[code] ?? code
                 _ = self.createOrUpdateRate(
                     code: code,
-                    name: name,
+                    name: names[code] ?? code,
                     value: 1.0 / value, // Инвертируем, чтобы получить рубли за единицу валюты
                     updatedAt: response.updatedAt,
                     in: context

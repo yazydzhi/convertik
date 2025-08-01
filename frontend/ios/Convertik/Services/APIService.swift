@@ -34,6 +34,22 @@ final class APIService {
         return try decoder.decode(RatesResponse.self, from: data)
     }
 
+    func fetchCurrencyNames() async throws -> CurrencyNamesResponse {
+        let url = baseURL.appendingPathComponent("currency-names")
+
+        let (data, response) = try await session.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              200...299 ~= httpResponse.statusCode else {
+            throw APIError.invalidResponse
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return try decoder.decode(CurrencyNamesResponse.self, from: data)
+    }
+
     // MARK: - Stats API
 
     func sendStats(_ events: [StatsEvent]) async throws {

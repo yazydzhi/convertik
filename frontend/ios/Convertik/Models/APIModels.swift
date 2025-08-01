@@ -14,6 +14,16 @@ struct RatesResponse: Codable {
     }
 }
 
+struct CurrencyNamesResponse: Codable {
+    let updatedAt: Date
+    let names: [String: String]
+
+    enum CodingKeys: String, CodingKey {
+        case updatedAt = "updated_at"
+        case names
+    }
+}
+
 struct StatsEvent: Codable {
     let name: String
     let deviceId: String

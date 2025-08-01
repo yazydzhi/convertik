@@ -25,22 +25,7 @@ extension Rate {
         self.updatedAt = entity.updatedAt
     }
 
-    // Популярные валюты для UI
-    static let popularCurrencies = [
-        "USD", "EUR", "GBP", "CNY", "JPY"
-    ]
-
-    // Названия валют
-    static let currencyNames: [String: String] = [
-        "USD": "Доллар США",
-        "EUR": "Евро",
-        "GBP": "Фунт стерлингов",
-        "CNY": "Китайский юань",
-        "JPY": "Японская иена",
-        "RUB": "Российский рубль"
-    ]
-
     var displayName: String {
-        Self.currencyNames[code] ?? code
+        name
     }
 }

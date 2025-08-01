@@ -9,7 +9,7 @@ import structlog
 
 from ..database import get_db, get_redis
 from ..models.rate import Rate
-from ..schemas import RateResponse, RateSchema
+from ..schemas import RateResponse, RateSchema, CurrencyNamesResponse
 
 logger = structlog.get_logger()
 router = APIRouter()
@@ -76,6 +76,70 @@ async def get_rates(
             detail={
                 "code": 500,
                 "message": "Failed to get exchange rates",
+                "details": {"error": str(e)}
+            }
+        )
+
+
+@router.get("/currency-names", response_model=CurrencyNamesResponse)
+async def get_currency_names(
+    db: AsyncSession = Depends(get_db),
+) -> CurrencyNamesResponse:
+    """
+    Получить названия валют
+    
+    Возвращает словарь с названиями всех доступных валют
+    """
+    try:
+        # Получаем Redis клиент
+        redis_client = await get_redis()
+        
+        # Проверяем кэш
+        cached_names = await redis_client.get("currency_names_cache")
+        if cached_names:
+            logger.info("Returning currency names from cache")
+            return CurrencyNamesResponse.model_validate_json(cached_names)
+        
+        # Если кэша нет, читаем из БД
+        logger.info("Reading currency names from database")
+        result = await db.execute(select(Rate))
+        rates = result.scalars().all()
+        
+        if not rates:
+            logger.warning("No rates found in database")
+            # Возвращаем пустой результат с текущим временем
+            response_data = {
+                "updated_at": datetime.utcnow(),
+                "names": {}
+            }
+            return CurrencyNamesResponse(**response_data)
+        
+        # Формируем словарь названий
+        names_dict = {rate.code: rate.name for rate in rates}
+        updated_at = max(rate.updated_at for rate in rates)
+        
+        response_data = {
+            "updated_at": updated_at,
+            "names": names_dict
+        }
+        
+        # Кэшируем результат на 24 часа (86400 секунд)
+        await redis_client.setex(
+            "currency_names_cache",
+            86400,  # TTL в секундах
+            json.dumps(response_data, default=str)
+        )
+        
+        logger.info("Currency names cached successfully", names_count=len(names_dict))
+        return CurrencyNamesResponse(**response_data)
+        
+    except Exception as e:
+        logger.error("Error getting currency names", error=str(e), exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "code": 500,
+                "message": "Failed to get currency names",
                 "details": {"error": str(e)}
             }
         )

@@ -25,6 +25,14 @@ class RateSchema(BaseModel):
     updated_at: datetime
 
 
+class CurrencyNamesResponse(BaseModel):
+    """Ответ с названиями валют"""
+    model_config = ConfigDict(from_attributes=True)
+    
+    updated_at: datetime
+    names: Dict[str, str]  # Названия валют: {"USD": "Доллар США", "EUR": "Евро"}
+
+
 # Схемы для аналитики
 class UsageEventCreate(BaseModel):
     """Создание события аналитики"""

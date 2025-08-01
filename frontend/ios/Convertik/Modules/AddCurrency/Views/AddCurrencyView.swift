@@ -14,16 +14,7 @@ struct AddCurrencyView: View {
                 (searchText.isEmpty ||
                     rate.code.localizedCaseInsensitiveContains(searchText) ||
                     rate.displayName.localizedCaseInsensitiveContains(searchText))
-        }
-    }
-
-    private var popularRates: [Rate] {
-        availableRates.filter { Rate.popularCurrencies.contains($0.code) }
-    }
-
-    private var otherRates: [Rate] {
-        availableRates.filter { !Rate.popularCurrencies.contains($0.code) }
-            .sorted { $0.code < $1.code }
+        }.sorted { $0.code < $1.code }
     }
 
     var body: some View {
@@ -50,31 +41,22 @@ struct AddCurrencyView: View {
 
             // Список валют
             List {
-                if !popularRates.isEmpty {
-                    Section("Популярные") {
-                        ForEach(popularRates) { rate in
-                            CurrencySelectionRow(rate: rate) {
-                                addCurrency(rate)
-                            }
+                if !availableRates.isEmpty {
+                    ForEach(availableRates) { rate in
+                        CurrencySelectionRow(rate: rate) {
+                            addCurrency(rate)
                         }
                     }
-                }
-
-                if !otherRates.isEmpty {
-                    Section("Все валюты") {
-                        ForEach(otherRates) { rate in
-                            CurrencySelectionRow(rate: rate) {
-                                addCurrency(rate)
-                            }
-                        }
-                    }
-                }
-
-                if availableRates.isEmpty && !searchText.isEmpty {
-                    Section {
-                        Text("Валюты не найдены")
-                            .foregroundColor(.secondary)
-                    }
+                } else if !searchText.isEmpty {
+                    Text("Валюты не найдены")
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
+                } else {
+                    Text("Загрузка валют...")
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
                 }
             }
             .listStyle(PlainListStyle())
