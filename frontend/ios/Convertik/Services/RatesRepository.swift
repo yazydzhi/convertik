@@ -59,7 +59,7 @@ final class RatesRepository: ObservableObject {
         
         await context.perform {
             // Добавляем базовую валюту (RUB)
-            let rubEntity = self.createOrUpdateRate(
+            let _ = self.createOrUpdateRate(
                 code: response.base,
                 name: Rate.currencyNames[response.base] ?? response.base,
                 value: 1.0,

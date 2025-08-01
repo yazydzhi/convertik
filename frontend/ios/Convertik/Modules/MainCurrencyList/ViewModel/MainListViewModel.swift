@@ -79,7 +79,9 @@ final class MainListViewModel: ObservableObject {
     }
 }
 
-struct CurrencyDisplayItem {
+struct CurrencyDisplayItem: Identifiable {
     let rate: Rate
     let convertedAmount: Double
+    
+    var id: String { rate.code }
 }

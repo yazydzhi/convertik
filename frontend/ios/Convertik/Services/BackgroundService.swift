@@ -5,7 +5,6 @@ final class BackgroundService {
     static let shared = BackgroundService()
     
     private let refreshTaskId = "com.azg.convertik.refresh"
-    private let ratesRepository = RatesRepository.shared
     
     private init() {}
     
@@ -42,12 +41,11 @@ final class BackgroundService {
         
         // Создаем задачу для обновления курсов
         let refreshTask = Task {
-            do {
-                await ratesRepository.syncRemote()
-                task.setTaskCompleted(success: true)
-            } catch {
-                print("Background refresh failed: \(error)")
-                task.setTaskCompleted(success: false)
+            await MainActor.run {
+                Task {
+                    await RatesRepository.shared.syncRemote()
+                    task.setTaskCompleted(success: true)
+                }
             }
         }
         
@@ -67,7 +65,11 @@ final class BackgroundService {
     func applicationDidBecomeActive() {
         // Обновляем курсы при активации приложения
         Task {
-            await ratesRepository.syncRemote()
+            await MainActor.run {
+                Task {
+                    await RatesRepository.shared.syncRemote()
+                }
+            }
         }
     }
 }

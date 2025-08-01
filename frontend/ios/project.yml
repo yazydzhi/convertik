@@ -1,0 +1,47 @@
+name: Convertik
+bundleIdPrefix: com.azg
+deploymentTarget:
+  iOS: 15.0
+
+options:
+  bundleIdPrefix: com.azg
+
+targets:
+  Convertik:
+    type: application
+    platform: iOS
+    deploymentTarget: 15.0
+    sources:
+      - path: Convertik
+        excludes:
+          - "**/*.md"
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: Конвертик
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        LSApplicationCategoryType: "public.app-category.finance"
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: "Default Configuration"
+                UISceneDelegateClassName: "$(PRODUCT_MODULE_NAME).SceneDelegate"
+        UIApplicationSupportsIndirectInputEvents: true
+        UILaunchScreen:
+          UIColorName: "AccentColor"
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        BGTaskSchedulerPermittedIdentifiers:
+          - "com.azg.convertik.refresh"
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+          NSExceptionDomains:
+            localhost:
+              NSExceptionAllowsInsecureHTTPLoads: true

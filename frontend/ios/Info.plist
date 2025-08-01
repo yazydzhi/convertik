@@ -6,6 +6,8 @@
 	<array>
 		<string>com.azg.convertik.refresh</string>
 	</array>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Конвертик</string>
 	<key>CFBundleExecutable</key>
@@ -24,8 +26,6 @@
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.finance</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -62,13 +62,7 @@
 	<dict>
 		<key>UIColorName</key>
 		<string>AccentColor</string>
-		<key>UIImageName</key>
-		<string>LaunchIcon</string>
 	</dict>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -94,7 +94,7 @@ struct MainListView: View {
     
     private var currencyListSection: some View {
         List {
-            ForEach(viewModel.displayedCurrencies, id: \.code) { item in
+            ForEach(viewModel.displayedCurrencies, id: \.rate.code) { item in
                 CurrencyRowView(
                     rate: item.rate,
                     convertedAmount: item.convertedAmount,

@@ -1,0 +1,499 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0322BB7B8C45069B5AEBC272 /* UserCurrencyEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */; };
+		05046AECF787DF0509CF2A24 /* BackgroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265FDF798774107AFE72B12 /* BackgroundService.swift */; };
+		0836340A7C6462AFC164ED2D /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10EB238E92F1D9E0096C61 /* ConversionService.swift */; };
+		1CC6FA46CECBAADD322235DC /* ConvertikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD2C577D0DE55594174D842 /* ConvertikApp.swift */; };
+		1D1EB01E574640E97C294B85 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D9C352254817F4E94C43E /* AnalyticsService.swift */; };
+		1FB87A221B2CE1CF11E2D7DD /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */; };
+		2D043751FE6557E89C01737B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44174054BC9B82F8B106F95C /* ContentView.swift */; };
+		30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */; };
+		394FAE3B16182B97A9E5AB36 /* RatesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B702A6BB882C5E80F08E0946 /* RatesRepository.swift */; };
+		445855EBDB6D64A7E92C4FC9 /* ConvertikDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C06E3EA188107AA572C815BD /* ConvertikDataModel.xcdatamodeld */; };
+		4C350EE09AFCD07A83E0305B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A04636B9485BA6486314D9E /* SettingsView.swift */; };
+		4E1B5CA7BE775D506A574B81 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D1F118510CA58BBA43556 /* APIService.swift */; };
+		5BCC914FD6646725C1419192 /* UserCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */; };
+		6E9A1C416722426FC639EB5D /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */; };
+		789D40E36A4B3DDA2256F57F /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58AF660130C11D152C46CD0 /* StoreService.swift */; };
+		92CAA73AA6BC3E0BE4ABBB91 /* RateEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */; };
+		B60BC683B933A594007EC707 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */; };
+		B73941EEDBDFEF590ED1825C /* MainListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500B712C20EAD921F549D121 /* MainListView.swift */; };
+		D0DC1E84340142E9623A8773 /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34595F1F0E2E1951ED9BA3D /* Rate.swift */; };
+		D8474A5BED2FAA3C8D6AB3D0 /* APIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB013420F27F0AB42BA95CD /* APIModels.swift */; };
+		DECE878E800CF5177DDF5E69 /* AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */; };
+		E9E69A99A4050B4AEE799027 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */; };
+		ED2DF4A6B3C468556F58CA6B /* AddCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyView.swift; sourceTree = "<group>"; };
+		2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
+		3265FDF798774107AFE72B12 /* BackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundService.swift; sourceTree = "<group>"; };
+		39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
+		44174054BC9B82F8B106F95C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4A04636B9485BA6486314D9E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		500B712C20EAD921F549D121 /* MainListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListView.swift; sourceTree = "<group>"; };
+		68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AB10EB238E92F1D9E0096C61 /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
+		AFD2C577D0DE55594174D842 /* ConvertikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikApp.swift; sourceTree = "<group>"; };
+		B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B702A6BB882C5E80F08E0946 /* RatesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesRepository.swift; sourceTree = "<group>"; };
+		C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		C20D9C352254817F4E94C43E /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		C34595F1F0E2E1951ED9BA3D /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
+		D58AF660130C11D152C46CD0 /* StoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreService.swift; sourceTree = "<group>"; };
+		D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		DA136F3375AA8EE040270B1B /* Convertik.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Convertik.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCurrency.swift; sourceTree = "<group>"; };
+		DB0D1F118510CA58BBA43556 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		E56F7572D799B40226A6DF91 /* ConvertikDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConvertikDataModel.xcdatamodel; sourceTree = "<group>"; };
+		EFB013420F27F0AB42BA95CD /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
+		FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCurrencyEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1417590BE3CDE540E2A58F34 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4A04636B9485BA6486314D9E /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1BD44733F210C35C4CE54345 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1F48656B267F839A4F542F5E = {
+			isa = PBXGroup;
+			children = (
+				D34D63D91BAE744CAEAFFA58 /* Convertik */,
+				25C6848C13264F8C54A7F4C4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		25C6848C13264F8C54A7F4C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA136F3375AA8EE040270B1B /* Convertik.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		34A8CD57C9254314B2D54CC3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3F0D25293B4E17ECBD3EEF04 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				44174054BC9B82F8B106F95C /* ContentView.swift */,
+				AFD2C577D0DE55594174D842 /* ConvertikApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		4A64769460517069398D35FA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */,
+				500B712C20EAD921F549D121 /* MainListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		558D146F88BE057A21C4D961 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C20D9C352254817F4E94C43E /* AnalyticsService.swift */,
+				DB0D1F118510CA58BBA43556 /* APIService.swift */,
+				3265FDF798774107AFE72B12 /* BackgroundService.swift */,
+				AB10EB238E92F1D9E0096C61 /* ConversionService.swift */,
+				B702A6BB882C5E80F08E0946 /* RatesRepository.swift */,
+				68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */,
+				D58AF660130C11D152C46CD0 /* StoreService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		60B82C47D37B9C0270BC6822 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				34A8CD57C9254314B2D54CC3 /* Views */,
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
+		A48EEA9C5425C7B6DF9285E3 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				C06E3EA188107AA572C815BD /* ConvertikDataModel.xcdatamodeld */,
+				7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */,
+				B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */,
+				FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		AB6B9E7DDD6182744CB5F76B /* AddCurrency */ = {
+			isa = PBXGroup;
+			children = (
+				C703E07B587A88E4B7996088 /* Views */,
+			);
+			path = AddCurrency;
+			sourceTree = "<group>";
+		};
+		B0A9E5AEE3935089C8763E5B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1417590BE3CDE540E2A58F34 /* Views */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B9F2DFB8F01DB16E98745265 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EFB013420F27F0AB42BA95CD /* APIModels.swift */,
+				C34595F1F0E2E1951ED9BA3D /* Rate.swift */,
+				DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C703E07B587A88E4B7996088 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D34D63D91BAE744CAEAFFA58 /* Convertik */ = {
+			isa = PBXGroup;
+			children = (
+				3F0D25293B4E17ECBD3EEF04 /* App */,
+				1BD44733F210C35C4CE54345 /* Components */,
+				B9F2DFB8F01DB16E98745265 /* Models */,
+				F488D62959AEDF02A87F6895 /* Modules */,
+				A48EEA9C5425C7B6DF9285E3 /* Persistence */,
+				558D146F88BE057A21C4D961 /* Services */,
+			);
+			path = Convertik;
+			sourceTree = "<group>";
+		};
+		DAC4109B3347672FCA15FB21 /* MainCurrencyList */ = {
+			isa = PBXGroup;
+			children = (
+				E1204D446A3D162995D7D3ED /* ViewModel */,
+				4A64769460517069398D35FA /* Views */,
+			);
+			path = MainCurrencyList;
+			sourceTree = "<group>";
+		};
+		E1204D446A3D162995D7D3ED /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F488D62959AEDF02A87F6895 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B9E7DDD6182744CB5F76B /* AddCurrency */,
+				DAC4109B3347672FCA15FB21 /* MainCurrencyList */,
+				60B82C47D37B9C0270BC6822 /* Paywall */,
+				B0A9E5AEE3935089C8763E5B /* Settings */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A24412A872A5DCB8729596AC /* Convertik */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
+			buildPhases = (
+				36097644B896D79319D99E29 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Convertik;
+			packageProductDependencies = (
+			);
+			productName = Convertik;
+			productReference = DA136F3375AA8EE040270B1B /* Convertik.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16BED28B8EB50DE5E505FF8C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = 4803F3A05AB60876F3D47B94 /* Build configuration list for PBXProject "Convertik" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1F48656B267F839A4F542F5E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A24412A872A5DCB8729596AC /* Convertik */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		36097644B896D79319D99E29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8474A5BED2FAA3C8D6AB3D0 /* APIModels.swift in Sources */,
+				4E1B5CA7BE775D506A574B81 /* APIService.swift in Sources */,
+				DECE878E800CF5177DDF5E69 /* AdBannerView.swift in Sources */,
+				ED2DF4A6B3C468556F58CA6B /* AddCurrencyView.swift in Sources */,
+				1D1EB01E574640E97C294B85 /* AnalyticsService.swift in Sources */,
+				05046AECF787DF0509CF2A24 /* BackgroundService.swift in Sources */,
+				2D043751FE6557E89C01737B /* ContentView.swift in Sources */,
+				0836340A7C6462AFC164ED2D /* ConversionService.swift in Sources */,
+				1CC6FA46CECBAADD322235DC /* ConvertikApp.swift in Sources */,
+				445855EBDB6D64A7E92C4FC9 /* ConvertikDataModel.xcdatamodeld in Sources */,
+				E9E69A99A4050B4AEE799027 /* CoreDataStack.swift in Sources */,
+				30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */,
+				B73941EEDBDFEF590ED1825C /* MainListView.swift in Sources */,
+				1FB87A221B2CE1CF11E2D7DD /* MainListViewModel.swift in Sources */,
+				6E9A1C416722426FC639EB5D /* PaywallView.swift in Sources */,
+				D0DC1E84340142E9623A8773 /* Rate.swift in Sources */,
+				92CAA73AA6BC3E0BE4ABBB91 /* RateEntity+CoreDataClass.swift in Sources */,
+				394FAE3B16182B97A9E5AB36 /* RatesRepository.swift in Sources */,
+				B60BC683B933A594007EC707 /* SettingsService.swift in Sources */,
+				4C350EE09AFCD07A83E0305B /* SettingsView.swift in Sources */,
+				789D40E36A4B3DDA2256F57F /* StoreService.swift in Sources */,
+				5BCC914FD6646725C1419192 /* UserCurrency.swift in Sources */,
+				0322BB7B8C45069B5AEBC272 /* UserCurrencyEntity+CoreDataClass.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		02354AB50ECB8B1BF9D8D22F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		20AF9F7DC48338A8DD4A4DC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		327E61693B1B0085BF15F5B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		76BB92DEC4AB73A1D6925267 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				327E61693B1B0085BF15F5B3 /* Debug */,
+				20AF9F7DC48338A8DD4A4DC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4803F3A05AB60876F3D47B94 /* Build configuration list for PBXProject "Convertik" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02354AB50ECB8B1BF9D8D22F /* Debug */,
+				76BB92DEC4AB73A1D6925267 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C06E3EA188107AA572C815BD /* ConvertikDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E56F7572D799B40226A6DF91 /* ConvertikDataModel.xcdatamodel */,
+			);
+			currentVersion = E56F7572D799B40226A6DF91 /* ConvertikDataModel.xcdatamodel */;
+			path = ConvertikDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 16BED28B8EB50DE5E505FF8C /* Project object */;
+}
