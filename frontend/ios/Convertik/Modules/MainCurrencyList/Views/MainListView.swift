@@ -5,20 +5,15 @@ struct MainListView: View {
     @EnvironmentObject private var settingsService: SettingsService
     @StateObject private var analyticsService = AnalyticsService.shared
     @StateObject private var viewModel = MainListViewModel()
-    
+
     @State private var showingAddCurrency = false
     @State private var showingSettings = false
-    @State private var amount: String = "100"
-    
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                // Поле ввода суммы
-                amountInputSection
-                
-                // Список валют
+        VStack(spacing: 0) {
+                // Список валют с полями ввода
                 currencyListSection
-                
+
                 // Баннер рекламы (если не Premium)
                 if !settingsService.isPremium {
                     AdBannerView()
@@ -28,27 +23,35 @@ struct MainListView: View {
                         }
                 }
             }
-            .navigationTitle("Конвертик")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // Настройки слева
                 ToolbarItem(placement: .navigationBarLeading) {
-                    lastUpdatedView
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        Button {
-                            showingAddCurrency = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        
-                        Button {
-                            showingSettings = true
-                        } label: {
-                            Image(systemName: "gear")
-                        }
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                            .foregroundColor(.blue)
                     }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .allowsHitTesting(true)
+                }
+
+                // Название и дата обновления по центру
+                ToolbarItem(placement: .principal) {
+                    centerTitleView
+                }
+
+                // Добавить справа
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingAddCurrency = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundColor(.blue)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .allowsHitTesting(true)
                 }
             }
             .refreshable {
@@ -60,59 +63,73 @@ struct MainListView: View {
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
+
             .onAppear {
                 analyticsService.trackAppOpen()
-                
+
                 // Загружаем курсы в фоне
                 Task {
                     await ratesRepository.syncRemote()
                 }
             }
-        }
+            .allowsHitTesting(true)
     }
-    
+
     // MARK: - Views
-    
-    private var amountInputSection: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Text("Сумма для конвертации:")
-                    .font(.headline)
-                Spacer()
-            }
-            
-            TextField("Введите сумму", text: $amount)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.decimalPad)
-                .onChange(of: amount) { newValue in
-                    viewModel.updateAmount(newValue)
-                }
-        }
-        .padding()
-        .background(Color(.systemGray6))
-    }
-    
+
     private var currencyListSection: some View {
         List {
             ForEach(viewModel.displayedCurrencies, id: \.rate.code) { item in
                 CurrencyRowView(
                     rate: item.rate,
-                    convertedAmount: item.convertedAmount,
-                    inputAmount: viewModel.amountValue
+                    inputAmount: item.inputAmount,
+                    isActiveInput: viewModel.activeInputCurrency == item.rate.code,
+                    onAmountChange: { amountString in
+                        viewModel.updateAmount(amountString, for: item.rate.code)
+                    },
+                    onFocusChange: { isFocused in
+                        if isFocused {
+                            viewModel.setActiveInputCurrency(item.rate.code)
+                        } else {
+                            viewModel.setActiveInputCurrency(nil)
+                        }
+                    }
                 )
+                .moveDisabled(item.rate.code == "RUB") // Не позволяем перемещать RUB
             }
-            .onDelete(perform: deleteCurrencies)
+            .onMove(perform: moveCurrencies)
         }
         .listStyle(PlainListStyle())
+        .environment(\.editMode, .constant(.active)) // Всегда показываем drag handles
     }
     
+
+
+    private var centerTitleView: some View {
+        VStack(spacing: 1) {
+            Text("Конвертик")
+                .font(.headline)
+                .fontWeight(.semibold)
+            
+            if let lastUpdated = ratesRepository.lastUpdated {
+                Text(lastUpdated, style: .time)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            } else {
+                Text("Не обновлено")
+                    .font(.caption2)
+                    .foregroundColor(.orange)
+            }
+        }
+    }
+
     private var lastUpdatedView: some View {
         VStack(alignment: .leading, spacing: 2) {
             if let lastUpdated = ratesRepository.lastUpdated {
                 Text("Обновлено")
                     .font(.caption2)
                     .foregroundColor(.secondary)
-                
+
                 Text(lastUpdated, style: .time)
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -121,19 +138,24 @@ struct MainListView: View {
                     .font(.caption)
                     .foregroundColor(.orange)
             }
-        }
+                }
     }
     
     // MARK: - Actions
     
-    private func deleteCurrencies(offsets: IndexSet) {
-        for index in offsets {
-            let currency = viewModel.displayedCurrencies[index]
-            settingsService.removeCurrency(currency.rate.code)
-            analyticsService.trackCurrencyRemoved(currency.rate.code)
-        }
+    private func moveCurrencies(from source: IndexSet, to destination: Int) {
+        // Используем moveCurrency из SettingsService который уже содержит логику защиты RUB
+        settingsService.moveCurrency(from: source, to: destination)
         viewModel.updateDisplayedCurrencies()
+        
+        // Отслеживаем перемещение
+        if let sourceIndex = source.first {
+            let currency = viewModel.displayedCurrencies[sourceIndex]
+            analyticsService.trackCurrencyMoved(currency.rate.code)
+        }
     }
+    
+
 }
 
 #Preview {
