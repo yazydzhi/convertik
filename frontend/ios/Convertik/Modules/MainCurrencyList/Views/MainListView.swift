@@ -28,7 +28,7 @@ struct MainListView: View {
                         }
                 }
             }
-            .navigationTitle("Конвертик v1.1")
+            .navigationTitle("Конвертик")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

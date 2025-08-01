@@ -17,6 +17,10 @@ final class RatesRepository: ObservableObject {
     
     private init() {
         loadLocalRates()
+        // Добавляем базовые валюты, если их нет
+        if rates.isEmpty {
+            addDefaultRates()
+        }
     }
     
     // MARK: - Public Methods
@@ -50,6 +54,46 @@ final class RatesRepository: ObservableObject {
     
     func rate(for code: String) -> Rate? {
         rates.first { $0.code == code }
+    }
+    
+    // MARK: - Default Rates
+    
+    private func addDefaultRates() {
+        let context = coreDataStack.persistentContainer.newBackgroundContext()
+        
+        context.perform {
+            let defaultRates = [
+                ("RUB", "Российский рубль", 1.0),
+                ("USD", "Доллар США", 0.011),
+                ("EUR", "Евро", 0.010),
+                ("GBP", "Фунт стерлингов", 0.0087),
+                ("CNY", "Китайский юань", 0.080),
+                ("JPY", "Японская иена", 1.7),
+                ("CHF", "Швейцарский франк", 0.0098),
+                ("CAD", "Канадский доллар", 0.015),
+                ("AUD", "Австралийский доллар", 0.017),
+                ("TRY", "Турецкая лира", 0.35)
+            ]
+            
+            for (code, name, value) in defaultRates {
+                let _ = self.createOrUpdateRate(
+                    code: code,
+                    name: name,
+                    value: value,
+                    updatedAt: Date(),
+                    in: context
+                )
+            }
+            
+            do {
+                try context.save()
+                DispatchQueue.main.async {
+                    self.loadLocalRates()
+                }
+            } catch {
+                print("Failed to save default rates: \(error)")
+            }
+        }
     }
     
     // MARK: - Private Methods
