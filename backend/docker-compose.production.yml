@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  convertik-api:
+    build: .
+    container_name: convertik-api
+    restart: unless-stopped
+    ports:
+      - "8001:8000"  # Используем порт 8001 чтобы не конфликтовать с существующими сервисами
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://convertik:${POSTGRES_PASSWORD}@convertik-db:5432/convertik
+      - REDIS_URL=redis://convertik-redis:6379/0
+      - RATES_API_URL=${RATES_API_URL}
+      - RATES_API_KEY=${RATES_API_KEY}
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - APNS_KEY=${APNS_KEY}
+      - APNS_KEY_ID=${APNS_KEY_ID}
+      - APNS_TEAM_ID=${APNS_TEAM_ID}
+      - APP_NAME=Convertik API
+      - APP_VERSION=1.0.0
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+    depends_on:
+      - convertik-db
+      - convertik-redis
+    volumes:
+      - convertik_logs:/app/logs
+    networks:
+      - convertik-network
+      - caddy  # Подключаемся к сети Caddy для проксирования
+
+  convertik-db:
+    image: postgres:15
+    container_name: convertik-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=convertik
+      - POSTGRES_USER=convertik
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"  # Используем порт 5433 чтобы не конфликтовать с основной PostgreSQL
+    volumes:
+      - convertik_postgres_data:/var/lib/postgresql/data
+    networks:
+      - convertik-network
+
+  convertik-redis:
+    image: redis:7-alpine
+    container_name: convertik-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"  # Используем порт 6380 чтобы не конфликтовать с существующим Redis
+    volumes:
+      - convertik_redis_data:/data
+    networks:
+      - convertik-network
+
+volumes:
+  convertik_postgres_data:
+    driver: local
+  convertik_redis_data:
+    driver: local
+  convertik_logs:
+    driver: local
+
+networks:
+  convertik-network:
+    driver: bridge
+  caddy:
+    external: true  # Используем существующую сеть Caddy

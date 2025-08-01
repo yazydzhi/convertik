@@ -32,6 +32,9 @@ structlog>=23.2.0
 pytest>=7.4.0
 pytest-asyncio>=0.21.0
 
+# PostgreSQL драйвер для Alembic
+psycopg2-binary>=2.9.0
+
 # Линтинг и форматирование
 ruff>=0.1.0
 black>=23.0.0 

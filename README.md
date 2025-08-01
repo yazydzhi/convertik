@@ -61,6 +61,13 @@ uvicorn app.main:app --reload
 ```
 Доступные эндпоинты: `/rates`, `/stats`, `/iap/verify`.
 
+### Production деплой
+
+🌐 **Live API:** https://convertik.ponravilos.ru  
+📖 **Документация:** https://convertik.ponravilos.ru/docs  
+
+Для деплоя на сервер см. [backend/README_DEPLOY.md](backend/README_DEPLOY.md)
+
 ### Аналитика и push
 * **AppMetrica / Firebase** — сбор DAU/MAU, конверсий, крашей.  
 * **APNs (+ FCM при Android)** — доставка push‑уведомлений.  
