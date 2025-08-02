@@ -95,12 +95,21 @@ struct MainListView: View {
                         }
                     }
                 )
-                .moveDisabled(item.rate.code == "RUB") // Не позволяем перемещать RUB
+                .moveDisabled(item.rate.code == "RUB")
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    if item.rate.code != "RUB" {
+                        Button(role: .destructive) {
+                            deleteCurrency(item.rate.code)
+                        } label: {
+                            Label("Удалить", systemImage: "trash")
+                        }
+                    }
+                }
             }
             .onMove(perform: moveCurrencies)
         }
         .listStyle(PlainListStyle())
-        .environment(\.editMode, .constant(.active)) // Всегда показываем drag handles
+        // Убираем постоянный режим редактирования для корректной работы свайпа
     }
     
 
@@ -155,6 +164,11 @@ struct MainListView: View {
         }
     }
     
+    private func deleteCurrency(_ code: String) {
+        settingsService.removeCurrency(code)
+        analyticsService.trackCurrencyRemoved(code)
+        viewModel.updateDisplayedCurrencies()
+    }
 
 }
 

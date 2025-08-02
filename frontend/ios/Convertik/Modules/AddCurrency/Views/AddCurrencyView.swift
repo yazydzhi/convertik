@@ -7,6 +7,7 @@ struct AddCurrencyView: View {
     @StateObject private var analyticsService = AnalyticsService.shared
 
     @State private var searchText = ""
+    @State private var isLoading = false
 
     private var availableRates: [Rate] {
         ratesRepository.rates.filter { rate in
@@ -52,8 +53,13 @@ struct AddCurrencyView: View {
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding()
-                } else {
+                } else if isLoading {
                     Text("Загрузка валют...")
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
+                } else {
+                    Text("Нет доступных валют")
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding()
@@ -62,6 +68,14 @@ struct AddCurrencyView: View {
             .listStyle(PlainListStyle())
         }
         .background(Color(.systemGroupedBackground))
+        .onAppear {
+            // Принудительно синхронизируемся при открытии экрана
+            Task {
+                isLoading = true
+                await ratesRepository.syncRemote()
+                isLoading = false
+            }
+        }
     }
 
     private func addCurrency(_ rate: Rate) {

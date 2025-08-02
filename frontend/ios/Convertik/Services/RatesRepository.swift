@@ -21,11 +21,17 @@ final class RatesRepository: ObservableObject {
         if rates.isEmpty {
             addDefaultRates()
         }
+        
+        // Автоматически синхронизируемся с API при инициализации
+        Task {
+            await syncRemote()
+        }
     }
 
     // MARK: - Public Methods
 
     func loadLocalRates() {
+        print("📱 Loading local rates from CoreData...")
         let request: NSFetchRequest<RateEntity> = RateEntity.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \RateEntity.code, ascending: true)]
 
@@ -33,21 +39,42 @@ final class RatesRepository: ObservableObject {
             let entities = try coreDataStack.persistentContainer.viewContext.fetch(request)
             rates = entities.map(Rate.init)
             lastUpdated = rates.first?.updatedAt
+            print("📱 Loaded \(rates.count) rates from CoreData")
         } catch {
-            print("Failed to load local rates: \(error)")
+            print("❌ Failed to load local rates: \(error)")
         }
     }
 
     func syncRemote() async {
+        print("🔄 Starting remote sync...")
         isLoading = true
         error = nil
 
         do {
+            print("📡 Fetching rates from API...")
             let response = try await apiService.fetchRates()
-            let namesResponse = try await apiService.fetchCurrencyNames()
-            await updateLocalRates(from: response, names: namesResponse.names)
+            print("✅ Received \(response.rates.count) rates from API")
+            
+            // Пытаемся получить названия валют с backend'а
+            var currencyNames: [String: String] = [:]
+            do {
+                print("📡 Fetching currency names from API...")
+                let namesResponse = try await apiService.fetchCurrencyNames()
+                currencyNames = namesResponse.names
+                print("✅ Received \(currencyNames.count) currency names from API")
+            } catch {
+                print("⚠️ Failed to fetch currency names from API, using fallback: \(error)")
+                // Fallback на статический словарь названий
+                currencyNames = Rate.currencyNames
+                print("📋 Using \(currencyNames.count) fallback currency names")
+            }
+            
+            print("💾 Updating local rates...")
+            await updateLocalRates(from: response, names: currencyNames)
+            print("✅ Sync completed successfully")
             isLoading = false
         } catch {
+            print("❌ Sync failed: \(error)")
             self.error = error
             isLoading = false
         }
@@ -100,9 +127,12 @@ final class RatesRepository: ObservableObject {
     // MARK: - Private Methods
 
     private func updateLocalRates(from response: RatesResponse, names: [String: String]) async {
+        print("💾 Starting to update local rates...")
         let context = coreDataStack.persistentContainer.newBackgroundContext()
 
         await context.perform {
+            print("📝 Processing \(response.rates.count + 1) currencies...")
+            
             // Добавляем базовую валюту (RUB)
             _ = self.createOrUpdateRate(
                 code: response.base,
@@ -125,13 +155,15 @@ final class RatesRepository: ObservableObject {
 
             do {
                 try context.save()
+                print("✅ Successfully saved \(response.rates.count + 1) currencies to CoreData")
 
                 // Обновляем UI на главном потоке
                 DispatchQueue.main.async {
                     self.loadLocalRates()
+                    print("🔄 Reloaded local rates, now have \(self.rates.count) currencies")
                 }
             } catch {
-                print("Failed to save rates: \(error)")
+                print("❌ Failed to save rates: \(error)")
             }
         }
     }
