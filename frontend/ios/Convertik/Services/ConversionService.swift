@@ -14,9 +14,10 @@ final class ConversionService {
     func convert(_ amount: Double, from: Rate, to targetRate: Rate) -> Double {
         guard from.value > 0, targetRate.value > 0 else { return 0 }
 
-        // Формула: (amount * targetRate.value) / from.value
-        // Это соответствует логике из React Native версии
-        return (amount * targetRate.value) / from.value
+        // Правильная формула: сначала конвертируем в рубли, потом из рублей в целевую валюту
+        // 1. Конвертируем исходную валюту в рубли: amount * from.value
+        // 2. Конвертируем рубли в целевую валюту: (amount * from.value) / targetRate.value
+        return (amount * from.value) / targetRate.value
     }
 
     /// Форматирует сумму для отображения с символом валюты
