@@ -202,6 +202,9 @@ extension Rate {
     ]
 
     var displayName: String {
-        name
+        if name.isEmpty {
+            return code
+        }
+        return name
     }
 }

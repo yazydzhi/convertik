@@ -1,13 +1,16 @@
 import SwiftUI
+import os
 
 struct AddCurrencyView: View {
+    @EnvironmentObject var ratesRepository: RatesRepository
+    @EnvironmentObject var settingsService: SettingsService
+    @EnvironmentObject var analyticsService: AnalyticsService
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var ratesRepository: RatesRepository
-    @EnvironmentObject private var settingsService: SettingsService
-    @StateObject private var analyticsService = AnalyticsService.shared
-
+    
     @State private var searchText = ""
     @State private var isLoading = false
+    
+    private let logger = Logger(subsystem: "com.azg.Convertik", category: "AddCurrencyView")
 
     private var availableRates: [Rate] {
         ratesRepository.rates.filter { rate in
@@ -19,61 +22,49 @@ struct AddCurrencyView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Заголовок
-            HStack {
-                Text("Добавить валюту")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-
-                Spacer()
-
-                Button("Готово") {
-                    dismiss()
-                }
-                .foregroundColor(.accentColor)
-            }
-            .padding()
-            .background(Color(.systemBackground))
-
-            // Поиск
-            SearchBar(text: $searchText, placeholder: "Поиск валют")
-                .padding(.horizontal)
-
-            // Список валют
-            List {
-                if !availableRates.isEmpty {
-                    ForEach(availableRates) { rate in
-                        CurrencySelectionRow(rate: rate) {
-                            addCurrency(rate)
+        NavigationView {
+            VStack {
+                if isLoading {
+                    VStack {
+                        ProgressView()
+                            .scaleEffect(1.5)
+                        Text("Загрузка валют...")
+                            .foregroundColor(.secondary)
+                            .padding(.top)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    VStack {
+                        SearchBar(text: $searchText, placeholder: "Поиск валют")
+                        
+                        List(availableRates, id: \.code) { rate in
+                            Button(action: { addCurrency(rate) }) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(rate.code).font(.headline)
+                                        Text(rate.displayName).font(.caption).foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("\(rate.value, specifier: "%.2f")").font(.caption).foregroundColor(.secondary)
+                                }
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     }
-                } else if !searchText.isEmpty {
-                    Text("Валюты не найдены")
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding()
-                } else if isLoading {
-                    Text("Загрузка валют...")
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding()
-                } else {
-                    Text("Нет доступных валют")
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding()
                 }
             }
-            .listStyle(PlainListStyle())
+            .navigationTitle("Добавить валюту")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Отмена") {
+                        dismiss()
+                    }
+                }
+            }
         }
-        .background(Color(.systemGroupedBackground))
         .onAppear {
-            // Принудительно синхронизируемся при открытии экрана
             Task {
-                isLoading = true
                 await ratesRepository.syncRemote()
-                isLoading = false
             }
         }
     }

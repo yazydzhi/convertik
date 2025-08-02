@@ -62,7 +62,7 @@ final class ConversionService {
     func formatRate(_ rate: Rate) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 4
+        formatter.maximumFractionDigits = 2
         formatter.minimumFractionDigits = 2
 
         // Показываем курс как "1 USD = X рублей"

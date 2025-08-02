@@ -29,7 +29,29 @@ final class APIService {
         }
 
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            
+            // Поддерживаем формат с микросекундами: "2025-08-02T14:15:13.649148Z"
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+            
+            // Fallback к стандартному ISO8601 без микросекунд
+            formatter.formatOptions = [.withInternetDateTime]
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+            
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Date string does not match expected format"
+            )
+        }
 
         return try decoder.decode(RatesResponse.self, from: data)
     }
@@ -45,7 +67,29 @@ final class APIService {
         }
 
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            
+            // Поддерживаем формат с микросекундами: "2025-08-02T14:15:13.649148Z"
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+            
+            // Fallback к стандартному ISO8601 без микросекунд
+            formatter.formatOptions = [.withInternetDateTime]
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+            
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Date string does not match expected format"
+            )
+        }
 
         return try decoder.decode(CurrencyNamesResponse.self, from: data)
     }

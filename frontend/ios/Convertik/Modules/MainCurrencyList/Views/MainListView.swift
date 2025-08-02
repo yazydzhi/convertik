@@ -121,13 +121,21 @@ struct MainListView: View {
                 .fontWeight(.semibold)
             
             if let lastUpdated = ratesRepository.lastUpdated {
-                Text(lastUpdated, style: .time)
+                Text(lastUpdated.formattedForDisplay())
                     .font(.caption2)
                     .foregroundColor(.secondary)
             } else {
                 Text("Не обновлено")
                     .font(.caption2)
                     .foregroundColor(.orange)
+            }
+            
+            // Показываем ошибку соединения если есть
+            if let connectionError = ratesRepository.connectionError {
+                Text(connectionError)
+                    .font(.caption2)
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
             }
         }
     }

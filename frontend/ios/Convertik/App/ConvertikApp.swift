@@ -9,6 +9,7 @@ struct ConvertikApp: App {
     // Services
     @StateObject private var ratesRepository = RatesRepository.shared
     @StateObject private var settingsService = SettingsService.shared
+    @StateObject private var analyticsService = AnalyticsService.shared
     private let backgroundService = BackgroundService.shared
 
     init() {
@@ -22,6 +23,7 @@ struct ConvertikApp: App {
                 .environment(\.managedObjectContext, persistenceContainer.viewContext)
                 .environmentObject(ratesRepository)
                 .environmentObject(settingsService)
+                .environmentObject(analyticsService)
                 .preferredColorScheme(settingsService.colorScheme)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     backgroundService.applicationDidBecomeActive()
