@@ -15,13 +15,12 @@ struct CurrencyRowView: View {
     @FocusState private var isFocused: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Название валюты с отступом
+        VStack(alignment: .leading, spacing: 4) {
+            // Название валюты
             Text(rate.code)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(themeManager.textPrimary)
-                .padding(.top, 4)
             
             // Поле ввода с символом валюты
             HStack(spacing: 4) {
@@ -66,14 +65,13 @@ struct CurrencyRowView: View {
                 }
             }
             
-            // Название валюты внизу с отступом
+            // Название валюты внизу
             Text(rate.displayName)
                 .font(.caption)
                 .foregroundColor(themeManager.textSecondary)
-                .padding(.bottom, 4)
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
         .background(themeManager.cardBackground(isSelected: isActiveInput))
         .cornerRadius(ConvertikCornerRadius.md)
         .overlay(
