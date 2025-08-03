@@ -28,7 +28,7 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(themeManager.amberAccent)
+                                .foregroundStyle(themeManager.accentGradient)
                                 .frame(width: 24)
 
                             VStack(alignment: .leading, spacing: 2) {
@@ -66,7 +66,7 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://convertik.app/privacy")!) {
                         HStack {
                             Image(systemName: "hand.raised.fill")
-                                .foregroundColor(themeManager.amberAccent)
+                                .foregroundColor(themeManager.lilacHighlight)
                                 .frame(width: 24)
 
                             Text("Политика конфиденциальности")
@@ -83,7 +83,7 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://convertik.app/terms")!) {
                         HStack {
                             Image(systemName: "doc.text.fill")
-                                .foregroundColor(themeManager.lilacHighlight)
+                                .foregroundColor(themeManager.amberAccent)
                                 .frame(width: 24)
 
                             Text("Условия использования")
@@ -99,7 +99,7 @@ struct SettingsView: View {
 
                     HStack {
                         Image(systemName: "info.circle.fill")
-                            .foregroundColor(themeManager.textSecondary)
+                            .foregroundColor(themeManager.lilacHighlight)
                             .frame(width: 24)
 
                         Text("Версия")
