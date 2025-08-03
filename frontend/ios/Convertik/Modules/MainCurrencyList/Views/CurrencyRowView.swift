@@ -16,14 +16,13 @@ struct CurrencyRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Название валюты
-            Text(rate.code)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(themeManager.textPrimary)
-            
-            // Поле ввода с символом валюты
-            HStack(spacing: 4) {
+            // Первая строка: код валюты, поле ввода и символ
+            HStack {
+                Text(rate.code)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(themeManager.textPrimary)
+                
                 Spacer()
                 
                 TextField("0", text: $amountText)
@@ -48,27 +47,28 @@ struct CurrencyRowView: View {
                         isFocused = true
                     }
                 
-                // Символ валюты после поля ввода (больший размер)
+                // Символ валюты после поля ввода
                 Text(getCurrencySymbol(for: rate.code))
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.textPrimary)
             }
             
-            // Курс строго под полем ввода
-            if rate.code != "RUB" {
-                HStack {
-                    Spacer()
+            // Вторая строка: название валюты и курс
+            HStack {
+                Text(rate.displayName)
+                    .font(.caption)
+                    .foregroundColor(themeManager.textSecondary)
+                
+                Spacer()
+                
+                // Показываем курс только для не-рублевых валют
+                if rate.code != "RUB" {
                     Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
                 }
             }
-            
-            // Название валюты внизу
-            Text(rate.displayName)
-                .font(.caption)
-                .foregroundColor(themeManager.textSecondary)
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
