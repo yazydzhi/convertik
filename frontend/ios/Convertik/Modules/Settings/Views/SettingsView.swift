@@ -121,6 +121,7 @@ struct SettingsView: View {
                         dismiss()
                     }
                     .foregroundColor(themeManager.amberAccent)
+                    .accessibilityIdentifier("doneButton")
                 }
             }
         }
