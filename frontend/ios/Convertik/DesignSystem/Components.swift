@@ -114,21 +114,32 @@ struct CurrencyCard: View {
                 }
             }
             .padding(ConvertikSpacing.lg)
-            .background(isSelected ? themeManager.lilacHighlight.opacity(0.10) : themeManager.cardBackground)
+            .background(
+                isSelected 
+                    ? themeManager.lilacHighlight.opacity(0.15) // Лёгкая подложка вместо сплошной заливки
+                    : themeManager.cardBackground
+            )
             .cornerRadius(ConvertikCornerRadius.lg)
             .overlay(
                 RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
                     .stroke(
                         isSelected ? themeManager.lilacHighlight : themeManager.separator,
-                        lineWidth: isSelected ? 2 : 1
+                        lineWidth: isSelected ? 1.5 : 1
                     )
             )
             .shadow(
-                color: themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color,
-                radius: themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius,
+                color: isSelected 
+                    ? themeManager.lilacHighlight.opacity(0.3) // Лёгкое поднятие для выбранной карточки
+                    : (themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color),
+                radius: isSelected 
+                    ? 8 // Увеличенная тень для "возвышения"
+                    : (themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius),
                 x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
-                y: themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y
+                y: isSelected 
+                    ? 2 // Лёгкое поднятие
+                    : (themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y)
             )
+            .animation(.easeInOut(duration: 0.3), value: isSelected) // Плавная анимация
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -185,7 +196,7 @@ struct AmountInputField: View {
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(themeManager.amberAccent, lineWidth: 1)
+                .stroke(themeManager.lilacHighlight, lineWidth: 1) // Заменяем Amber на Lilac для полей ввода
         )
     }
 }
@@ -219,7 +230,7 @@ struct ConvertikSearchBar: View {
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(themeManager.amberAccent, lineWidth: 1)
+                .stroke(themeManager.lilacHighlight, lineWidth: 1) // Заменяем Amber на Lilac для полей ввода
         )
     }
 }

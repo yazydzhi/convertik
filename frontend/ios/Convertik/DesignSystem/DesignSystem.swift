@@ -90,14 +90,14 @@ struct ConvertikColors {
     
     // MARK: - Dark Theme Colors (Цвета темной темы - Velvet Sunset)
     
-    /// Основной фон (темная тема) - глубокий тёмный фон для комфортного использования
-    static let backgroundDark = Color(red: 0.106, green: 0.082, blue: 0.145) // #1B1525
+    /// Основной фон (темная тема) - более темный и холодный фон для лучшего контраста
+    static let backgroundDark = Color(red: 0.102, green: 0.071, blue: 0.141) // #1A1324
     
-    /// Фон карточек (темная тема) - очень близкий к основному фону для минимальной разницы
-    static let cardBackgroundDark = Color(red: 0.110, green: 0.086, blue: 0.149) // #1C1626
+    /// Фон карточек (темная тема) - темно-фиолетовые карточки
+    static let cardBackgroundDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
     
     /// Фон карточек при наведении или выборе (темная тема)
-    static let cardHoverDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
+    static let cardHoverDark = Color(red: 0.180, green: 0.145, blue: 0.220) // #2E2528
     
     /// Основной текст (темная тема) - светлый текст на тёмном фоне
     static let textPrimaryDark = Color(red: 0.894, green: 0.863, blue: 0.910) // #E4DCE8

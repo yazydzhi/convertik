@@ -114,7 +114,7 @@ struct MainListView: View {
                         } label: {
                             Label("Удалить", systemImage: "trash")
                         }
-                        .tint(themeManager.amberAccent)
+                        .tint(Color(red: 1.0, green: 0.494, blue: 0.373)) // #FF7E5F - первый оттенок градиента
                     }
                 }
             }

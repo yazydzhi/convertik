@@ -153,7 +153,7 @@ struct SearchBar: View {
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(themeManager.amberAccent, lineWidth: 1)
+                .stroke(themeManager.lilacHighlight, lineWidth: 1) // Заменяем Amber на Lilac для полей ввода
         )
     }
 }

@@ -78,19 +78,33 @@ struct CurrencyRowView: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 16)
-        .background(isActiveInput ? themeManager.lilacHighlight.opacity(0.10) : themeManager.cardBackground)
+        .background(
+            isActiveInput 
+                ? themeManager.lilacHighlight.opacity(0.15) // Лёгкая подложка вместо сплошной заливки
+                : themeManager.cardBackground
+        )
         .cornerRadius(ConvertikCornerRadius.md)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.md)
-                .stroke(isActiveInput ? themeManager.lilacHighlight : themeManager.separator, lineWidth: isActiveInput ? 2 : 1)
+                .stroke(
+                    isActiveInput ? themeManager.lilacHighlight : themeManager.separator, 
+                    lineWidth: isActiveInput ? 1.5 : 1
+                )
         )
         .shadow(
-            color: themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color,
-            radius: themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius,
+            color: isActiveInput 
+                ? themeManager.lilacHighlight.opacity(0.3) // Лёгкое поднятие для выбранной карточки
+                : (themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color),
+            radius: isActiveInput 
+                ? 8 // Увеличенная тень для "возвышения"
+                : (themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius),
             x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
-            y: themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y
+            y: isActiveInput 
+                ? 2 // Лёгкое поднятие
+                : (themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y)
         )
         .contentShape(Rectangle())
+        .animation(.easeInOut(duration: 0.3), value: isActiveInput) // Плавная анимация при изменении состояния
         .onAppear {
             // Устанавливаем начальное значение
             if inputAmount > 0 {
@@ -119,7 +133,7 @@ struct CustomTextFieldStyle: TextFieldStyle {
             .cornerRadius(ConvertikCornerRadius.sm)
             .overlay(
                 RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
-                    .stroke(themeManager.amberAccent, lineWidth: 1)
+                    .stroke(themeManager.lilacHighlight, lineWidth: 1) // Заменяем Amber на Lilac для полей ввода
             )
             .foregroundColor(themeManager.textPrimary)
     }
