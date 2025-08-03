@@ -15,65 +15,64 @@ struct CurrencyRowView: View {
     @FocusState private var isFocused: Bool
 
     var body: some View {
-        HStack(spacing: 12) {
-            // Левая часть: название валюты
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(rate.code)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(themeManager.textPrimary)
-
-                    Spacer()
-
-                    // Поле ввода суммы с символом валюты
-                    HStack(spacing: 4) {
-                        TextField("0", text: $amountText)
-                            .textFieldStyle(CustomTextFieldStyle())
-                            .keyboardType(.decimalPad)
-                            .multilineTextAlignment(.trailing)
-                            .frame(width: 120)
-                            .focused($isFocused)
-                            .allowsHitTesting(true)
-                            .disabled(false)
-                            .onChange(of: amountText) { newValue in
-                                onAmountChange(newValue)
-                            }
-                            .onChange(of: isFocused) { focused in
-                                onFocusChange(focused)
-                                if focused {
-                                    // При фокусе очищаем поле
-                                    amountText = ""
-                                }
-                            }
-                            .onTapGesture {
-                                isFocused = true
-                            }
-                        
-                        // Символ валюты после поля ввода
-                        Text(getCurrencySymbol(for: rate.code))
-                            .font(.caption)
-                            .foregroundColor(themeManager.textSecondary)
+        VStack(alignment: .leading, spacing: 8) {
+            // Название валюты с отступом
+            Text(rate.code)
+                .font(.title2)
+                .fontWeight(.semibold)
+                .foregroundColor(themeManager.textPrimary)
+                .padding(.top, 4)
+            
+            // Поле ввода с символом валюты
+            HStack(spacing: 4) {
+                Spacer()
+                
+                TextField("0", text: $amountText)
+                    .textFieldStyle(CustomTextFieldStyle())
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width: 120)
+                    .focused($isFocused)
+                    .allowsHitTesting(true)
+                    .disabled(false)
+                    .onChange(of: amountText) { newValue in
+                        onAmountChange(newValue)
                     }
-                }
-
+                    .onChange(of: isFocused) { focused in
+                        onFocusChange(focused)
+                        if focused {
+                            // При фокусе очищаем поле
+                            amountText = ""
+                        }
+                    }
+                    .onTapGesture {
+                        isFocused = true
+                    }
+                
+                // Символ валюты после поля ввода (больший размер)
+                Text(getCurrencySymbol(for: rate.code))
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(themeManager.textPrimary)
+            }
+            
+            // Курс строго под полем ввода
+            if rate.code != "RUB" {
                 HStack {
-                    Text(rate.displayName)
+                    Spacer()
+                    Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
-
-                    Spacer()
-
-                    // Показываем курс только для не-рублевых валют
-                    if rate.code != "RUB" {
-                        Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
-                            .font(.caption)
-                            .foregroundColor(themeManager.textSecondary)
-                    }
                 }
             }
+            
+            // Название валюты внизу с отступом
+            Text(rate.displayName)
+                .font(.caption)
+                .foregroundColor(themeManager.textSecondary)
+                .padding(.bottom, 4)
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 12)
         .padding(.horizontal, 16)
         .background(themeManager.cardBackground(isSelected: isActiveInput))
         .cornerRadius(ConvertikCornerRadius.md)
