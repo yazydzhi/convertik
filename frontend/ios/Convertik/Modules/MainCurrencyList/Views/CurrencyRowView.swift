@@ -16,20 +16,7 @@ struct CurrencyRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Левая часть: иконка дома для RUB
-            if rate.code == "RUB" {
-                Image(systemName: "house.fill")
-                    .foregroundColor(themeManager.lilacHighlight)
-                    .font(.title2)
-                    .frame(width: 24)
-            } else {
-                // Пустое место для выравнивания
-                Rectangle()
-                    .fill(Color.clear)
-                    .frame(width: 24)
-            }
-            
-            // Иконка и название валюты
+            // Левая часть: название валюты
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(rate.code)
@@ -39,28 +26,35 @@ struct CurrencyRowView: View {
 
                     Spacer()
 
-                    // Поле ввода суммы
-                    TextField("0", text: $amountText)
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                        .frame(width: 120)
-                        .focused($isFocused)
-                        .allowsHitTesting(true)
-                        .disabled(false)
-                        .onChange(of: amountText) { newValue in
-                            onAmountChange(newValue)
-                        }
-                        .onChange(of: isFocused) { focused in
-                            onFocusChange(focused)
-                            if focused {
-                                // При фокусе очищаем поле
-                                amountText = ""
+                    // Поле ввода суммы с символом валюты
+                    HStack(spacing: 4) {
+                        TextField("0", text: $amountText)
+                            .textFieldStyle(CustomTextFieldStyle())
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                            .frame(width: 120)
+                            .focused($isFocused)
+                            .allowsHitTesting(true)
+                            .disabled(false)
+                            .onChange(of: amountText) { newValue in
+                                onAmountChange(newValue)
                             }
-                        }
-                        .onTapGesture {
-                            isFocused = true
-                        }
+                            .onChange(of: isFocused) { focused in
+                                onFocusChange(focused)
+                                if focused {
+                                    // При фокусе очищаем поле
+                                    amountText = ""
+                                }
+                            }
+                            .onTapGesture {
+                                isFocused = true
+                            }
+                        
+                        // Символ валюты после поля ввода
+                        Text(getCurrencySymbol(for: rate.code))
+                            .font(.caption)
+                            .foregroundColor(themeManager.textSecondary)
+                    }
                 }
 
                 HStack {
@@ -70,9 +64,12 @@ struct CurrencyRowView: View {
 
                     Spacer()
 
-                    Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
-                        .font(.caption)
-                        .foregroundColor(themeManager.textSecondary)
+                    // Показываем курс только для не-рублевых валют
+                    if rate.code != "RUB" {
+                        Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
+                            .font(.caption)
+                            .foregroundColor(themeManager.textSecondary)
+                    }
                 }
             }
         }
@@ -112,6 +109,82 @@ struct CurrencyRowView: View {
             if !isFocused && newAmount > 0 {
                 amountText = conversionService.formatAmount(newAmount, currencyCode: rate.code, showSymbol: false)
             }
+        }
+    }
+    
+    // MARK: - Helper Functions
+    
+    /// Получение символа валюты
+    private func getCurrencySymbol(for code: String) -> String {
+        switch code {
+        case "RUB":
+            return "₽"
+        case "USD":
+            return "$"
+        case "EUR":
+            return "€"
+        case "GBP":
+            return "£"
+        case "JPY":
+            return "¥"
+        case "CNY":
+            return "¥"
+        case "KRW":
+            return "₩"
+        case "INR":
+            return "₹"
+        case "BRL":
+            return "R$"
+        case "CAD":
+            return "C$"
+        case "AUD":
+            return "A$"
+        case "CHF":
+            return "CHF"
+        case "SEK":
+            return "kr"
+        case "NOK":
+            return "kr"
+        case "DKK":
+            return "kr"
+        case "PLN":
+            return "zł"
+        case "CZK":
+            return "Kč"
+        case "HUF":
+            return "Ft"
+        case "RON":
+            return "lei"
+        case "BGN":
+            return "лв"
+        case "HRK":
+            return "kn"
+        case "ALL":
+            return "L"
+        case "AMD":
+            return "֏"
+        case "AZN":
+            return "₼"
+        case "BYN":
+            return "Br"
+        case "GEL":
+            return "₾"
+        case "KZT":
+            return "₸"
+        case "KGS":
+            return "с"
+        case "MDL":
+            return "L"
+        case "TJS":
+            return "ЅМ"
+        case "TMT":
+            return "T"
+        case "UZS":
+            return "so'm"
+        case "UAH":
+            return "₴"
+        default:
+            return code
         }
     }
 }
