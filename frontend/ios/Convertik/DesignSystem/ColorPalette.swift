@@ -3,18 +3,19 @@ import SwiftUI
 // MARK: - Color Palette Preview
 
 /// Визуальная демонстрация цветовой палитры дизайн-системы
+/// Палитра Velvet Sunset - футуристичная палитра, вдохновлённая закатными оттенками
 struct ColorPaletteView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: ConvertikSpacing.xxl) {
                 
-                // MARK: - Primary Colors
+                // MARK: - Accent Colors
                 ColorSection(
-                    title: "Primary Colors",
+                    title: "Accent Colors",
                     colors: [
-                        ColorItem("Primary", ConvertikColors.primary, "#223355"),
-                        ColorItem("Accent", ConvertikColors.accent, "#007AFF"),
-                        ColorItem("Secondary", ConvertikColors.secondary, "#00A5A5")
+                        ColorItem("Accent Gradient", ConvertikColors.accentGradient, "#FF7E5F → #FD3A84"),
+                        ColorItem("Amber Accent", ConvertikColors.amberAccent, "#F8B400"),
+                        ColorItem("Lilac Highlight", ConvertikColors.lilacHighlight, "#C084FC")
                     ]
                 )
                 
@@ -28,16 +29,28 @@ struct ColorPaletteView: View {
                     ]
                 )
                 
-                // MARK: - Neutral Colors
+                // MARK: - Light Theme Colors
                 ColorSection(
-                    title: "Neutral Colors",
+                    title: "Light Theme Colors",
                     colors: [
-                        ColorItem("Text Primary", ConvertikColors.textPrimary, "#222222"),
-                        ColorItem("Text Secondary", ConvertikColors.textSecondary, "#777777"),
-                        ColorItem("Text Tertiary", ConvertikColors.textTertiary, "#999999"),
-                        ColorItem("Separator", ConvertikColors.separator, "#DDDDDD"),
-                        ColorItem("Background", ConvertikColors.background, "#F9F9F9"),
-                        ColorItem("Card Background", ConvertikColors.cardBackground, "#FFFFFF")
+                        ColorItem("Main Background", ConvertikColors.backgroundLight, "#FDF9F9"),
+                        ColorItem("Card Background", ConvertikColors.cardBackgroundLight, "#FFFFFF"),
+                        ColorItem("Text Primary", ConvertikColors.textPrimaryLight, "#443C4C"),
+                        ColorItem("Text Secondary", ConvertikColors.textSecondaryLight, "#6C566E"),
+                        ColorItem("Separator", ConvertikColors.separatorLight, "#EAE2EF")
+                    ]
+                )
+                
+                // MARK: - Dark Theme Colors
+                ColorSection(
+                    title: "Dark Theme Colors",
+                    colors: [
+                        ColorItem("Main Background", ConvertikColors.backgroundDark, "#1B1525"),
+                        ColorItem("Card Background", ConvertikColors.cardBackgroundDark, "#282032"),
+                        ColorItem("Card Hover", ConvertikColors.cardHoverDark, "#342C44"),
+                        ColorItem("Text Primary", ConvertikColors.textPrimaryDark, "#E4DCE8"),
+                        ColorItem("Text Secondary", ConvertikColors.textSecondaryDark, "#B5AFC0"),
+                        ColorItem("Separator", ConvertikColors.separatorDark, "#3A3244")
                     ]
                 )
                 
@@ -51,23 +64,20 @@ struct ColorPaletteView: View {
                     ]
                 )
                 
-                // MARK: - Dark Mode Colors
+                // MARK: - Legacy Colors (Deprecated)
                 ColorSection(
-                    title: "Dark Mode Colors",
+                    title: "Legacy Colors (Deprecated)",
                     colors: [
-                        ColorItem("Text Primary Dark", ConvertikColors.textPrimaryDark, "#FFFFFF"),
-                        ColorItem("Text Secondary Dark", ConvertikColors.textSecondaryDark, "#BBBBBB"),
-                        ColorItem("Text Tertiary Dark", ConvertikColors.textTertiaryDark, "#888888"),
-                        ColorItem("Separator Dark", ConvertikColors.separatorDark, "#444444"),
-                        ColorItem("Card Background Dark", ConvertikColors.cardBackgroundDark, "#222222"),
-                        ColorItem("Background Dark", ConvertikColors.backgroundDark, "#000000")
+                        ColorItem("Primary", ConvertikColors.primary, "#223355"),
+                        ColorItem("Accent", ConvertikColors.accent, "#007AFF"),
+                        ColorItem("Secondary", ConvertikColors.secondary, "#00A5A5")
                     ]
                 )
             }
             .padding(ConvertikSpacing.xl)
         }
-        .background(ConvertikColors.background)
-        .navigationTitle("Color Palette")
+        .background(ConvertikColors.backgroundLight)
+        .navigationTitle("Velvet Sunset Palette")
     }
 }
 
@@ -81,7 +91,7 @@ struct ColorSection: View {
         VStack(alignment: .leading, spacing: ConvertikSpacing.lg) {
             Text(title)
                 .font(ConvertikTypography.title2)
-                .foregroundColor(ConvertikColors.textPrimary)
+                .foregroundColor(ConvertikColors.textPrimaryLight)
             
             VStack(spacing: ConvertikSpacing.sm) {
                 ForEach(colors, id: \.name) { colorItem in
@@ -98,28 +108,40 @@ struct ColorItemView: View {
     var body: some View {
         HStack(spacing: ConvertikSpacing.md) {
             // Color swatch
-            RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
-                .fill(item.color)
-                .frame(width: 60, height: 40)
-                .overlay(
-                    RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
-                        .stroke(ConvertikColors.separator, lineWidth: 1)
-                )
+            if item.color is LinearGradient {
+                // Для градиентов
+                RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                    .fill(item.color as! LinearGradient)
+                    .frame(width: 60, height: 40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                            .stroke(ConvertikColors.separatorLight, lineWidth: 1)
+                    )
+            } else {
+                // Для обычных цветов
+                RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                    .fill(item.color as! Color)
+                    .frame(width: 60, height: 40)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                            .stroke(ConvertikColors.separatorLight, lineWidth: 1)
+                    )
+            }
             
             VStack(alignment: .leading, spacing: ConvertikSpacing.xs) {
                 Text(item.name)
                     .font(ConvertikTypography.headline)
-                    .foregroundColor(ConvertikColors.textPrimary)
+                    .foregroundColor(ConvertikColors.textPrimaryLight)
                 
                 Text(item.hexCode)
                     .font(ConvertikTypography.caption1)
-                    .foregroundColor(ConvertikColors.textSecondary)
+                    .foregroundColor(ConvertikColors.textSecondaryLight)
             }
             
             Spacer()
         }
         .padding(ConvertikSpacing.md)
-        .background(ConvertikColors.cardBackground)
+        .background(ConvertikColors.cardBackgroundLight)
         .cornerRadius(ConvertikCornerRadius.md)
         .shadow(
             color: ConvertikShadows.light.color,
@@ -132,12 +154,18 @@ struct ColorItemView: View {
 
 struct ColorItem {
     let name: String
-    let color: Color
+    let color: Any
     let hexCode: String
     
     init(_ name: String, _ color: Color, _ hexCode: String) {
         self.name = name
         self.color = color
+        self.hexCode = hexCode
+    }
+    
+    init(_ name: String, _ gradient: LinearGradient, _ hexCode: String) {
+        self.name = name
+        self.color = gradient
         self.hexCode = hexCode
     }
 }

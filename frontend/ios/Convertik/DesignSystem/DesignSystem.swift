@@ -1,94 +1,230 @@
 import SwiftUI
 
 // MARK: - Design System for Convertik
-// Версия: 1.1
-// Описание: Полная дизайн-система для приложения конвертации валют
+// Версия: 3.0
+// Описание: Полная дизайн-система с поддержкой светлой и темной тем
+// Палитра: Velvet Sunset
 
 // MARK: - Color Palette
 
-/// Основная цветовая палитра приложения
+/// Основная цветовая палитра приложения с поддержкой тем
+/// Палитра Velvet Sunset - футуристичная палитра, вдохновлённая закатными оттенками
 struct ConvertikColors {
     
-    // MARK: - Primary Colors (Основные цвета)
+    // MARK: - Accent Colors (Акцентные цвета - одинаковые для обеих тем)
     
-    /// Основной брендовый цвет - глубокий синий
-    static let primary = Color(red: 0.133, green: 0.267, blue: 0.533)
+    /// Основной акцентный градиент - от кораллового к розовому
+    static let accentGradient = LinearGradient(
+        colors: [
+            Color(red: 1.000, green: 0.494, blue: 0.373), // #FF7E5F
+            Color(red: 0.992, green: 0.227, blue: 0.518)  // #FD3A84
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+    )
     
-    /// Акцентный цвет - яркий синий
-    static let accent = Color(red: 0.000, green: 0.478, blue: 1.000)
+    /// Дополнительный акцент - янтарный
+    static let amberAccent = Color(red: 0.973, green: 0.706, blue: 0.000) // #F8B400
     
-    /// Дополнительный акцент - бирюзовый
-    static let secondary = Color(red: 0.000, green: 0.647, blue: 0.647)
+    /// Акцент для выделения - сиреневый
+    static let lilacHighlight = Color(red: 0.753, green: 0.518, blue: 0.988) // #C084FC
     
-    // MARK: - Success Colors (Цвета успеха)
+    // MARK: - Success Colors (Цвета успеха - одинаковые для обеих тем)
     
     /// Зеленый для положительных изменений курса
     static let success = Color(red: 0.200, green: 0.780, blue: 0.350)
     
-    /// Светло-зеленый для фона успешных операций
+    /// Светло-зеленый для фона успешных операций (светлая тема)
     static let successLight = Color(red: 0.200, green: 0.780, blue: 0.350).opacity(0.1)
     
-    // MARK: - Warning Colors (Цвета предупреждения)
+    /// Темно-зеленый для фона успешных операций (темная тема)
+    static let successDark = Color(red: 0.200, green: 0.780, blue: 0.350).opacity(0.2)
+    
+    // MARK: - Warning Colors (Цвета предупреждения - одинаковые для обеих тем)
     
     /// Оранжевый для предупреждений
     static let warning = Color(red: 1.000, green: 0.584, blue: 0.000)
     
-    /// Светло-оранжевый для фона предупреждений
+    /// Светло-оранжевый для фона предупреждений (светлая тема)
     static let warningLight = Color(red: 1.000, green: 0.584, blue: 0.000).opacity(0.1)
     
-    // MARK: - Error Colors (Цвета ошибок)
+    /// Темно-оранжевый для фона предупреждений (темная тема)
+    static let warningDark = Color(red: 1.000, green: 0.584, blue: 0.000).opacity(0.2)
+    
+    // MARK: - Error Colors (Цвета ошибок - одинаковые для обеих тем)
     
     /// Красный для ошибок и отрицательных изменений
     static let error = Color(red: 0.922, green: 0.231, blue: 0.231)
     
-    /// Светло-красный для фона ошибок
+    /// Светло-красный для фона ошибок (светлая тема)
     static let errorLight = Color(red: 0.922, green: 0.231, blue: 0.231).opacity(0.1)
     
-    // MARK: - Neutral Colors (Нейтральные цвета)
+    /// Темно-красный для фона ошибок (темная тема)
+    static let errorDark = Color(red: 0.922, green: 0.231, blue: 0.231).opacity(0.2)
     
-    /// Основной текст
-    static let textPrimary = Color(red: 0.133, green: 0.133, blue: 0.133)
+    // MARK: - Light Theme Colors (Цвета светлой темы - Velvet Sunset)
     
-    /// Вторичный текст
-    static let textSecondary = Color(red: 0.467, green: 0.467, blue: 0.467)
+    /// Основной фон (светлая тема) - мягкий тон, напоминающий рассвет
+    static let backgroundLight = Color(red: 0.992, green: 0.976, blue: 0.976) // #FDF9F9
     
-    /// Третичный текст (подсказки)
-    static let textTertiary = Color(red: 0.600, green: 0.600, blue: 0.600)
+    /// Фон карточек (светлая тема) - нейтральная поверхность
+    static let cardBackgroundLight = Color.white // #FFFFFF
     
-    /// Разделители
-    static let separator = Color(red: 0.867, green: 0.867, blue: 0.867)
+    /// Основной текст (светлая тема)
+    static let textPrimaryLight = Color(red: 0.267, green: 0.235, blue: 0.298) // #443C4C
     
-    /// Фон карточек
-    static let cardBackground = Color.white
+    /// Вторичный текст (светлая тема)
+    static let textSecondaryLight = Color(red: 0.424, green: 0.337, blue: 0.431) // #6C566E
     
-    /// Основной фон приложения
-    static let background = Color(red: 0.976, green: 0.976, blue: 0.976)
+    /// Третичный текст (подсказки) (светлая тема)
+    static let textTertiaryLight = Color(red: 0.600, green: 0.600, blue: 0.600)
     
-    /// Фон для выделенных элементов
-    static let selectedBackground = Color(red: 0.949, green: 0.949, blue: 0.949)
+    /// Разделители (светлая тема) - гармонично контрастирует с фоном
+    static let separatorLight = Color(red: 0.918, green: 0.886, blue: 0.937) // #EAE2EF
     
-    // MARK: - Dark Mode Colors
+    /// Фон для выделенных элементов (светлая тема)
+    static let selectedBackgroundLight = Color(red: 0.949, green: 0.949, blue: 0.949)
     
-    /// Основной текст в темной теме
-    static let textPrimaryDark = Color.white
+    /// Фон для интерактивных элементов (светлая тема)
+    static let interactiveBackgroundLight = Color(red: 0.960, green: 0.960, blue: 0.960)
     
-    /// Вторичный текст в темной теме
-    static let textSecondaryDark = Color(red: 0.733, green: 0.733, blue: 0.733)
+    // MARK: - Dark Theme Colors (Цвета темной темы - Velvet Sunset)
     
-    /// Третичный текст в темной теме
+    /// Основной фон (темная тема) - глубокий тёмный фон для комфортного использования
+    static let backgroundDark = Color(red: 0.106, green: 0.082, blue: 0.145) // #1B1525
+    
+    /// Фон карточек (темная тема)
+    static let cardBackgroundDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
+    
+    /// Фон карточек при наведении или выборе (темная тема)
+    static let cardHoverDark = Color(red: 0.204, green: 0.173, blue: 0.267) // #342C44
+    
+    /// Основной текст (темная тема) - светлый текст на тёмном фоне
+    static let textPrimaryDark = Color(red: 0.894, green: 0.863, blue: 0.910) // #E4DCE8
+    
+    /// Вторичный текст (темная тема) - приглушённый вторичный текст
+    static let textSecondaryDark = Color(red: 0.710, green: 0.686, blue: 0.753) // #B5AFC0
+    
+    /// Третичный текст (подсказки) (темная тема)
     static let textTertiaryDark = Color(red: 0.533, green: 0.533, blue: 0.533)
     
-    /// Разделители в темной теме
-    static let separatorDark = Color(red: 0.267, green: 0.267, blue: 0.267)
+    /// Разделители (темная тема) - тонкие разделители между элементами
+    static let separatorDark = Color(red: 0.227, green: 0.196, blue: 0.267) // #3A3244
     
-    /// Фон карточек в темной теме
-    static let cardBackgroundDark = Color(red: 0.133, green: 0.133, blue: 0.133)
-    
-    /// Основной фон в темной теме
-    static let backgroundDark = Color.black
-    
-    /// Фон для выделенных элементов в темной теме
+    /// Фон для выделенных элементов (темная тема)
     static let selectedBackgroundDark = Color(red: 0.200, green: 0.200, blue: 0.200)
+    
+    /// Фон для интерактивных элементов (темная тема)
+    static let interactiveBackgroundDark = Color(red: 0.150, green: 0.150, blue: 0.150)
+    
+    // MARK: - Legacy Colors (для обратной совместимости)
+    
+    /// @deprecated Используйте ThemeManager для получения цветов
+    static let textPrimary = textPrimaryLight
+    static let textSecondary = textSecondaryLight
+    static let textTertiary = textTertiaryLight
+    static let separator = separatorLight
+    static let cardBackground = cardBackgroundLight
+    static let background = backgroundLight
+    static let selectedBackground = selectedBackgroundLight
+    
+    // MARK: - Legacy Primary Colors (для обратной совместимости)
+    
+    /// @deprecated Используйте accentGradient
+    static let primary = Color(red: 0.133, green: 0.267, blue: 0.533)
+    static let accent = Color(red: 0.000, green: 0.478, blue: 1.000)
+    static let secondary = Color(red: 0.000, green: 0.647, blue: 0.647)
+}
+
+// MARK: - Theme Manager
+
+/// Менеджер тем для приложения
+class ThemeManager: ObservableObject {
+    @Published var isDarkMode: Bool = false
+    
+    /// Ссылка на ThemeService для синхронизации
+    private var themeService: ThemeService?
+    
+    /// Инициализация с ThemeService
+    init(themeService: ThemeService? = nil) {
+        self.themeService = themeService
+        self.isDarkMode = themeService?.isDarkMode ?? false
+    }
+    
+    /// Обновление состояния из ThemeService
+    func updateFromThemeService(_ themeService: ThemeService) {
+        self.themeService = themeService
+        self.isDarkMode = themeService.isDarkMode
+    }
+    
+    /// Получение цвета с учетом текущей темы
+    func color(_ lightColor: Color, darkColor: Color) -> Color {
+        return isDarkMode ? darkColor : lightColor
+    }
+    
+    /// Получение цвета текста
+    var textPrimary: Color {
+        color(ConvertikColors.textPrimaryLight, darkColor: ConvertikColors.textPrimaryDark)
+    }
+    
+    var textSecondary: Color {
+        color(ConvertikColors.textSecondaryLight, darkColor: ConvertikColors.textSecondaryDark)
+    }
+    
+    var textTertiary: Color {
+        color(ConvertikColors.textTertiaryLight, darkColor: ConvertikColors.textTertiaryDark)
+    }
+    
+    /// Получение цвета фона
+    var background: Color {
+        color(ConvertikColors.backgroundLight, darkColor: ConvertikColors.backgroundDark)
+    }
+    
+    var cardBackground: Color {
+        color(ConvertikColors.cardBackgroundLight, darkColor: ConvertikColors.cardBackgroundDark)
+    }
+    
+    var cardHover: Color {
+        color(ConvertikColors.cardBackgroundLight, darkColor: ConvertikColors.cardHoverDark)
+    }
+    
+    var selectedBackground: Color {
+        color(ConvertikColors.selectedBackgroundLight, darkColor: ConvertikColors.selectedBackgroundDark)
+    }
+    
+    var interactiveBackground: Color {
+        color(ConvertikColors.interactiveBackgroundLight, darkColor: ConvertikColors.interactiveBackgroundDark)
+    }
+    
+    var separator: Color {
+        color(ConvertikColors.separatorLight, darkColor: ConvertikColors.separatorDark)
+    }
+    
+    /// Получение цвета для состояний
+    var successBackground: Color {
+        color(ConvertikColors.successLight, darkColor: ConvertikColors.successDark)
+    }
+    
+    var warningBackground: Color {
+        color(ConvertikColors.warningLight, darkColor: ConvertikColors.warningDark)
+    }
+    
+    var errorBackground: Color {
+        color(ConvertikColors.errorLight, darkColor: ConvertikColors.errorDark)
+    }
+    
+    /// Получение акцентных цветов
+    var accentGradient: LinearGradient {
+        ConvertikColors.accentGradient
+    }
+    
+    var amberAccent: Color {
+        ConvertikColors.amberAccent
+    }
+    
+    var lilacHighlight: Color {
+        ConvertikColors.lilacHighlight
+    }
 }
 
 // MARK: - Typography
@@ -199,7 +335,7 @@ struct ConvertikCornerRadius {
 /// Система теней
 struct ConvertikShadows {
     
-    /// Легкая тень для карточек
+    /// Легкая тень для карточек (светлая тема)
     static let light = Shadow(
         color: Color.black.opacity(0.05),
         radius: 4,
@@ -207,7 +343,7 @@ struct ConvertikShadows {
         y: 2
     )
     
-    /// Средняя тень для модальных окон
+    /// Средняя тень для модальных окон (светлая тема)
     static let medium = Shadow(
         color: Color.black.opacity(0.1),
         radius: 8,
@@ -215,9 +351,33 @@ struct ConvertikShadows {
         y: 4
     )
     
-    /// Сильная тень для важных элементов
+    /// Сильная тень для важных элементов (светлая тема)
     static let heavy = Shadow(
         color: Color.black.opacity(0.15),
+        radius: 12,
+        x: 0,
+        y: 6
+    )
+    
+    /// Легкая тень для карточек (темная тема)
+    static let lightDark = Shadow(
+        color: Color.white.opacity(0.05),
+        radius: 4,
+        x: 0,
+        y: 2
+    )
+    
+    /// Средняя тень для модальных окон (темная тема)
+    static let mediumDark = Shadow(
+        color: Color.white.opacity(0.1),
+        radius: 8,
+        x: 0,
+        y: 4
+    )
+    
+    /// Сильная тень для важных элементов (темная тема)
+    static let heavyDark = Shadow(
+        color: Color.white.opacity(0.15),
         radius: 12,
         x: 0,
         y: 6
@@ -253,18 +413,18 @@ struct ConvertikAnimation {
 // MARK: - Environment Values
 
 /// Расширение для Environment для доступа к дизайн-системе
-struct DesignSystemKey: EnvironmentKey {
-    static let defaultValue = DesignSystem()
+struct ThemeManagerKey: EnvironmentKey {
+    static let defaultValue = ThemeManager()
 }
 
 extension EnvironmentValues {
-    var designSystem: DesignSystem {
-        get { self[DesignSystemKey.self] }
-        set { self[DesignSystemKey.self] = newValue }
+    var themeManager: ThemeManager {
+        get { self[ThemeManagerKey.self] }
+        set { self[ThemeManagerKey.self] = newValue }
     }
 }
 
-/// Основной класс дизайн-системы
+/// Основной класс дизайн-системы (для обратной совместимости)
 class DesignSystem: ObservableObject {
     
     @Published var isDarkMode: Bool = false
@@ -279,27 +439,27 @@ class DesignSystem: ObservableObject {
     
     /// Получение цвета текста
     var textPrimary: Color {
-        color(ConvertikColors.textPrimary, darkColor: ConvertikColors.textPrimaryDark)
+        color(ConvertikColors.textPrimaryLight, darkColor: ConvertikColors.textPrimaryDark)
     }
     
     var textSecondary: Color {
-        color(ConvertikColors.textSecondary, darkColor: ConvertikColors.textSecondaryDark)
+        color(ConvertikColors.textSecondaryLight, darkColor: ConvertikColors.textSecondaryDark)
     }
     
     var textTertiary: Color {
-        color(ConvertikColors.textTertiary, darkColor: ConvertikColors.textTertiaryDark)
+        color(ConvertikColors.textTertiaryLight, darkColor: ConvertikColors.textTertiaryDark)
     }
     
     /// Получение цвета фона
     var background: Color {
-        color(ConvertikColors.background, darkColor: ConvertikColors.backgroundDark)
+        color(ConvertikColors.backgroundLight, darkColor: ConvertikColors.backgroundDark)
     }
     
     var cardBackground: Color {
-        color(ConvertikColors.cardBackground, darkColor: ConvertikColors.cardBackgroundDark)
+        color(ConvertikColors.cardBackgroundLight, darkColor: ConvertikColors.cardBackgroundDark)
     }
     
     var separator: Color {
-        color(ConvertikColors.separator, darkColor: ConvertikColors.separatorDark)
+        color(ConvertikColors.separatorLight, darkColor: ConvertikColors.separatorDark)
     }
 } 

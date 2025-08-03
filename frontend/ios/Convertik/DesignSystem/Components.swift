@@ -2,12 +2,15 @@ import SwiftUI
 
 // MARK: - Design System Components
 
-/// Основные компоненты дизайн-системы Convertik
+/// Основные компоненты дизайн-системы Convertik с поддержкой тем
+/// Палитра Velvet Sunset - футуристичная палитра, вдохновлённая закатными оттенками
 
 // MARK: - Buttons
 
 /// Основная кнопка приложения
 struct ConvertikButton: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let title: String
     let action: () -> Void
     let style: ButtonStyle
@@ -46,16 +49,16 @@ struct ConvertikButton: View {
         .opacity(isEnabled ? 1.0 : 0.6)
     }
     
-    private var backgroundColor: Color {
+    private var backgroundColor: AnyShapeStyle {
         switch style {
         case .primary:
-            return isEnabled ? ConvertikColors.primary : ConvertikColors.textTertiary
+            return isEnabled ? AnyShapeStyle(ConvertikColors.accentGradient) : AnyShapeStyle(themeManager.textTertiary)
         case .secondary:
-            return isEnabled ? ConvertikColors.secondary : ConvertikColors.textTertiary
+            return isEnabled ? AnyShapeStyle(ConvertikColors.amberAccent) : AnyShapeStyle(themeManager.textTertiary)
         case .destructive:
-            return isEnabled ? ConvertikColors.error : ConvertikColors.textTertiary
+            return isEnabled ? AnyShapeStyle(ConvertikColors.error) : AnyShapeStyle(themeManager.textTertiary)
         case .outline:
-            return Color.clear
+            return AnyShapeStyle(Color.clear)
         }
     }
     
@@ -64,7 +67,7 @@ struct ConvertikButton: View {
         case .primary, .secondary, .destructive:
             return .white
         case .outline:
-            return ConvertikColors.primary
+            return ConvertikColors.amberAccent
         }
     }
 }
@@ -73,6 +76,8 @@ struct ConvertikButton: View {
 
 /// Карточка для отображения валют
 struct CurrencyCard: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let currencyCode: String
     let currencyName: String
     let amount: String
@@ -87,11 +92,11 @@ struct CurrencyCard: View {
                     VStack(alignment: .leading, spacing: ConvertikSpacing.xs) {
                         Text(currencyCode)
                             .font(ConvertikTypography.currencyCode)
-                            .foregroundColor(ConvertikColors.textPrimary)
+                            .foregroundColor(themeManager.textPrimary)
                         
                         Text(currencyName)
                             .font(ConvertikTypography.currencyName)
-                            .foregroundColor(ConvertikColors.textSecondary)
+                            .foregroundColor(themeManager.textSecondary)
                     }
                     
                     Spacer()
@@ -99,7 +104,7 @@ struct CurrencyCard: View {
                     VStack(alignment: .trailing, spacing: ConvertikSpacing.xs) {
                         Text(amount)
                             .font(ConvertikTypography.currencyAmount)
-                            .foregroundColor(ConvertikColors.textPrimary)
+                            .foregroundColor(themeManager.textPrimary)
                         
                         if let changePercent = changePercent {
                             ChangeIndicator(percent: changePercent)
@@ -108,20 +113,20 @@ struct CurrencyCard: View {
                 }
             }
             .padding(ConvertikSpacing.lg)
-            .background(ConvertikColors.cardBackground)
+            .background(isSelected ? themeManager.cardHover : themeManager.cardBackground)
             .cornerRadius(ConvertikCornerRadius.lg)
             .overlay(
                 RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
                     .stroke(
-                        isSelected ? ConvertikColors.primary : ConvertikColors.separator,
+                        isSelected ? ConvertikColors.lilacHighlight : themeManager.separator,
                         lineWidth: isSelected ? 2 : 1
                     )
             )
             .shadow(
-                color: ConvertikShadows.light.color,
-                radius: ConvertikShadows.light.radius,
-                x: ConvertikShadows.light.x,
-                y: ConvertikShadows.light.y
+                color: themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color,
+                radius: themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius,
+                x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
+                y: themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -130,6 +135,8 @@ struct CurrencyCard: View {
 
 /// Индикатор изменения курса
 struct ChangeIndicator: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let percent: Double
     
     var body: some View {
@@ -145,7 +152,7 @@ struct ChangeIndicator: View {
         .padding(.horizontal, ConvertikSpacing.sm)
         .padding(.vertical, ConvertikSpacing.xs)
         .background(
-            (percent >= 0 ? ConvertikColors.successLight : ConvertikColors.errorLight)
+            percent >= 0 ? themeManager.successBackground : themeManager.errorBackground
         )
         .cornerRadius(ConvertikCornerRadius.sm)
     }
@@ -155,6 +162,7 @@ struct ChangeIndicator: View {
 
 /// Поле ввода для сумм
 struct AmountInputField: View {
+    @Environment(\.themeManager) private var themeManager
     @Binding var amount: String
     let placeholder: String
     let currencyCode: String
@@ -163,20 +171,20 @@ struct AmountInputField: View {
         HStack(spacing: ConvertikSpacing.md) {
             TextField(placeholder, text: $amount)
                 .font(ConvertikTypography.currencyAmount)
-                .foregroundColor(ConvertikColors.textPrimary)
+                .foregroundColor(themeManager.textPrimary)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
             
             Text(currencyCode)
                 .font(ConvertikTypography.currencyCode)
-                .foregroundColor(ConvertikColors.textSecondary)
+                .foregroundColor(themeManager.textSecondary)
         }
         .padding(ConvertikSpacing.lg)
-        .background(ConvertikColors.cardBackground)
+        .background(themeManager.cardBackground)
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(ConvertikColors.separator, lineWidth: 1)
+                .stroke(themeManager.separator, lineWidth: 1)
         )
     }
 }
@@ -185,31 +193,32 @@ struct AmountInputField: View {
 
 /// Поисковая строка
 struct ConvertikSearchBar: View {
+    @Environment(\.themeManager) private var themeManager
     @Binding var text: String
     let placeholder: String
     
     var body: some View {
         HStack(spacing: ConvertikSpacing.md) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(ConvertikColors.textTertiary)
+                .foregroundColor(themeManager.textTertiary)
             
             TextField(placeholder, text: $text)
                 .font(ConvertikTypography.body)
-                .foregroundColor(ConvertikColors.textPrimary)
+                .foregroundColor(themeManager.textPrimary)
             
             if !text.isEmpty {
                 Button(action: { text = "" }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(ConvertikColors.textTertiary)
+                        .foregroundColor(themeManager.textTertiary)
                 }
             }
         }
         .padding(ConvertikSpacing.md)
-        .background(ConvertikColors.cardBackground)
+        .background(themeManager.cardBackground)
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(ConvertikColors.separator, lineWidth: 1)
+                .stroke(themeManager.separator, lineWidth: 1)
         )
     }
 }
@@ -218,15 +227,16 @@ struct ConvertikSearchBar: View {
 
 /// Разделитель секций
 struct ConvertikDivider: View {
-    let color: Color
+    @Environment(\.themeManager) private var themeManager
+    let color: Color?
     
-    init(color: Color = ConvertikColors.separator) {
+    init(color: Color? = nil) {
         self.color = color
     }
     
     var body: some View {
         Rectangle()
-            .fill(color)
+            .fill(color ?? themeManager.separator)
             .frame(height: 1)
     }
 }
@@ -235,17 +245,18 @@ struct ConvertikDivider: View {
 
 /// Индикатор загрузки
 struct ConvertikLoadingView: View {
+    @Environment(\.themeManager) private var themeManager
     let message: String
     
     var body: some View {
         VStack(spacing: ConvertikSpacing.lg) {
             ProgressView()
                 .scaleEffect(1.2)
-                .progressViewStyle(CircularProgressViewStyle(tint: ConvertikColors.primary))
+                .progressViewStyle(CircularProgressViewStyle(tint: ConvertikColors.amberAccent))
             
             Text(message)
                 .font(ConvertikTypography.body)
-                .foregroundColor(ConvertikColors.textSecondary)
+                .foregroundColor(themeManager.textSecondary)
                 .multilineTextAlignment(.center)
         }
         .padding(ConvertikSpacing.xxl)
@@ -254,17 +265,19 @@ struct ConvertikLoadingView: View {
 
 /// Скелетон для карточек валют
 struct CurrencyCardSkeleton: View {
+    @Environment(\.themeManager) private var themeManager
+    
     var body: some View {
         VStack(alignment: .leading, spacing: ConvertikSpacing.sm) {
             HStack {
                 VStack(alignment: .leading, spacing: ConvertikSpacing.xs) {
                     Rectangle()
-                        .fill(ConvertikColors.selectedBackground)
+                        .fill(themeManager.selectedBackground)
                         .frame(width: 60, height: 16)
                         .cornerRadius(ConvertikCornerRadius.sm)
                     
                     Rectangle()
-                        .fill(ConvertikColors.selectedBackground)
+                        .fill(themeManager.selectedBackground)
                         .frame(width: 100, height: 14)
                         .cornerRadius(ConvertikCornerRadius.sm)
                 }
@@ -273,23 +286,23 @@ struct CurrencyCardSkeleton: View {
                 
                 VStack(alignment: .trailing, spacing: ConvertikSpacing.xs) {
                     Rectangle()
-                        .fill(ConvertikColors.selectedBackground)
+                        .fill(themeManager.selectedBackground)
                         .frame(width: 80, height: 24)
                         .cornerRadius(ConvertikCornerRadius.sm)
                     
                     Rectangle()
-                        .fill(ConvertikColors.selectedBackground)
+                        .fill(themeManager.selectedBackground)
                         .frame(width: 50, height: 14)
                         .cornerRadius(ConvertikCornerRadius.sm)
                 }
             }
         }
         .padding(ConvertikSpacing.lg)
-        .background(ConvertikColors.cardBackground)
+        .background(themeManager.cardBackground)
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(ConvertikColors.separator, lineWidth: 1)
+                .stroke(themeManager.separator, lineWidth: 1)
         )
     }
 }
@@ -298,6 +311,8 @@ struct CurrencyCardSkeleton: View {
 
 /// Состояние пустого списка
 struct EmptyStateView: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let icon: String
     let title: String
     let message: String
@@ -322,17 +337,17 @@ struct EmptyStateView: View {
         VStack(spacing: ConvertikSpacing.xl) {
             Image(systemName: icon)
                 .font(.system(size: 48))
-                .foregroundColor(ConvertikColors.textTertiary)
+                .foregroundColor(themeManager.textTertiary)
             
             VStack(spacing: ConvertikSpacing.sm) {
                 Text(title)
                     .font(ConvertikTypography.title3)
-                    .foregroundColor(ConvertikColors.textPrimary)
+                    .foregroundColor(themeManager.textPrimary)
                     .multilineTextAlignment(.center)
                 
                 Text(message)
                     .font(ConvertikTypography.body)
-                    .foregroundColor(ConvertikColors.textSecondary)
+                    .foregroundColor(themeManager.textSecondary)
                     .multilineTextAlignment(.center)
             }
             
@@ -349,14 +364,16 @@ struct EmptyStateView: View {
 
 /// Бейдж для статусов
 struct ConvertikBadge: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let text: String
-    let color: Color
-    let backgroundColor: Color
+    let color: Color?
+    let backgroundColor: Color?
     
     init(
         _ text: String,
-        color: Color = ConvertikColors.textPrimary,
-        backgroundColor: Color = ConvertikColors.selectedBackground
+        color: Color? = nil,
+        backgroundColor: Color? = nil
     ) {
         self.text = text
         self.color = color
@@ -366,11 +383,42 @@ struct ConvertikBadge: View {
     var body: some View {
         Text(text)
             .font(ConvertikTypography.caption1)
-            .foregroundColor(color)
+            .foregroundColor(color ?? themeManager.textPrimary)
             .padding(.horizontal, ConvertikSpacing.sm)
             .padding(.vertical, ConvertikSpacing.xs)
-            .background(backgroundColor)
+            .background(backgroundColor ?? themeManager.selectedBackground)
             .cornerRadius(ConvertikCornerRadius.sm)
+    }
+}
+
+// MARK: - Theme Toggle
+
+/// Переключатель темы
+struct ThemeToggleView: View {
+    @Environment(\.themeManager) private var themeManager
+    @EnvironmentObject private var themeService: ThemeService
+    
+    var body: some View {
+        HStack {
+            Image(systemName: themeService.isDarkMode ? "moon.fill" : "sun.max.fill")
+                .foregroundColor(themeService.isDarkMode ? .yellow : .orange)
+            
+            Text(themeService.isDarkMode ? "Темная тема" : "Светлая тема")
+                .font(ConvertikTypography.body)
+                .foregroundColor(themeManager.textPrimary)
+            
+            Spacer()
+            
+            Toggle("", isOn: $themeService.isDarkMode)
+                .toggleStyle(SwitchToggleStyle(tint: ConvertikColors.amberAccent))
+        }
+        .padding(ConvertikSpacing.lg)
+        .background(themeManager.cardBackground)
+        .cornerRadius(ConvertikCornerRadius.lg)
+        .overlay(
+            RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
+                .stroke(themeManager.separator, lineWidth: 1)
+        )
     }
 }
 
@@ -402,9 +450,13 @@ struct DesignSystemComponents_Previews: PreviewProvider {
                 text: .constant(""),
                 placeholder: "Search currencies"
             )
+            
+            ThemeToggleView()
         }
         .padding()
-        .background(ConvertikColors.background)
+        .background(Color(uiColor: .systemBackground))
+        .environmentObject(ThemeManager(themeService: ThemeService.shared))
+        .environmentObject(ThemeService.shared)
     }
 }
 #endif 
