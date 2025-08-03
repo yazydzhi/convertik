@@ -3,6 +3,8 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var settingsService: SettingsService
+    @EnvironmentObject private var themeService: ThemeService
+    @Environment(\.themeManager) private var themeManager
     @StateObject private var analyticsService = AnalyticsService.shared
 
     @State private var showingPaywall = false
@@ -12,20 +14,10 @@ struct SettingsView: View {
             List {
                 // Раздел внешнего вида
                 Section("Внешний вид") {
-                    HStack {
-                        Image(systemName: "moon.fill")
-                            .foregroundColor(.indigo)
-                            .frame(width: 24)
-
-                        Text("Тёмная тема")
-
-                        Spacer()
-
-                        Toggle("", isOn: $settingsService.isDarkMode)
-                            .onChange(of: settingsService.isDarkMode) { newValue in
-                                analyticsService.trackThemeChanged(isDark: newValue)
-                            }
-                    }
+                    ThemeToggleView()
+                        .onChange(of: themeService.isDarkMode) { newValue in
+                            analyticsService.trackThemeChanged(isDark: newValue)
+                        }
                 }
 
                 // Раздел Premium
@@ -36,21 +28,21 @@ struct SettingsView: View {
                     } label: {
                         HStack {
                             Image(systemName: "crown.fill")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(themeManager.amberAccent)
                                 .frame(width: 24)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("Convertik Premium")
-                                    .foregroundColor(.primary)
+                                    .foregroundColor(themeManager.textPrimary)
 
                                 if settingsService.isPremium {
                                     Text("Активна")
                                         .font(.caption)
-                                        .foregroundColor(.green)
+                                        .foregroundColor(themeManager.amberAccent)
                                 } else {
                                     Text("Отключить рекламу • 199 ₽/мес")
                                         .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(themeManager.textSecondary)
                                 }
                             }
 
@@ -58,11 +50,11 @@ struct SettingsView: View {
 
                             if settingsService.isPremium {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
+                                    .foregroundColor(themeManager.amberAccent)
                             } else {
                                 Image(systemName: "chevron.right")
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(themeManager.textSecondary)
                             }
                         }
                     }
@@ -74,49 +66,53 @@ struct SettingsView: View {
                     Link(destination: URL(string: "https://convertik.app/privacy")!) {
                         HStack {
                             Image(systemName: "hand.raised.fill")
-                                .foregroundColor(.blue)
+                                .foregroundColor(themeManager.amberAccent)
                                 .frame(width: 24)
 
                             Text("Политика конфиденциальности")
+                                .foregroundColor(themeManager.textPrimary)
 
                             Spacer()
 
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(themeManager.textSecondary)
                         }
                     }
 
                     Link(destination: URL(string: "https://convertik.app/terms")!) {
                         HStack {
                             Image(systemName: "doc.text.fill")
-                                .foregroundColor(.green)
+                                .foregroundColor(themeManager.lilacHighlight)
                                 .frame(width: 24)
 
                             Text("Условия использования")
+                                .foregroundColor(themeManager.textPrimary)
 
                             Spacer()
 
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(themeManager.textSecondary)
                         }
                     }
 
                     HStack {
                         Image(systemName: "info.circle.fill")
-                            .foregroundColor(.gray)
+                            .foregroundColor(themeManager.textSecondary)
                             .frame(width: 24)
 
                         Text("Версия")
+                            .foregroundColor(themeManager.textPrimary)
 
                         Spacer()
 
-                        Text(appVersion)
-                            .foregroundColor(.secondary)
+                        Text("2.1")
+                            .foregroundColor(themeManager.textSecondary)
                     }
                 }
             }
+            .background(themeManager.background) // Устанавливаем правильный фон
             .navigationTitle("Настройки")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -124,23 +120,23 @@ struct SettingsView: View {
                     Button("Готово") {
                         dismiss()
                     }
+                    .foregroundColor(themeManager.amberAccent)
                 }
             }
-            .sheet(isPresented: $showingPaywall) {
-                PaywallView()
-            }
-            .onAppear {
-                analyticsService.trackSettingsOpened()
-            }
         }
-    }
-
-    private var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        .sheet(isPresented: $showingPaywall) {
+            PaywallView()
+        }
+        .onAppear {
+            analyticsService.trackSettingsOpened()
+        }
+        .id(themeService.isDarkMode) // Принудительное обновление при изменении темы
     }
 }
 
 #Preview {
     SettingsView()
         .environmentObject(SettingsService.shared)
+        // .environmentObject(ThemeService.shared)
+        // .environmentObject(ThemeManager())
 }

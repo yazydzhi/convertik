@@ -3,6 +3,8 @@ import SwiftUI
 struct MainListView: View {
     @EnvironmentObject private var ratesRepository: RatesRepository
     @EnvironmentObject private var settingsService: SettingsService
+    @EnvironmentObject private var themeService: ThemeService
+    @Environment(\.themeManager) private var themeManager
     @StateObject private var analyticsService = AnalyticsService.shared
     @StateObject private var viewModel = MainListViewModel()
 
@@ -23,6 +25,7 @@ struct MainListView: View {
                         }
                 }
             }
+            .background(themeManager.background)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 // Настройки слева
@@ -31,8 +34,9 @@ struct MainListView: View {
                         showingSettings = true
                     } label: {
                         Image(systemName: "gear")
-                            .foregroundColor(.blue)
+                            .foregroundColor(themeManager.amberAccent)
                     }
+                    .accessibilityIdentifier("settingsButton")
                     .buttonStyle(BorderlessButtonStyle())
                     .allowsHitTesting(true)
                 }
@@ -48,8 +52,9 @@ struct MainListView: View {
                         showingAddCurrency = true
                     } label: {
                         Image(systemName: "plus")
-                            .foregroundColor(.blue)
+                            .foregroundColor(themeManager.amberAccent)
                     }
+                    .accessibilityIdentifier("addCurrencyButton")
                     .buttonStyle(BorderlessButtonStyle())
                     .allowsHitTesting(true)
                 }
@@ -73,6 +78,10 @@ struct MainListView: View {
                 }
             }
             .allowsHitTesting(true)
+            .onAppear {
+                analyticsService.trackSettingsOpened()
+            }
+            .id(themeService.isDarkMode) // Принудительное обновление при изменении темы
     }
 
     // MARK: - Views
@@ -89,12 +98,14 @@ struct MainListView: View {
                     },
                     onFocusChange: { isFocused in
                         if isFocused {
-                            viewModel.setActiveInputCurrency(item.rate.code)
+                            viewModel.activeInputCurrency = item.rate.code
                         } else {
-                            viewModel.setActiveInputCurrency(nil)
+                            viewModel.activeInputCurrency = nil
                         }
                     }
                 )
+                .listRowBackground(themeManager.cardBackground)
+                .listRowSeparator(.hidden)
                 .moveDisabled(item.rate.code == "RUB")
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     if item.rate.code != "RUB" {
@@ -103,13 +114,13 @@ struct MainListView: View {
                         } label: {
                             Label("Удалить", systemImage: "trash")
                         }
+                        .tint(themeManager.amberAccent)
                     }
                 }
             }
             .onMove(perform: moveCurrencies)
         }
         .listStyle(PlainListStyle())
-        // Убираем постоянный режим редактирования для корректной работы свайпа
     }
     
 
@@ -119,22 +130,23 @@ struct MainListView: View {
             Text("Конвертик")
                 .font(.headline)
                 .fontWeight(.semibold)
+                .foregroundColor(themeManager.textPrimary)
             
             if let lastUpdated = ratesRepository.lastUpdated {
                 Text(lastUpdated.formattedForDisplay())
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.textSecondary)
             } else {
                 Text("Не обновлено")
                     .font(.caption2)
-                    .foregroundColor(.orange)
+                    .foregroundColor(ConvertikColors.warning)
             }
             
             // Показываем ошибку соединения если есть
             if let connectionError = ratesRepository.connectionError {
                 Text(connectionError)
                     .font(.caption2)
-                    .foregroundColor(.red)
+                    .foregroundColor(ConvertikColors.error)
                     .multilineTextAlignment(.center)
             }
         }
@@ -145,15 +157,15 @@ struct MainListView: View {
             if let lastUpdated = ratesRepository.lastUpdated {
                 Text("Обновлено")
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.textSecondary)
 
                 Text(lastUpdated, style: .time)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.textSecondary)
             } else {
                 Text("Не обновлено")
                     .font(.caption)
-                    .foregroundColor(.orange)
+                    .foregroundColor(ConvertikColors.warning)
             }
                 }
     }
@@ -184,4 +196,6 @@ struct MainListView: View {
     MainListView()
         .environmentObject(RatesRepository.shared)
         .environmentObject(SettingsService.shared)
+        // .environmentObject(ThemeService.shared)
+        // .environmentObject(ThemeManager())
 }

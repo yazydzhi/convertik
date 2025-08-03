@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,7 @@
 		2D043751FE6557E89C01737B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44174054BC9B82F8B106F95C /* ContentView.swift */; };
 		30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */; };
 		394FAE3B16182B97A9E5AB36 /* RatesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B702A6BB882C5E80F08E0946 /* RatesRepository.swift */; };
+		3B93DACD2E3E919F00FB9F25 /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B93DACC2E3E919F00FB9F25 /* ThemeService.swift */; };
 		445855EBDB6D64A7E92C4FC9 /* ConvertikDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C06E3EA188107AA572C815BD /* ConvertikDataModel.xcdatamodeld */; };
 		4C350EE09AFCD07A83E0305B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A04636B9485BA6486314D9E /* SettingsView.swift */; };
 		4E1B5CA7BE775D506A574B81 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0D1F118510CA58BBA43556 /* APIService.swift */; };
@@ -36,12 +37,25 @@
 		ED2DF4A6B3C468556F58CA6B /* AddCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3B93DADB2E3F690700FB9F25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16BED28B8EB50DE5E505FF8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A24412A872A5DCB8729596AC;
+			remoteInfo = Convertik;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyView.swift; sourceTree = "<group>"; };
 		2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
 		2A1B2B61DCAF110550897C8A /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		3265FDF798774107AFE72B12 /* BackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundService.swift; sourceTree = "<group>"; };
 		39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
+		3B93DACC2E3E919F00FB9F25 /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
+		3B93DACE2E3F61F500FB9F25 /* ConvertikUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = ConvertikUITests.xctestplan; path = ../ConvertikUITests.xctestplan; sourceTree = "<group>"; };
+		3B93DAD52E3F690700FB9F25 /* ConvertikUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvertikUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44174054BC9B82F8B106F95C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		48C60DB4F9775E4EBA8FA59A /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		4A04636B9485BA6486314D9E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -59,13 +73,37 @@
 		D06801B82FB7652D862A9C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D58AF660130C11D152C46CD0 /* StoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreService.swift; sourceTree = "<group>"; };
 		D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
-		DA136F3375AA8EE040270B1B /* Convertik.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Convertik.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA136F3375AA8EE040270B1B /* Convertik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Convertik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCurrency.swift; sourceTree = "<group>"; };
 		DB0D1F118510CA58BBA43556 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		E56F7572D799B40226A6DF91 /* ConvertikDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConvertikDataModel.xcdatamodel; sourceTree = "<group>"; };
 		EFB013420F27F0AB42BA95CD /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCurrencyEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3B93DAE22E3F6ACA00FB9F25 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3B93DAD42E3F690700FB9F25 /* ConvertikUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3B93DAD62E3F690700FB9F25 /* ConvertikUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3B93DAE22E3F6ACA00FB9F25 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ConvertikUITests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3B93DAD22E3F690700FB9F25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1417590BE3CDE540E2A58F34 /* Views */ = {
@@ -87,7 +125,9 @@
 		1F48656B267F839A4F542F5E = {
 			isa = PBXGroup;
 			children = (
+				3B93DACE2E3F61F500FB9F25 /* ConvertikUITests.xctestplan */,
 				D34D63D91BAE744CAEAFFA58 /* Convertik */,
+				3B93DAD62E3F690700FB9F25 /* ConvertikUITests */,
 				25C6848C13264F8C54A7F4C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				DA136F3375AA8EE040270B1B /* Convertik.app */,
+				3B93DAD52E3F690700FB9F25 /* ConvertikUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,6 +170,7 @@
 		558D146F88BE057A21C4D961 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3B93DACC2E3E919F00FB9F25 /* ThemeService.swift */,
 				C20D9C352254817F4E94C43E /* AnalyticsService.swift */,
 				DB0D1F118510CA58BBA43556 /* APIService.swift */,
 				3265FDF798774107AFE72B12 /* BackgroundService.swift */,
@@ -257,6 +299,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3B93DAD42E3F690700FB9F25 /* ConvertikUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B93DADD2E3F690700FB9F25 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */;
+			buildPhases = (
+				3B93DAD12E3F690700FB9F25 /* Sources */,
+				3B93DAD22E3F690700FB9F25 /* Frameworks */,
+				3B93DAD32E3F690700FB9F25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3B93DADC2E3F690700FB9F25 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3B93DAD62E3F690700FB9F25 /* ConvertikUITests */,
+			);
+			name = ConvertikUITests;
+			packageProductDependencies = (
+			);
+			productName = ConvertikUITests;
+			productReference = 3B93DAD52E3F690700FB9F25 /* ConvertikUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A24412A872A5DCB8729596AC /* Convertik */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
@@ -282,7 +347,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3B93DAD42E3F690700FB9F25 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = A24412A872A5DCB8729596AC;
+					};
+				};
 			};
 			buildConfigurationList = 4803F3A05AB60876F3D47B94 /* Build configuration list for PBXProject "Convertik" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -294,16 +366,23 @@
 			);
 			mainGroup = 1F48656B267F839A4F542F5E;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				A24412A872A5DCB8729596AC /* Convertik */,
+				3B93DAD42E3F690700FB9F25 /* ConvertikUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3B93DAD32E3F690700FB9F25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9AEB818949A6DCDA57539B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -330,6 +409,7 @@
 				2D043751FE6557E89C01737B /* ContentView.swift in Sources */,
 				0836340A7C6462AFC164ED2D /* ConversionService.swift in Sources */,
 				1CC6FA46CECBAADD322235DC /* ConvertikApp.swift in Sources */,
+				3B93DACD2E3E919F00FB9F25 /* ThemeService.swift in Sources */,
 				445855EBDB6D64A7E92C4FC9 /* ConvertikDataModel.xcdatamodeld in Sources */,
 				E9E69A99A4050B4AEE799027 /* CoreDataStack.swift in Sources */,
 				30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */,
@@ -348,7 +428,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B93DAD12E3F690700FB9F25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3B93DADC2E3F690700FB9F25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A24412A872A5DCB8729596AC /* Convertik */;
+			targetProxy = 3B93DADB2E3F690700FB9F25 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		02354AB50ECB8B1BF9D8D22F /* Debug */ = {
@@ -418,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -435,6 +531,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -446,6 +543,59 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		3B93DADE2E3F690700FB9F25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/ConvertikUITests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vladimir.yazydzhi.ConvertikUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Convertik;
+			};
+			name = Debug;
+		};
+		3B93DADF2E3F690700FB9F25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = vladimir.yazydzhi.ConvertikUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Convertik;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		76BB92DEC4AB73A1D6925267 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -505,6 +655,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3B93DADD2E3F690700FB9F25 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B93DADE2E3F690700FB9F25 /* Debug */,
+				3B93DADF2E3F690700FB9F25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

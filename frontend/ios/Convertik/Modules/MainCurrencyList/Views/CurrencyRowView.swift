@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct CurrencyRowView: View {
+    @Environment(\.themeManager) private var themeManager
+    
     let rate: Rate
     let inputAmount: Double
     let isActiveInput: Bool
@@ -17,7 +19,7 @@ struct CurrencyRowView: View {
             // Левая часть: иконка дома для RUB
             if rate.code == "RUB" {
                 Image(systemName: "house.fill")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.lilacHighlight)
                     .font(.title2)
                     .frame(width: 24)
             } else {
@@ -33,12 +35,13 @@ struct CurrencyRowView: View {
                     Text(rate.code)
                         .font(.title2)
                         .fontWeight(.semibold)
+                        .foregroundColor(themeManager.textPrimary)
 
                     Spacer()
 
                     // Поле ввода суммы
                     TextField("0", text: $amountText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(CustomTextFieldStyle())
                         .keyboardType(.decimalPad)
                         .multilineTextAlignment(.trailing)
                         .frame(width: 120)
@@ -63,17 +66,30 @@ struct CurrencyRowView: View {
                 HStack {
                     Text(rate.displayName)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(themeManager.textSecondary)
 
                     Spacer()
 
                     Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(themeManager.textSecondary)
                 }
             }
         }
         .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .background(isActiveInput ? themeManager.lilacHighlight.opacity(0.10) : themeManager.cardBackground)
+        .cornerRadius(ConvertikCornerRadius.md)
+        .overlay(
+            RoundedRectangle(cornerRadius: ConvertikCornerRadius.md)
+                .stroke(isActiveInput ? themeManager.lilacHighlight : themeManager.separator, lineWidth: isActiveInput ? 2 : 1)
+        )
+        .shadow(
+            color: themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color,
+            radius: themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius,
+            x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
+            y: themeManager.isDarkMode ? ConvertikShadows.lightDark.y : ConvertikShadows.light.y
+        )
         .contentShape(Rectangle())
         .onAppear {
             // Устанавливаем начальное значение
@@ -87,6 +103,25 @@ struct CurrencyRowView: View {
                 amountText = conversionService.formatAmount(newAmount, currencyCode: rate.code, showSymbol: false)
             }
         }
+    }
+}
+
+// MARK: - Custom Text Field Style
+
+struct CustomTextFieldStyle: TextFieldStyle {
+    @Environment(\.themeManager) private var themeManager
+    
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(themeManager.cardBackground)
+            .cornerRadius(ConvertikCornerRadius.sm)
+            .overlay(
+                RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                    .stroke(themeManager.amberAccent, lineWidth: 1)
+            )
+            .foregroundColor(themeManager.textPrimary)
     }
 }
 
@@ -106,4 +141,7 @@ struct CurrencyRowView: View {
             onFocusChange: { _ in }
         )
     }
+    .background(Color(uiColor: .systemBackground))
+    .environmentObject(ThemeManager(themeService: ThemeService.shared))
+    .environmentObject(ThemeService.shared)
 }

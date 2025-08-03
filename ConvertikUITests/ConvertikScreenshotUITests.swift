@@ -9,13 +9,13 @@ final class ConvertikScreenshotUITests: XCTestCase {
 
     func testScreenshotsLightAndDark() throws {
         // Светлая тема
-        app.launchArguments = []
+        app.launchArguments = ["-uiuserInterfaceStyle", "light", "-AppleInterfaceStyle", "Light"]
         app.launch()
         takeAllScreenshots(theme: "light")
         app.terminate()
 
         // Тёмная тема
-        app.launchArguments = ["-uiuserInterfaceStyle", "dark"]
+        app.launchArguments = ["-uiuserInterfaceStyle", "dark", "-AppleInterfaceStyle", "Dark"]
         app.launch()
         takeAllScreenshots(theme: "dark")
         app.terminate()

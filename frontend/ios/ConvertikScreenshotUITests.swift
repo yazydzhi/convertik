@@ -1,3 +1,10 @@
+//
+//  ConvertikScreenshotUITests.swift
+//  Convertik
+//
+//  Created by Vladimir Yazydzhi on 03.08.2025.
+//
+
 import XCTest
 
 final class ConvertikScreenshotUITests: XCTestCase {

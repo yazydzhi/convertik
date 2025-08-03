@@ -2,35 +2,80 @@ import SwiftUI
 import os
 
 struct AddCurrencyView: View {
-    @EnvironmentObject var ratesRepository: RatesRepository
-    @EnvironmentObject var settingsService: SettingsService
-    @EnvironmentObject var analyticsService: AnalyticsService
     @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject private var ratesRepository: RatesRepository
+    @EnvironmentObject private var settingsService: SettingsService
+    @Environment(\.themeManager) private var themeManager
+    @StateObject private var analyticsService = AnalyticsService.shared
+
     @State private var searchText = ""
-    @State private var isLoading = false
-    
-    private let logger = Logger(subsystem: "com.azg.Convertik", category: "AddCurrencyView")
 
     private var availableRates: [Rate] {
-        ratesRepository.rates.filter { rate in
-            !settingsService.userCurrencies.contains(rate.code) &&
-                (searchText.isEmpty ||
-                    rate.code.localizedCaseInsensitiveContains(searchText) ||
-                    rate.displayName.localizedCaseInsensitiveContains(searchText))
-        }.sorted { $0.code < $1.code }
+        let allRates = ratesRepository.rates
+        let userCurrencies = settingsService.userCurrencies
+        
+        return allRates.filter { rate in
+            !userCurrencies.contains(rate.code) &&
+            (searchText.isEmpty || 
+             rate.code.localizedCaseInsensitiveContains(searchText) ||
+             rate.displayName.localizedCaseInsensitiveContains(searchText))
+        }
     }
 
     var body: some View {
         NavigationView {
             VStack {
-                if isLoading {
+                if ratesRepository.isLoading {
                     VStack {
                         ProgressView()
                             .scaleEffect(1.5)
                         Text("Загрузка валют...")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(themeManager.textSecondary)
                             .padding(.top)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = ratesRepository.error {
+                    VStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(.largeTitle)
+                            .foregroundColor(themeManager.amberAccent)
+                            .padding()
+                        
+                        Text("Ошибка загрузки")
+                            .font(.headline)
+                            .foregroundColor(themeManager.textPrimary)
+                        
+                        Text(error.localizedDescription)
+                            .font(.subheadline)
+                            .foregroundColor(themeManager.textSecondary)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        
+                        Button("Повторить") {
+                            Task {
+                                await ratesRepository.syncRemote()
+                            }
+                        }
+                        .foregroundColor(themeManager.amberAccent)
+                        .padding()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if availableRates.isEmpty {
+                    VStack {
+                        Image(systemName: "magnifyingglass")
+                            .font(.largeTitle)
+                            .foregroundColor(themeManager.textSecondary)
+                            .padding()
+                        
+                        Text("Нет доступных валют")
+                            .font(.headline)
+                            .foregroundColor(themeManager.textPrimary)
+                        
+                        Text("Все валюты уже добавлены или произошла ошибка загрузки")
+                            .font(.subheadline)
+                            .foregroundColor(themeManager.textSecondary)
+                            .multilineTextAlignment(.center)
+                            .padding()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
@@ -38,17 +83,13 @@ struct AddCurrencyView: View {
                         SearchBar(text: $searchText, placeholder: "Поиск валют")
                         
                         List(availableRates, id: \.code) { rate in
-                            Button(action: { addCurrency(rate) }) {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text(rate.code).font(.headline)
-                                        Text(rate.displayName).font(.caption).foregroundColor(.secondary)
-                                    }
-                                    Spacer()
-                                    Text("\(rate.value, specifier: "%.2f")").font(.caption).foregroundColor(.secondary)
-                                }
-                            }.buttonStyle(PlainButtonStyle())
+                            CurrencySelectionRow(rate: rate) {
+                                addCurrency(rate)
+                            }
+                            .listRowBackground(themeManager.cardBackground)
+                            .listRowSeparator(.hidden)
                         }
+                        .listStyle(PlainListStyle())
                     }
                 }
             }
@@ -59,6 +100,8 @@ struct AddCurrencyView: View {
                     Button("Отмена") {
                         dismiss()
                     }
+                    .foregroundColor(themeManager.amberAccent)
+                    .accessibilityIdentifier("cancelButton")
                 }
             }
         }
@@ -67,6 +110,7 @@ struct AddCurrencyView: View {
                 await ratesRepository.syncRemote()
             }
         }
+        .id(themeManager.isDarkMode) // Принудительное обновление при изменении темы
     }
 
     private func addCurrency(_ rate: Rate) {
@@ -81,34 +125,41 @@ struct AddCurrencyView: View {
 }
 
 struct SearchBar: View {
+    @Environment(\.themeManager) private var themeManager
     @Binding var text: String
     let placeholder: String
 
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.secondary)
+                .foregroundColor(themeManager.lilacHighlight)
 
             TextField(placeholder, text: $text)
                 .textFieldStyle(PlainTextFieldStyle())
+                .foregroundColor(themeManager.textPrimary)
 
             if !text.isEmpty {
                 Button(action: {
                     text = ""
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(themeManager.amberAccent)
                 }
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
-        .background(Color(.systemGray6))
+        .background(themeManager.cardBackground)
         .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(themeManager.amberAccent, lineWidth: 1)
+        )
     }
 }
 
 struct CurrencySelectionRow: View {
+    @Environment(\.themeManager) private var themeManager
     let rate: Rate
     let onTap: () -> Void
 
@@ -119,17 +170,17 @@ struct CurrencySelectionRow: View {
                     HStack {
                         Text(rate.code)
                             .font(.headline)
-                            .foregroundColor(.primary)
+                            .foregroundColor(themeManager.textPrimary)
 
                         Spacer()
 
                         Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(themeManager.amberAccent)
                     }
 
                     Text(rate.displayName)
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(themeManager.textSecondary)
                         .multilineTextAlignment(.leading)
                 }
             }

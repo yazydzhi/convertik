@@ -93,11 +93,11 @@ struct ConvertikColors {
     /// Основной фон (темная тема) - глубокий тёмный фон для комфортного использования
     static let backgroundDark = Color(red: 0.106, green: 0.082, blue: 0.145) // #1B1525
     
-    /// Фон карточек (темная тема)
-    static let cardBackgroundDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
+    /// Фон карточек (темная тема) - очень близкий к основному фону для минимальной разницы
+    static let cardBackgroundDark = Color(red: 0.110, green: 0.086, blue: 0.149) // #1C1626
     
     /// Фон карточек при наведении или выборе (темная тема)
-    static let cardHoverDark = Color(red: 0.204, green: 0.173, blue: 0.267) // #342C44
+    static let cardHoverDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
     
     /// Основной текст (темная тема) - светлый текст на тёмном фоне
     static let textPrimaryDark = Color(red: 0.894, green: 0.863, blue: 0.910) // #E4DCE8

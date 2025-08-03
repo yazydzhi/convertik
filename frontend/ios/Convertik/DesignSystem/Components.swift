@@ -52,11 +52,12 @@ struct ConvertikButton: View {
     private var backgroundColor: AnyShapeStyle {
         switch style {
         case .primary:
-            return isEnabled ? AnyShapeStyle(ConvertikColors.accentGradient) : AnyShapeStyle(themeManager.textTertiary)
+            return isEnabled ? AnyShapeStyle(themeManager.accentGradient) : AnyShapeStyle(themeManager.textTertiary)
         case .secondary:
-            return isEnabled ? AnyShapeStyle(ConvertikColors.amberAccent) : AnyShapeStyle(themeManager.textTertiary)
+            return isEnabled ? AnyShapeStyle(themeManager.amberAccent) : AnyShapeStyle(themeManager.textTertiary)
         case .destructive:
-            return isEnabled ? AnyShapeStyle(ConvertikColors.error) : AnyShapeStyle(themeManager.textTertiary)
+            // Мягкий коралловый из палитры
+            return isEnabled ? AnyShapeStyle(Color(red: 1.0, green: 0.494, blue: 0.373)) : AnyShapeStyle(themeManager.textTertiary)
         case .outline:
             return AnyShapeStyle(Color.clear)
         }
@@ -67,7 +68,7 @@ struct ConvertikButton: View {
         case .primary, .secondary, .destructive:
             return .white
         case .outline:
-            return ConvertikColors.amberAccent
+            return themeManager.amberAccent
         }
     }
 }
@@ -113,12 +114,12 @@ struct CurrencyCard: View {
                 }
             }
             .padding(ConvertikSpacing.lg)
-            .background(isSelected ? themeManager.cardHover : themeManager.cardBackground)
+            .background(isSelected ? themeManager.lilacHighlight.opacity(0.10) : themeManager.cardBackground)
             .cornerRadius(ConvertikCornerRadius.lg)
             .overlay(
                 RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
                     .stroke(
-                        isSelected ? ConvertikColors.lilacHighlight : themeManager.separator,
+                        isSelected ? themeManager.lilacHighlight : themeManager.separator,
                         lineWidth: isSelected ? 2 : 1
                     )
             )
@@ -184,7 +185,7 @@ struct AmountInputField: View {
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(themeManager.separator, lineWidth: 1)
+                .stroke(themeManager.amberAccent, lineWidth: 1)
         )
     }
 }
@@ -200,7 +201,7 @@ struct ConvertikSearchBar: View {
     var body: some View {
         HStack(spacing: ConvertikSpacing.md) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(themeManager.textTertiary)
+                .foregroundColor(themeManager.lilacHighlight)
             
             TextField(placeholder, text: $text)
                 .font(ConvertikTypography.body)
@@ -209,7 +210,7 @@ struct ConvertikSearchBar: View {
             if !text.isEmpty {
                 Button(action: { text = "" }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(themeManager.textTertiary)
+                        .foregroundColor(themeManager.amberAccent)
                 }
             }
         }
@@ -218,7 +219,7 @@ struct ConvertikSearchBar: View {
         .cornerRadius(ConvertikCornerRadius.lg)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(themeManager.separator, lineWidth: 1)
+                .stroke(themeManager.amberAccent, lineWidth: 1)
         )
     }
 }
@@ -381,12 +382,25 @@ struct ConvertikBadge: View {
     }
     
     var body: some View {
-        Text(text)
+        let resolvedColor: Color
+        let resolvedBackground: Color
+        if color == nil && text.lowercased().contains("новое") {
+            resolvedColor = .white
+            resolvedBackground = themeManager.amberAccent
+        } else if color == nil && text.lowercased().contains("обновлено") {
+            resolvedColor = .white
+            resolvedBackground = themeManager.lilacHighlight
+        } else {
+            resolvedColor = color ?? themeManager.textPrimary
+            resolvedBackground = backgroundColor ?? themeManager.selectedBackground
+        }
+        
+        return Text(text)
             .font(ConvertikTypography.caption1)
-            .foregroundColor(color ?? themeManager.textPrimary)
+            .foregroundColor(resolvedColor)
             .padding(.horizontal, ConvertikSpacing.sm)
             .padding(.vertical, ConvertikSpacing.xs)
-            .background(backgroundColor ?? themeManager.selectedBackground)
+            .background(resolvedBackground)
             .cornerRadius(ConvertikCornerRadius.sm)
     }
 }
@@ -401,7 +415,7 @@ struct ThemeToggleView: View {
     var body: some View {
         HStack {
             Image(systemName: themeService.isDarkMode ? "moon.fill" : "sun.max.fill")
-                .foregroundColor(themeService.isDarkMode ? .yellow : .orange)
+                .foregroundColor(themeManager.lilacHighlight)
             
             Text(themeService.isDarkMode ? "Темная тема" : "Светлая тема")
                 .font(ConvertikTypography.body)
@@ -410,15 +424,11 @@ struct ThemeToggleView: View {
             Spacer()
             
             Toggle("", isOn: $themeService.isDarkMode)
-                .toggleStyle(SwitchToggleStyle(tint: ConvertikColors.amberAccent))
+                .toggleStyle(SwitchToggleStyle(tint: themeManager.amberAccent))
         }
         .padding(ConvertikSpacing.lg)
         .background(themeManager.cardBackground)
         .cornerRadius(ConvertikCornerRadius.lg)
-        .overlay(
-            RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
-                .stroke(themeManager.separator, lineWidth: 1)
-        )
     }
 }
 

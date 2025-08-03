@@ -3,8 +3,8 @@ import StoreKit
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var settingsService: SettingsService
-    @StateObject private var storeService = StoreService.shared
+    @EnvironmentObject private var storeService: StoreService
+    @Environment(\.themeManager) private var themeManager
     @StateObject private var analyticsService = AnalyticsService.shared
 
     @State private var isLoading = false
@@ -13,26 +13,20 @@ struct PaywallView: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 24) {
-                // Заголовок
-                headerSection
-
-                // Преимущества Premium
-                benefitsSection
-
-                Spacer()
-
-                // Кнопки покупки и восстановления
-                purchaseSection
-
-                // Мелкий текст
-                disclaimerSection
+            ScrollView {
+                VStack(spacing: 32) {
+                    headerSection
+                    benefitsSection
+                    purchaseSection
+                    disclaimerSection
+                }
+                .padding()
             }
-            .padding()
+            .background(themeManager.background)
             .navigationTitle("Premium")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Закрыть") {
                         dismiss()
                     }
@@ -47,15 +41,18 @@ struct PaywallView: View {
                 Text(errorMessage)
             }
         }
+        .onAppear {
+            analyticsService.trackPremiumViewed()
+        }
     }
 
-    // MARK: - Sections
+    // MARK: - Views
 
     private var headerSection: some View {
         VStack(spacing: 16) {
             Image(systemName: "crown.fill")
                 .font(.system(size: 60))
-                .foregroundColor(.yellow)
+                .foregroundColor(themeManager.amberAccent)
 
             Text("Convertik Premium")
                 .font(.largeTitle)
@@ -63,7 +60,7 @@ struct PaywallView: View {
 
             Text("Уберите рекламу и получите полный доступ")
                 .font(.headline)
-                .foregroundColor(.secondary)
+                .foregroundColor(themeManager.textSecondary)
                 .multilineTextAlignment(.center)
         }
     }
@@ -91,7 +88,7 @@ struct PaywallView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemGray6))
+                .fill(themeManager.cardBackground)
         )
     }
 
@@ -112,14 +109,14 @@ struct PaywallView: View {
                     }
                     .foregroundColor(.white)
                     .padding()
-                    .background(Color.accentColor)
+                    .background(themeManager.accentGradient)
                     .cornerRadius(12)
                 }
                 .disabled(isLoading)
 
                 Text("199 ₽ в месяц, автопродление")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.textSecondary)
             } else {
                 ProgressView("Загрузка...")
                     .frame(height: 50)
@@ -128,7 +125,7 @@ struct PaywallView: View {
             Button("Восстановить покупки") {
                 restorePurchases()
             }
-            .foregroundColor(.accentColor)
+            .foregroundColor(themeManager.amberAccent)
             .disabled(isLoading)
         }
         .overlay {
@@ -144,7 +141,7 @@ struct PaywallView: View {
         VStack(spacing: 8) {
             Text("Подписка автоматически продлевается. Отменить можно в настройках Apple ID.")
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(themeManager.textSecondary)
                 .multilineTextAlignment(.center)
 
             HStack(spacing: 16) {
@@ -152,7 +149,7 @@ struct PaywallView: View {
                 Link("Конфиденциальность", destination: URL(string: "https://convertik.app/privacy")!)
             }
             .font(.caption)
-            .foregroundColor(.accentColor)
+            .foregroundColor(themeManager.amberAccent)
         }
     }
 
@@ -206,6 +203,7 @@ struct PaywallView: View {
 }
 
 struct BenefitRow: View {
+    @Environment(\.themeManager) private var themeManager
     let icon: String
     let title: String
     let description: String
@@ -214,16 +212,17 @@ struct BenefitRow: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.title2)
-                .foregroundColor(.accentColor)
+                .foregroundColor(themeManager.amberAccent)
                 .frame(width: 24)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.headline)
+                    .foregroundColor(themeManager.textPrimary)
 
                 Text(description)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(themeManager.textSecondary)
             }
 
             Spacer()

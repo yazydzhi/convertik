@@ -116,7 +116,35 @@ final class RatesRepository: ObservableObject {
 
         context.perform {
             do {
+                // Добавляем базовые валюты
+                let defaultRates = [
+                    ("RUB", "Российский рубль", 1.0),
+                    ("USD", "Доллар США", 0.012518),
+                    ("EUR", "Евро", 0.0108),
+                    ("GBP", "Фунт стерлингов", 0.009424),
+                    ("CNY", "Китайский юань", 0.090274),
+                    ("JPY", "Японская иена", 1.844905),
+                    ("KRW", "Южнокорейская вона", 17.387308),
+                    ("INR", "Индийская рупия", 1.091132),
+                    ("BRL", "Бразильский реал", 0.06937),
+                    ("CAD", "Канадский доллар", 0.017276)
+                ]
+                
+                for (code, name, value) in defaultRates {
+                    let rate = RateEntity(context: context)
+                    rate.code = code
+                    rate.name = name
+                    rate.value = value
+                    rate.updatedAt = Date()
+                }
+                
                 try context.save()
+                self.logger.debug("Added \(defaultRates.count) default rates to CoreData")
+                
+                // Обновляем локальные данные
+                DispatchQueue.main.async {
+                    self.loadLocalRates()
+                }
             } catch {
                 self.logger.error("Failed to save default rates: \(error)")
             }
@@ -128,7 +156,7 @@ final class RatesRepository: ObservableObject {
     private func updateLocalRates(from response: RatesResponse, names: [String: String]) async {
         self.logger.debug("Starting to update local rates...")
         
-        await DispatchQueue.main.async {
+        DispatchQueue.main.async {
             let context = self.coreDataStack.persistentContainer.viewContext
             self.logger.debug("Processing \(response.rates.count + 1) currencies...")
             

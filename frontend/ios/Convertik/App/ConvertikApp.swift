@@ -1,36 +1,38 @@
 import SwiftUI
-import CoreData
 
 @main
 struct ConvertikApp: App {
-    // CoreData stack
-    let persistenceContainer = CoreDataStack.shared.persistentContainer
-
-    // Services
-    @StateObject private var ratesRepository = RatesRepository.shared
+    @StateObject private var themeService = ThemeService.shared
     @StateObject private var settingsService = SettingsService.shared
-    @StateObject private var analyticsService = AnalyticsService.shared
-    private let backgroundService = BackgroundService.shared
+    @StateObject private var ratesRepository = RatesRepository.shared
 
     init() {
-        // Регистрируем фоновые задачи
-        backgroundService.registerBackgroundTasks()
+        // Только для тестов: если есть аргумент — применить, иначе не трогать стиль
+        let arguments = ProcessInfo.processInfo.arguments
+        if let idx = arguments.firstIndex(of: "-uiuserInterfaceStyle"), arguments.count > idx + 1 {
+            let style = arguments[idx + 1]
+            if style == "dark" {
+                UIView.appearance().overrideUserInterfaceStyle = .dark
+            } else if style == "light" {
+                UIView.appearance().overrideUserInterfaceStyle = .light
+            }
+        } else if let idx = arguments.firstIndex(of: "-AppleInterfaceStyle"), arguments.count > idx + 1 {
+            let style = arguments[idx + 1]
+            if style.lowercased() == "dark" {
+                UIView.appearance().overrideUserInterfaceStyle = .dark
+            } else if style.lowercased() == "light" {
+                UIView.appearance().overrideUserInterfaceStyle = .light
+            }
+        } // иначе не трогаем стиль — пусть работает toggle/ThemeService
     }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceContainer.viewContext)
-                .environmentObject(ratesRepository)
                 .environmentObject(settingsService)
-                .environmentObject(analyticsService)
-                .preferredColorScheme(settingsService.colorScheme)
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    backgroundService.applicationDidBecomeActive()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                    backgroundService.applicationWillEnterBackground()
-                }
+                .environmentObject(ratesRepository)
+                .environmentObject(themeService)
+                .withTheme(themeService)
         }
     }
 }
