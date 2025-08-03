@@ -48,7 +48,7 @@
   </defs>
   
   <!-- Фон с градиентом -->
-  <rect width="1024" height="1024" rx="240" fill="url(#bgGradient)"/>
+  <rect width="1024" height="1024" fill="url(#bgGradient)"/>
   
   <!-- Тонкие линии вокруг центра -->
   <circle cx="512" cy="512" r="380" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3"/>
