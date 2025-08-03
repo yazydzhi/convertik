@@ -90,10 +90,10 @@ struct CurrencyRowView: View {
         .shadow(
             color: isActiveInput 
                 ? themeManager.lilacHighlight.opacity(0.3) // Лёгкое поднятие для выбранной карточки
-                : (themeManager.isDarkMode ? themeManager.cardGlowColor : ConvertikShadows.light.color), // Легкое свечение в темной теме
+                : (themeManager.isDarkMode ? themeManager.cardGlowColor : ConvertikShadows.light.color), // Легкое свечение только в темной теме
             radius: isActiveInput 
                 ? 8 // Увеличенная тень для "возвышения"
-                : (themeManager.isDarkMode ? 4 : ConvertikShadows.light.radius), // Меньший радиус для свечения
+                : (themeManager.isDarkMode ? 4 : ConvertikShadows.light.radius), // Меньший радиус для свечения только в темной теме
             x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
             y: isActiveInput 
                 ? 2 // Лёгкое поднятие

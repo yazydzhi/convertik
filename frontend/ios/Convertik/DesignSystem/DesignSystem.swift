@@ -243,7 +243,12 @@ class ThemeManager: ObservableObject {
         if isSelected {
             return AnyShapeStyle(lilacHighlight.opacity(0.15))
         } else {
-            return AnyShapeStyle(cardGradient)
+            // В темной теме используем градиент, в светлой - обычный цвет
+            if isDarkMode {
+                return AnyShapeStyle(cardGradient)
+            } else {
+                return AnyShapeStyle(cardBackground)
+            }
         }
     }
     
