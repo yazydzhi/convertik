@@ -114,11 +114,7 @@ struct CurrencyCard: View {
                 }
             }
             .padding(ConvertikSpacing.lg)
-            .background(
-                isSelected 
-                    ? themeManager.lilacHighlight.opacity(0.15) // Лёгкая подложка вместо сплошной заливки
-                    : themeManager.cardBackground
-            )
+            .background(themeManager.cardBackground(isSelected: isSelected))
             .cornerRadius(ConvertikCornerRadius.lg)
             .overlay(
                 RoundedRectangle(cornerRadius: ConvertikCornerRadius.lg)
@@ -130,10 +126,10 @@ struct CurrencyCard: View {
             .shadow(
                 color: isSelected 
                     ? themeManager.lilacHighlight.opacity(0.3) // Лёгкое поднятие для выбранной карточки
-                    : (themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color),
+                    : (themeManager.isDarkMode ? themeManager.cardGlowColor : ConvertikShadows.light.color), // Легкое свечение в темной теме
                 radius: isSelected 
                     ? 8 // Увеличенная тень для "возвышения"
-                    : (themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius),
+                    : (themeManager.isDarkMode ? 4 : ConvertikShadows.light.radius), // Меньший радиус для свечения
                 x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
                 y: isSelected 
                     ? 2 // Лёгкое поднятие

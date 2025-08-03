@@ -93,11 +93,11 @@ struct ConvertikColors {
     /// Основной фон (темная тема) - более темный и холодный фон для лучшего контраста
     static let backgroundDark = Color(red: 0.102, green: 0.071, blue: 0.141) // #1A1324
     
-    /// Фон карточек (темная тема) - темно-фиолетовые карточки
-    static let cardBackgroundDark = Color(red: 0.157, green: 0.125, blue: 0.196) // #282032
+    /// Фон карточек (темная тема) - более темные карточки для лучшего контраста
+    static let cardBackgroundDark = Color(red: 0.110, green: 0.086, blue: 0.149) // #1C1626
     
     /// Фон карточек при наведении или выборе (темная тема)
-    static let cardHoverDark = Color(red: 0.180, green: 0.145, blue: 0.220) // #2E2528
+    static let cardHoverDark = Color(red: 0.125, green: 0.098, blue: 0.165) // #201A2A
     
     /// Основной текст (темная тема) - светлый текст на тёмном фоне
     static let textPrimaryDark = Color(red: 0.894, green: 0.863, blue: 0.910) // #E4DCE8
@@ -224,6 +224,32 @@ class ThemeManager: ObservableObject {
     
     var lilacHighlight: Color {
         ConvertikColors.lilacHighlight
+    }
+    
+    /// Градиент для карточек (как на фоне значка)
+    var cardGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color(red: 0.110, green: 0.086, blue: 0.149), // #1C1626
+                Color(red: 0.125, green: 0.098, blue: 0.165)  // #201A2A
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    /// Фон карточки с учетом состояния
+    func cardBackground(isSelected: Bool = false) -> AnyShapeStyle {
+        if isSelected {
+            return AnyShapeStyle(lilacHighlight.opacity(0.15))
+        } else {
+            return AnyShapeStyle(cardGradient)
+        }
+    }
+    
+    /// Цвет для легкого свечения карточек (как точки на значке)
+    var cardGlowColor: Color {
+        Color(red: 0.973, green: 0.706, blue: 0.000, opacity: 0.1) // #F8B400 с низкой прозрачностью
     }
 }
 

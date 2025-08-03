@@ -78,11 +78,7 @@ struct CurrencyRowView: View {
         }
         .padding(.vertical, 8)
         .padding(.horizontal, 16)
-        .background(
-            isActiveInput 
-                ? themeManager.lilacHighlight.opacity(0.15) // Лёгкая подложка вместо сплошной заливки
-                : themeManager.cardBackground
-        )
+        .background(themeManager.cardBackground(isSelected: isActiveInput))
         .cornerRadius(ConvertikCornerRadius.md)
         .overlay(
             RoundedRectangle(cornerRadius: ConvertikCornerRadius.md)
@@ -94,10 +90,10 @@ struct CurrencyRowView: View {
         .shadow(
             color: isActiveInput 
                 ? themeManager.lilacHighlight.opacity(0.3) // Лёгкое поднятие для выбранной карточки
-                : (themeManager.isDarkMode ? ConvertikShadows.lightDark.color : ConvertikShadows.light.color),
+                : (themeManager.isDarkMode ? themeManager.cardGlowColor : ConvertikShadows.light.color), // Легкое свечение в темной теме
             radius: isActiveInput 
                 ? 8 // Увеличенная тень для "возвышения"
-                : (themeManager.isDarkMode ? ConvertikShadows.lightDark.radius : ConvertikShadows.light.radius),
+                : (themeManager.isDarkMode ? 4 : ConvertikShadows.light.radius), // Меньший радиус для свечения
             x: themeManager.isDarkMode ? ConvertikShadows.lightDark.x : ConvertikShadows.light.x,
             y: isActiveInput 
                 ? 2 // Лёгкое поднятие
