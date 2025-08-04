@@ -55,7 +55,7 @@ struct CurrencyRowView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.textPrimary)
-                    .frame(width: 40, alignment: .leading) // Увеличенная ширина для символа
+                    .frame(width: 40, alignment: .center) // Центрирование символа в отведенном пространстве
             }
             
             // Вторая строка: название валюты и курс
