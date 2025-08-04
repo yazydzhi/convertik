@@ -28,11 +28,11 @@ struct CurrencyRowView: View {
                 Spacer()
                 
                 // Поле ввода с фиксированным отступом от правого края
-                TextField("0", text: $amountText)
-                    .textFieldStyle(CustomTextFieldStyle())
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .frame(width: 120)
+                                   TextField("0", text: $amountText)
+                       .textFieldStyle(CustomTextFieldStyle())
+                       .keyboardType(.decimalPad)
+                       .multilineTextAlignment(.trailing)
+                       .frame(width: 140)
                     .focused($isFocused)
                     .allowsHitTesting(true)
                     .disabled(false)
@@ -55,7 +55,7 @@ struct CurrencyRowView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.textPrimary)
-                    .frame(width: 30, alignment: .leading) // Фиксированная ширина для символа
+                    .frame(width: 40, alignment: .leading) // Увеличенная ширина для символа
             }
             
             // Вторая строка: название валюты и курс
