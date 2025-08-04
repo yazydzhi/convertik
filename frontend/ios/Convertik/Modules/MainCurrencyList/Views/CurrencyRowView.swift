@@ -74,8 +74,8 @@ struct CurrencyRowView: View {
                 }
             }
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
         .background(themeManager.cardBackground(isSelected: isActiveInput))
         .cornerRadius(ConvertikCornerRadius.md)
         .overlay(

@@ -106,7 +106,7 @@ struct MainListView: View {
                 )
                 .listRowBackground(themeManager.cardBackground)
                 .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: 2, leading: 12, bottom: 2, trailing: 12))
+                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 .moveDisabled(item.rate.code == "RUB")
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     if item.rate.code != "RUB" {

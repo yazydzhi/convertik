@@ -60,36 +60,38 @@ struct AddCurrencyView: View {
                         .padding()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if availableRates.isEmpty {
-                    VStack {
-                        Image(systemName: "magnifyingglass")
-                            .font(.largeTitle)
-                            .foregroundColor(themeManager.textSecondary)
-                            .padding()
-                        
-                        Text("Нет доступных валют")
-                            .font(.headline)
-                            .foregroundColor(themeManager.textPrimary)
-                        
-                        Text("Все валюты уже добавлены или произошла ошибка загрузки")
-                            .font(.subheadline)
-                            .foregroundColor(themeManager.textSecondary)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     VStack {
                         SearchBar(text: $searchText, placeholder: "Поиск валют")
                         
-                        List(availableRates, id: \.code) { rate in
-                            CurrencySelectionRow(rate: rate) {
-                                addCurrency(rate)
+                        if availableRates.isEmpty {
+                            VStack {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.largeTitle)
+                                    .foregroundColor(themeManager.textSecondary)
+                                    .padding()
+                                
+                                Text("Валюты не найдены")
+                                    .font(.headline)
+                                    .foregroundColor(themeManager.textPrimary)
+                                
+                                Text("Попробуйте изменить поисковый запрос")
+                                    .font(.subheadline)
+                                    .foregroundColor(themeManager.textSecondary)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
                             }
-                            .listRowBackground(themeManager.cardBackground)
-                            .listRowSeparator(.hidden)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        } else {
+                            List(availableRates, id: \.code) { rate in
+                                CurrencySelectionRow(rate: rate) {
+                                    addCurrency(rate)
+                                }
+                                .listRowBackground(themeManager.cardBackground)
+                                .listRowSeparator(.hidden)
+                            }
+                            .listStyle(PlainListStyle())
                         }
-                        .listStyle(PlainListStyle())
                     }
                 }
             }
