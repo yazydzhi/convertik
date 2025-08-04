@@ -17,7 +17,7 @@ struct CurrencyRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
                         // Первая строка: код валюты (с символом если есть), поле ввода
-            HStack {
+            HStack(spacing: 12) {
                 // Код валюты с символом (если есть специальный символ)
                 HStack(spacing: 4) {
                     Text(rate.code)
@@ -33,16 +33,16 @@ struct CurrencyRowView: View {
                             .foregroundColor(themeManager.textPrimary)
                     }
                 }
-                .frame(width: 80, alignment: .leading) // Увеличенная ширина для кода + символ
+                .frame(minWidth: 100, alignment: .leading) // Увеличенная минимальная ширина для кода + символ
                 
-                Spacer()
+                Spacer(minLength: 8) // Минимальное расстояние между кодом и полем ввода
                 
                 // Поле ввода (сдвинуто правее)
                 TextField("0", text: $amountText)
                     .textFieldStyle(CustomTextFieldStyle())
                     .keyboardType(.decimalPad)
                     .multilineTextAlignment(.trailing)
-                    .frame(width: 140)
+                    .frame(minWidth: 120, maxWidth: .infinity) // Гибкая ширина поля ввода
                     .focused($isFocused)
                     .allowsHitTesting(true)
                     .disabled(false)
