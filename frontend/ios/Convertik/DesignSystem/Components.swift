@@ -432,6 +432,10 @@ struct ThemeToggleView: View {
             
             Toggle("", isOn: $themeService.isDarkMode)
                 .toggleStyle(SwitchToggleStyle(tint: themeManager.amberAccent))
+                .onChange(of: themeService.isDarkMode) { _ in
+                    // Принудительно обновляем ThemeManager
+                    themeManager.refreshTheme()
+                }
         }
         .padding(ConvertikSpacing.lg)
         .background(themeManager.cardBackground)

@@ -2,17 +2,18 @@ import SwiftUI
 
 struct AdBannerView: View {
     @EnvironmentObject private var settingsService: SettingsService
+    @Environment(\.themeManager) private var themeManager
 
     var body: some View {
         if !settingsService.isPremium {
             VStack {
                 HStack {
                     Image(systemName: "megaphone.fill")
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(themeManager.amberAccent)
 
                     Text("Реклама • Уберите её с Premium")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(themeManager.textSecondary)
 
                     Spacer()
 
@@ -20,20 +21,20 @@ struct AdBannerView: View {
                         // Переход к экрану Premium
                     }
                     .font(.caption)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(themeManager.amberAccent)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 8)
 
                 Rectangle()
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(themeManager.cardBackground)
                     .overlay(
                         Text("AdMob Banner Placeholder")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(themeManager.textSecondary)
                     )
             }
-            .background(Color(.systemGray6))
+            .background(themeManager.cardBackground)
             .accessibilityHidden(true) // Скрываем от accessibility
         }
     }
@@ -42,5 +43,6 @@ struct AdBannerView: View {
 #Preview {
     AdBannerView()
         .environmentObject(SettingsService.shared)
+        .environmentObject(ThemeService.shared)
         .frame(height: 50)
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 // MARK: - Design System for Convertik
 // Версия: 3.0
@@ -155,6 +156,13 @@ class ThemeManager: ObservableObject {
     func updateFromThemeService(_ themeService: ThemeService) {
         self.themeService = themeService
         self.isDarkMode = themeService.isDarkMode
+    }
+    
+    /// Принудительное обновление темы
+    func refreshTheme() {
+        if let themeService = themeService {
+            self.isDarkMode = themeService.isDarkMode
+        }
     }
     
     /// Получение цвета с учетом текущей темы

@@ -1,38 +1,30 @@
 import SwiftUI
+import GoogleMobileAds
 
 @main
 struct ConvertikApp: App {
     @StateObject private var themeService = ThemeService.shared
     @StateObject private var settingsService = SettingsService.shared
     @StateObject private var ratesRepository = RatesRepository.shared
+    @StateObject private var adService = AdService.shared
+    @StateObject private var storeService = StoreService.shared
 
     init() {
-        // Только для тестов: если есть аргумент — применить, иначе не трогать стиль
-        let arguments = ProcessInfo.processInfo.arguments
-        if let idx = arguments.firstIndex(of: "-uiuserInterfaceStyle"), arguments.count > idx + 1 {
-            let style = arguments[idx + 1]
-            if style == "dark" {
-                UIView.appearance().overrideUserInterfaceStyle = .dark
-            } else if style == "light" {
-                UIView.appearance().overrideUserInterfaceStyle = .light
-            }
-        } else if let idx = arguments.firstIndex(of: "-AppleInterfaceStyle"), arguments.count > idx + 1 {
-            let style = arguments[idx + 1]
-            if style.lowercased() == "dark" {
-                UIView.appearance().overrideUserInterfaceStyle = .dark
-            } else if style.lowercased() == "light" {
-                UIView.appearance().overrideUserInterfaceStyle = .light
-            }
-        } // иначе не трогаем стиль — пусть работает toggle/ThemeService
+        MobileAds.shared.start { status in
+            print("Google Mobile Ads SDK initialization status: \(status)")
+        }
     }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeService)
                 .environmentObject(settingsService)
                 .environmentObject(ratesRepository)
-                .environmentObject(themeService)
-                .withTheme(themeService)
+                .environmentObject(adService)
+                .environmentObject(storeService)
+                .environment(\.themeManager, ThemeManager(themeService: themeService))
+                .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
         }
     }
 }

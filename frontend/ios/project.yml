@@ -5,6 +5,28 @@ deploymentTarget:
 
 options:
   bundleIdPrefix: com.azg
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+schemes:
+  Convertik:
+    build:
+      targets:
+        Convertik: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+dependencies:
+  - package: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
+    from: 10.15.0
 
 targets:
   Convertik:

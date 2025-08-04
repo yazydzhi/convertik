@@ -111,4 +111,18 @@ final class AnalyticsService: ObservableObject {
             "ad_unit_id": adUnitId
         ])
     }
+    
+    func trackInterstitialAdShown(adUnitId: String) {
+        track(event: "interstitial_ad_shown", params: [
+            "ad_unit_id": adUnitId
+        ])
+    }
+    
+    func trackRewardedAdCompleted(adUnitId: String, rewardAmount: Int, rewardType: String) {
+        track(event: "rewarded_ad_completed", params: [
+            "ad_unit_id": adUnitId,
+            "reward_amount": rewardAmount,
+            "reward_type": rewardType
+        ])
+    }
 }

@@ -3,13 +3,16 @@ import SwiftUI
 struct MainListView: View {
     @EnvironmentObject private var ratesRepository: RatesRepository
     @EnvironmentObject private var settingsService: SettingsService
+    @EnvironmentObject private var storeService: StoreService
     @EnvironmentObject private var themeService: ThemeService
     @Environment(\.themeManager) private var themeManager
     @StateObject private var analyticsService = AnalyticsService.shared
     @StateObject private var viewModel = MainListViewModel()
+    @StateObject private var interstitialService = InterstitialAdService.shared
 
     @State private var showingAddCurrency = false
     @State private var showingSettings = false
+    @State private var adTriggerCount = 0
 
     var body: some View {
         VStack(spacing: 0) {
@@ -17,11 +20,10 @@ struct MainListView: View {
                 currencyListSection
 
                 // Баннер рекламы (если не Premium)
-                if !settingsService.isPremium {
-                    AdBannerView()
-                        .frame(height: 50)
+                if !storeService.isPremium {
+                    AdBannerContainerView()
                         .onAppear {
-                            analyticsService.trackAdImpression(adUnitId: "ca-app-pub-test/banner_main_bottom")
+                            analyticsService.trackAdImpression(adUnitId: "ca-app-pub-3940256099942544/2934735716")
                         }
                 }
             }
@@ -49,7 +51,9 @@ struct MainListView: View {
                 // Добавить справа
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showingAddCurrency = true
+                        triggerAdIfNeeded {
+                            showingAddCurrency = true
+                        }
                     } label: {
                         Image(systemName: "plus")
                             .foregroundColor(themeManager.amberAccent)
@@ -81,6 +85,10 @@ struct MainListView: View {
             .onAppear {
                 analyticsService.trackSettingsOpened()
             }
+            .onChange(of: themeService.isDarkMode) { _ in
+                // Принудительно обновляем ThemeManager
+                themeManager.refreshTheme()
+            }
             .id(themeService.isDarkMode) // Принудительное обновление при изменении темы
     }
 
@@ -111,7 +119,9 @@ struct MainListView: View {
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     if item.rate.code != "RUB" {
                         Button(role: .destructive) {
-                            deleteCurrency(item.rate.code)
+                            triggerAdIfNeeded {
+                                deleteCurrency(item.rate.code)
+                            }
                         } label: {
                             Label("Удалить", systemImage: "trash")
                         }
@@ -189,6 +199,28 @@ struct MainListView: View {
         settingsService.removeCurrency(code)
         analyticsService.trackCurrencyRemoved(code)
         viewModel.updateDisplayedCurrencies()
+    }
+    
+    // MARK: - Ad Logic
+    
+    private func triggerAdIfNeeded(action: @escaping () -> Void) {
+        adTriggerCount += 1
+        
+        // Показываем рекламу каждые 3 действия (если не Premium)
+        if !storeService.isPremium && adTriggerCount % 3 == 0 && interstitialService.isReady {
+            // Получаем root view controller для показа рекламы
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first,
+               let rootViewController = window.rootViewController {
+                interstitialService.showAd(from: rootViewController) {
+                    action()
+                }
+            } else {
+                action()
+            }
+        } else {
+            action()
+        }
     }
 
 }
