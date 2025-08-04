@@ -18,13 +18,16 @@ struct CurrencyRowView: View {
         VStack(alignment: .leading, spacing: 4) {
             // Первая строка: код валюты, поле ввода и символ
             HStack {
+                // Код валюты с фиксированной шириной для 3 символов
                 Text(rate.code)
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.textPrimary)
+                    .frame(width: 60, alignment: .leading) // Фиксированная ширина для 3 символов
                 
                 Spacer()
                 
+                // Поле ввода с фиксированным отступом от правого края
                 TextField("0", text: $amountText)
                     .textFieldStyle(CustomTextFieldStyle())
                     .keyboardType(.decimalPad)
@@ -52,6 +55,7 @@ struct CurrencyRowView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(themeManager.textPrimary)
+                    .frame(width: 30, alignment: .leading) // Фиксированная ширина для символа
             }
             
             // Вторая строка: название валюты и курс
