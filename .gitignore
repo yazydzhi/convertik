@@ -232,6 +232,12 @@ frontend/ios/FINAL_*.md
 frontend/ios/*_report.json
 frontend/ios/test_results.*
 
+# General reports (anywhere in the project)
+*_REPORT.md
+*REPORT.md
+*_REPORT.*
+*REPORT.*
+
 # Test automation scripts (generated helpers)
 frontend/ios/add_test_targets.sh
 frontend/ios/run_tests.sh
