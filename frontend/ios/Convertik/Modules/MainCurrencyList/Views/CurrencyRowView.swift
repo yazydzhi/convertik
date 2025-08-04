@@ -16,23 +16,33 @@ struct CurrencyRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Первая строка: код валюты, поле ввода и символ
+                        // Первая строка: код валюты (с символом если есть), поле ввода
             HStack {
-                // Код валюты с фиксированной шириной для 3 символов
-                Text(rate.code)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(themeManager.textPrimary)
-                    .frame(width: 60, alignment: .leading) // Фиксированная ширина для 3 символов
+                // Код валюты с символом (если есть специальный символ)
+                HStack(spacing: 4) {
+                    Text(rate.code)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(themeManager.textPrimary)
+                    
+                    // Показываем символ только если он отличается от кода валюты
+                    if hasSpecialSymbol(for: rate.code) {
+                        Text(getCurrencySymbol(for: rate.code))
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundColor(themeManager.textPrimary)
+                    }
+                }
+                .frame(width: 80, alignment: .leading) // Увеличенная ширина для кода + символ
                 
                 Spacer()
                 
-                // Поле ввода с фиксированным отступом от правого края
-                                   TextField("0", text: $amountText)
-                       .textFieldStyle(CustomTextFieldStyle())
-                       .keyboardType(.decimalPad)
-                       .multilineTextAlignment(.trailing)
-                       .frame(width: 140)
+                // Поле ввода (сдвинуто правее)
+                TextField("0", text: $amountText)
+                    .textFieldStyle(CustomTextFieldStyle())
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                    .frame(width: 140)
                     .focused($isFocused)
                     .allowsHitTesting(true)
                     .disabled(false)
@@ -49,13 +59,6 @@ struct CurrencyRowView: View {
                     .onTapGesture {
                         isFocused = true
                     }
-                
-                // Символ валюты после поля ввода
-                Text(getCurrencySymbol(for: rate.code))
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(themeManager.textPrimary)
-                    .frame(width: 40, alignment: .center) // Центрирование символа в отведенном пространстве
             }
             
             // Вторая строка: название валюты и курс
@@ -187,6 +190,12 @@ struct CurrencyRowView: View {
         default:
             return code
         }
+    }
+    
+    /// Проверка, есть ли у валюты специальный символ (отличающийся от кода)
+    private func hasSpecialSymbol(for code: String) -> Bool {
+        let symbol = getCurrencySymbol(for: code)
+        return symbol != code
     }
 }
 
