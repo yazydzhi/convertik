@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conditions d'utilisation — Convertik</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html">
+        <div class="brand-mark"></div>
+        <div class="brand-text"><strong>Convertik</strong></div>
+      </a>
+      <nav class="nav">
+        <a href="../terms.html">RU</a>
+        <a href="../en/terms.html">EN</a>
+        <a href="./terms.html" class="active">FR</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Changer le thème">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal container section">
+    <h1>Conditions d'utilisation</h1>
+    <p>Date d'entrée en vigueur : <strong>7 septembre 2025</strong></p>
+    <p>Version du document : <strong>1.0</strong> | Version de l'application : <strong>2.1</strong></p>
+
+    <h2>1. Acceptation des conditions</h2>
+    <p>En utilisant l'application Convertik (ci-après — « l'Application »), vous acceptez ces conditions. Si vous n'acceptez pas les conditions, n'utilisez pas l'Application.</p>
+
+    <h2>2. Description du service</h2>
+    <p>Convertik est une application mobile de conversion de devises qui fonctionne hors ligne avec mise à jour périodique des taux de change.</p>
+    
+    <h2>3. Utilisation de l'application</h2>
+    <h3>3.1 Utilisation autorisée</h3>
+    <ul>
+      <li>Conversion de devises à des fins personnelles</li>
+      <li>Utilisation conforme à la législation applicable</li>
+      <li>Respect des droits de propriété intellectuelle</li>
+    </ul>
+    
+    <h3>3.2 Utilisation interdite</h3>
+    <ul>
+      <li>Utilisation commerciale sans autorisation</li>
+      <li>Ingénierie inverse ou décompilation</li>
+      <li>Violation des droits de tiers</li>
+      <li>Utilisation à des fins illégales</li>
+    </ul>
+
+    <h2>4. Abonnements et paiements</h2>
+    <h3>4.1 Abonnement Ads Free</h3>
+    <ul>
+      <li><strong>Prix :</strong> 199 ₽/mois</li>
+      <li><strong>Renouvellement automatique :</strong> L'abonnement se renouvelle automatiquement</li>
+      <li><strong>Annulation :</strong> Via les paramètres de l'App Store</li>
+      <li><strong>Remboursement :</strong> Selon la politique d'Apple</li>
+    </ul>
+    
+    <h3>4.2 Gestion de l'abonnement</h3>
+    <p>La gestion de l'abonnement est effectuée via l'Apple App Store. Nous ne traitons pas les paiements directement.</p>
+
+    <h2>5. Limitation de responsabilité</h2>
+    <h3>5.1 Avertissement</h3>
+    <p>L'Application est fournie « en l'état ». Bien que nous nous efforcions d'être précis dans les taux de change, nous ne garantissons pas l'exactitude absolue des données.</p>
+    
+    <h3>5.2 Limitation des dommages</h3>
+    <p>Nous ne sommes pas responsables de tout dommage indirect, accessoire ou consécutif résultant de l'utilisation de l'Application.</p>
+
+    <h2>6. Propriété intellectuelle</h2>
+    <p>Tous les droits sur l'Application, y compris la conception, le code et le contenu, appartiennent à nous ou à nos concédants de licence.</p>
+
+    <h2>7. Modifications des conditions</h2>
+    <p>Nous pouvons mettre à jour ces Conditions. Nous vous informerons des modifications importantes via l'application. La poursuite de l'utilisation constitue l'acceptation des modifications.</p>
+
+    <h2>8. Droit applicable</h2>
+    <p>Ces Conditions sont régies par la législation de la Fédération de Russie.</p>
+
+    <h2>9. Contact</h2>
+    <p><strong>Email :</strong> <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+    <p><strong>Site web :</strong> <a href="https://convertik.ponravilos.ru">https://convertik.ponravilos.ru</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="./privacy.html">Politique de confidentialité</a>
+        <a href="./data.html">Politique de traitement des données</a>
+        <a href="./terms.html">Conditions d'utilisation</a>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> Convertik</div>
+    </div>
+  </footer>
+
+  <script>
+    const themeKey = 'convertik-theme';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(themeKey);
+    if (saved) root.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

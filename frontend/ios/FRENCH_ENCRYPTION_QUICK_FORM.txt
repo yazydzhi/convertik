@@ -2,11 +2,11 @@ FRENCH ENCRYPTION DECLARATION - QUICK FORM
 ==========================================
 
 APPLICANT:
-Company: Ponravilos Development
-Contact: Ivan Uzhas
+Company: Individual entrepreneur Vladimir Yazydzhi
+Contact: Vladimir Yazydzhi
 Email: ivan.uzhas@yandex.com
-Phone: [To be provided]
-Country: Russian Federation
+Phone: +381 69 747 528
+Country: Serbia
 
 APPLICATION:
 Name: Convertik
@@ -41,7 +41,7 @@ REGULATION REFERENCES:
 - Category: Civil-use encryption software
 
 DECLARATION:
-I, Ivan Uzhas, declare under penalty of perjury that the information 
+I, Vladimir Yazydzhi, declare under penalty of perjury that the information 
 provided is accurate and complete. Convertik uses only standard 
 encryption algorithms and complies with French export control regulations.
 
@@ -52,7 +52,7 @@ Website: https://convertik.ponravilos.ru
 
 DATE: September 7, 2025
 SIGNATURE: [Digital signature to be added]
-NAME: Ivan Uzhas
+NAME: Vladimir Yazydzhi
 TITLE: Developer
 
 SUPPORTING DOCS REQUIRED:

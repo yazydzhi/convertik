@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convertik — Calculateur de devises intelligent</title>
+  <meta name="description" content="Convertik est un calculateur de devises intelligent pour iOS. Fonctionne hors ligne avec mise à jour automatique des taux. Supporte 160+ devises mondiales.">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html">
+        <div class="brand-mark"></div>
+        <div class="brand-text"><strong>Convertik</strong></div>
+      </a>
+      <nav class="nav">
+        <a href="../index.html">RU</a>
+        <a href="../en/index.html">EN</a>
+        <a href="./index.html" class="active">FR</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Changer le thème">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Calculateur de devises intelligent</h1>
+          <p class="hero-subtitle">Convertissez les devises instantanément, même sans internet</p>
+          <div class="hero-actions">
+            <a href="https://apps.apple.com/app/convertik/id1234567890" class="btn btn-primary">
+              <span class="btn-icon">📱</span>
+              Télécharger sur l'App Store
+            </a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="phone-mockup">
+            <img src="../assets/img/screens/1_dark.png" alt="Convertik - Écran principal" class="phone-screen">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features section">
+      <div class="container">
+        <h2>Fonctionnalités principales</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Conversion instantanée</h3>
+            <p>Fonctionne sans internet — convertissez les devises partout</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Mise à jour automatique</h3>
+            <p>Les taux actuels se mettent à jour automatiquement</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>160+ devises</h3>
+            <p>Support de toutes les devises populaires du monde</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Design moderne</h3>
+            <p>Interface iOS moderne avec thème sombre/clair</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screenshots section">
+      <div class="container">
+        <h2>Interface intuitive</h2>
+        <div class="screenshots-grid">
+          <div class="screenshot-item">
+            <img src="../assets/img/screens/1_dark.png" alt="Écran principal - Thème sombre">
+            <p>Écran principal</p>
+          </div>
+          <div class="screenshot-item">
+            <img src="../assets/img/screens/2_dark.png" alt="Paramètres - Thème sombre">
+            <p>Paramètres</p>
+          </div>
+          <div class="screenshot-item">
+            <img src="../assets/img/screens/3_dark.png" alt="Ajout de devises - Thème sombre">
+            <p>Ajout de devises</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Prêt à convertir ?</h2>
+          <p>Téléchargez Convertik et découvrez combien cela coûte vraiment</p>
+          <a href="https://apps.apple.com/app/convertik/id1234567890" class="btn btn-primary btn-large">
+            <span class="btn-icon">📱</span>
+            Télécharger gratuitement
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="./privacy.html">Politique de confidentialité</a>
+        <a href="./data.html">Politique de traitement des données</a>
+        <a href="./terms.html">Conditions d'utilisation</a>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> Convertik</div>
+    </div>
+  </footer>
+
+  <script>
+    const themeKey = 'convertik-theme';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(themeKey);
+    if (saved) root.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

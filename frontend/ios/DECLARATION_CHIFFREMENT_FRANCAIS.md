@@ -5,12 +5,12 @@
 
 ## INFORMATIONS DU DEMANDEUR
 
-**Nom de l'entreprise:** Ponravilos Development  
-**Personne responsable:** Ivan Uzhas  
-**Email:** ivan.uzhas@yandex.com  
-**Téléphone:** [À fournir]  
-**Adresse:** [À fournir]  
-**Pays:** Fédération de Russie  
+**Nom de l'entreprise:** Entrepreneur individuel Vladimir Yazydzhi
+**Personne responsable:** Vladimir Yazydzhi
+**Email:** ivan.uzhas@yandex.com
+**Téléphone:** +381 69 747 528
+**Adresse:** 21107, Serbie, Novi Sad, Mornarska 55, 14
+**Pays:** Serbie
 
 ---
 
@@ -93,7 +93,7 @@ Nous déclarons que l'application Convertik utilise uniquement des algorithmes d
 ## DÉCLARATION LÉGALE ET SIGNATURE
 
 ### Déclaration sur l'honneur
-Je soussigné(e), **Ivan Uzhas**, déclare sur l'honneur que les informations fournies dans ce formulaire sont exactes et complètes. L'application Convertik utilise uniquement des algorithmes de chiffrement standard et est conforme aux réglementations françaises sur le contrôle des exports.
+Je soussigné(e), **Vladimir Yazydzhi**, déclare sur l'honneur que les informations fournies dans ce formulaire sont exactes et complètes. L'application Convertik utilise uniquement des algorithmes de chiffrement standard et est conforme aux réglementations françaises sur le contrôle des exports.
 
 ### Informations de contact
 **Contact principal:** ivan.uzhas@yandex.com  
@@ -101,10 +101,10 @@ Je soussigné(e), **Ivan Uzhas**, déclare sur l'honneur que les informations fo
 **Site web:** https://convertik.ponravilos.ru  
 
 ### Signature
-**Date:** 7 septembre 2025  
-**Signature:** [Signature numérique à ajouter]  
-**Nom:** Ivan Uzhas  
-**Titre:** Développeur  
+**Date:** 7 septembre 2025
+**Signature:** [Signature numérique à ajouter]
+**Nom:** Vladimir Yazydzhi
+**Titre:** Développeur
 
 ---
 
@@ -118,8 +118,8 @@ Je soussigné(e), **Ivan Uzhas**, déclare sur l'honneur que les informations fo
 - [ ] Politique de traitement des données (versions française et anglaise)
 
 ### Informations supplémentaires
-**Email de support:** support@ponravilos.ru  
-**Email juridique:** legal@ponravilos.ru  
+**Email de support:** info@ponravilos.ru
+**Email juridique:** info@ponravilos.ru
 
 ---
 
