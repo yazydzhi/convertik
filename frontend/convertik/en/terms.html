@@ -24,25 +24,62 @@
 
   <main class="legal container section">
     <h1>Terms of Service</h1>
-    <p>Effective date: <strong><span id="date"></span></strong></p>
+    <p>Effective date: <strong>September 7, 2025</strong></p>
+    <p>Document version: <strong>1.0</strong> | App version: <strong>1.0</strong></p>
 
     <h2>1. Acceptance</h2>
-    <p>By using Convertik you agree to these terms.</p>
+    <p>By using the Convertik application (the "App"), you agree to these terms. If you do not agree with the terms, do not use the App.</p>
 
-    <h2>2. Use of the App</h2>
-    <p>You agree to use the App in compliance with applicable laws and without infringing third‑party rights.</p>
+    <h2>2. Service description</h2>
+    <p>Convertik is a mobile application for currency conversion that works offline with periodic exchange rate updates.</p>
     
-    <h2>3. Disclaimer</h2>
-    <p>The App is provided “as is”. While we strive for accuracy, we do not guarantee the absolute correctness of exchange rates.</p>
+    <h2>3. Use of the App</h2>
+    <h3>3.1 Permitted use</h3>
+    <ul>
+      <li>Currency conversion for personal purposes</li>
+      <li>Use in compliance with applicable laws</li>
+      <li>Respect for intellectual property rights</li>
+    </ul>
+    
+    <h3>3.2 Prohibited use</h3>
+    <ul>
+      <li>Commercial use without permission</li>
+      <li>Reverse engineering or decompilation</li>
+      <li>Infringement of third-party rights</li>
+      <li>Use for illegal purposes</li>
+    </ul>
 
-    <h2>4. Ads and purchases</h2>
-    <p>The App may include ads (e.g., via Google AdMob) and purchase mechanics. Third‑party terms apply accordingly.</p>
+    <h2>4. Subscriptions and payments</h2>
+    <h3>4.1 Ads Free subscription</h3>
+    <ul>
+      <li><strong>Price:</strong> 199 ₽/month</li>
+      <li><strong>Auto-renewal:</strong> Subscription automatically renews</li>
+      <li><strong>Cancellation:</strong> Through App Store settings</li>
+      <li><strong>Refunds:</strong> According to Apple policy</li>
+    </ul>
+    
+    <h3>4.2 Subscription management</h3>
+    <p>Subscription management is handled through Apple App Store. We do not process payments directly.</p>
 
-    <h2>5. Changes</h2>
-    <p>We may update these Terms. Continued use constitutes acceptance of the changes.</p>
+    <h2>5. Limitation of liability</h2>
+    <h3>5.1 Disclaimer of warranties</h3>
+    <p>The App is provided "as is". While we strive for accuracy in exchange rates, we do not guarantee absolute correctness of data.</p>
+    
+    <h3>5.2 Limitation of damages</h3>
+    <p>We are not liable for any indirect, incidental, or consequential damages arising from the use of the App.</p>
 
-    <h2>6. Contact</h2>
-    <p><a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+    <h2>6. Intellectual property</h2>
+    <p>All rights to the App, including design, code, and content, belong to us or our licensors.</p>
+
+    <h2>7. Changes to terms</h2>
+    <p>We may update these Terms. We will notify you of significant changes through the app. Continued use constitutes acceptance of the changes.</p>
+
+    <h2>8. Governing law</h2>
+    <p>These Terms are governed by the laws of the Russian Federation.</p>
+
+    <h2>9. Contact</h2>
+    <p><strong>Email:</strong> <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+    <p><strong>Website:</strong> <a href="https://convertik.ponravilos.ru">https://convertik.ponravilos.ru</a></p>
   </main>
 
   <footer class="site-footer">
@@ -67,7 +104,6 @@
       localStorage.setItem(themeKey, next);
     });
     document.getElementById('year').textContent = new Date().getFullYear();
-    document.getElementById('date').textContent = new Date().toISOString().substring(0, 10);
   </script>
 </body>
 </html>

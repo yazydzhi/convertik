@@ -24,31 +24,116 @@
 
   <main class="legal container section">
     <h1>Data Processing Policy</h1>
-    <p>Effective date: <strong><span id="date"></span></strong></p>
+    <p>Effective date: <strong>September 7, 2025</strong></p>
+    <p>Document version: <strong>1.0</strong> | App version: <strong>1.0</strong></p>
 
-    <h2>1. Legal basis</h2>
-    <p>Processing is based on user consent and for the performance of the Terms of Service.</p>
-
-    <h2>2. Processing principles</h2>
+    <h2>1. Legal basis for processing</h2>
+    <h3>1.1 GDPR basis</h3>
     <ul>
-      <li>Lawfulness and transparency</li>
-      <li>Purpose limitation and data minimization</li>
-      <li>Accuracy and currency</li>
-      <li>Storage limitation</li>
-      <li>Integrity and confidentiality</li>
+      <li><strong>Article 6(1)(b)</strong> — contract performance (core app functionality)</li>
+      <li><strong>Article 6(1)(f)</strong> — legitimate interest (analytics, service improvement)</li>
+      <li><strong>Article 6(1)(a)</strong> — consent (marketing analytics, personalization)</li>
+    </ul>
+    
+    <h3>1.2 Russian law basis</h3>
+    <ul>
+      <li>Consent of the data subject</li>
+      <li>Performance of a contract where the data subject is a party</li>
+      <li>Exercise of rights and legitimate interests of the controller</li>
     </ul>
 
-    <h2>3. Data subjects and categories</h2>
-    <p>App users. Categories processed — see Privacy Policy.</p>
+    <h2>2. Data processing principles</h2>
+    <h3>2.1 Core GDPR principles</h3>
+    <ul>
+      <li><strong>Lawfulness</strong> — processing on lawful grounds</li>
+      <li><strong>Fairness and transparency</strong> — fair and transparent processing</li>
+      <li><strong>Purpose limitation</strong> — processing only for stated purposes</li>
+      <li><strong>Data minimization</strong> — processing only necessary data</li>
+      <li><strong>Accuracy</strong> — maintaining data currency</li>
+      <li><strong>Storage limitation</strong> — storing no longer than necessary</li>
+      <li><strong>Integrity and confidentiality</strong> — protection from unauthorized access</li>
+    </ul>
 
-    <h2>4. Third‑party recipients</h2>
-    <p>Analytics and ads partners (e.g., Google AdMob) — only as needed for service operation.</p>
+    <h2>3. Categories of processed data</h2>
+    <h3>3.1 Personal data</h3>
+    <ul>
+      <li>Anonymous device identifier (UUID)</li>
+      <li>Subscription and payment data</li>
+      <li>Contact data (when contacting support)</li>
+    </ul>
+    
+    <h3>3.2 Technical data</h3>
+    <ul>
+      <li>Device model and version</li>
+      <li>Operating system version</li>
+      <li>App version</li>
+      <li>Language settings and region</li>
+    </ul>
+    
+    <h3>3.3 Usage data</h3>
+    <ul>
+      <li>App interaction events</li>
+      <li>User settings</li>
+      <li>Error and crash information</li>
+      <li>Ad interaction data</li>
+    </ul>
 
-    <h2>5. Cross‑border transfers</h2>
-    <p>Possible when using cloud services and strictly in compliance with applicable law.</p>
+    <h2>4. Third-party data recipients</h2>
+    <h3>4.1 Recipient categories</h3>
+    <ul>
+      <li><strong>Google AdMob</strong> — advertising services</li>
+      <li><strong>Apple App Store</strong> — payment processing</li>
+      <li><strong>Cloud providers</strong> — data storage</li>
+      <li><strong>Analytics services</strong> — metrics processing</li>
+    </ul>
+    
+    <h3>4.2 Protection measures for transfers</h3>
+    <ul>
+      <li>Data encryption during transmission (TLS 1.3)</li>
+      <li>Identifier anonymization</li>
+      <li>Minimization of transferred data</li>
+      <li>Compliance with third-party policies</li>
+    </ul>
 
-    <h2>6. Data subject requests</h2>
-    <p><a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+    <h2>5. Cross-border data transfers</h2>
+    <h3>5.1 Transfer conditions</h3>
+    <p>Data may be transferred outside the EEA if there are:</p>
+    <ul>
+      <li>Adequacy decisions</li>
+      <li>Standard contractual clauses</li>
+      <li>Certified protection mechanisms</li>
+    </ul>
+    
+    <h3>5.2 Transfer countries</h3>
+    <ul>
+      <li><strong>USA</strong> — Google AdMob, Apple (with appropriate safeguards)</li>
+      <li><strong>EU</strong> — cloud services</li>
+    </ul>
+
+    <h2>6. Data subject rights</h2>
+    <h3>6.1 GDPR rights</h3>
+    <ul>
+      <li>Right to information and access</li>
+      <li>Right to rectification</li>
+      <li>Right to erasure ("right to be forgotten")
+      <li>Right to restriction of processing</li>
+      <li>Right to data portability</li>
+      <li>Right to object</li>
+      <li>Rights regarding automated decisions</li>
+    </ul>
+    
+    <h3>6.2 Exercising rights</h3>
+    <p>To exercise your rights, contact: <a href="mailto:privacy@ponravilos.ru">privacy@ponravilos.ru</a></p>
+    <p>Response time: 30 days from request receipt</p>
+
+    <h2>7. Contacts</h2>
+    <h3>7.1 Data controller</h3>
+    <p><strong>Email:</strong> <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+    <p><strong>Specialized contacts:</strong></p>
+    <ul>
+      <li><strong>Data processing questions:</strong> <a href="mailto:privacy@ponravilos.ru">privacy@ponravilos.ru</a></li>
+      <li><strong>Data subject rights:</strong> <a href="mailto:rights@ponravilos.ru">rights@ponravilos.ru</a></li>
+    </ul>
   </main>
 
   <footer class="site-footer">
@@ -73,7 +158,6 @@
       localStorage.setItem(themeKey, next);
     });
     document.getElementById('year').textContent = new Date().getFullYear();
-    document.getElementById('date').textContent = new Date().toISOString().substring(0, 10);
   </script>
 </body>
 </html>
