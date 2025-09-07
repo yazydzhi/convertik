@@ -33,12 +33,19 @@
 
 ### Структура репозитория
 ```
-frontend/ios/            # Swift‑код приложения
-  ├ Convertik/           # Исходный код
-  ├ project.yml          # Конфигурация xcodegen
-  ├ Info.plist           # Настройки приложения
-  └ Convertik.xcodeproj/ # Сгенерированный проект
-backend/                  # FastAPI‑сервер
+frontend/
+├── ios/                  # Swift‑код приложения
+│   ├ Convertik/          # Исходный код
+│   ├ project.yml         # Конфигурация xcodegen
+│   ├ Info.plist          # Настройки приложения
+│   └ Convertik.xcodeproj/ # Сгенерированный проект
+└── convertik/            # Веб‑лендинг
+    ├ index.html          # Главная страница
+    ├ privacy.html         # Политика конфиденциальности
+    ├ terms.html           # Условия использования
+    ├ en/                  # Английская версия
+    └ assets/              # CSS, изображения, иконки
+backend/                   # FastAPI‑сервер
   ├ app/
   │ ├ routes/rates.py
   │ ├ routes/stats.py
@@ -89,8 +96,10 @@ uvicorn app.main:app --reload
 
 🌐 **Live API:** https://convertik.ponravilos.ru  
 📖 **Документация:** https://convertik.ponravilos.ru/docs  
+🌍 **Веб-лендинг:** https://convertik.ponravilos.ru/  
 
-Для деплоя на сервер см. [backend/README_DEPLOY.md](backend/README_DEPLOY.md)
+Для деплоя на сервер см. [backend/README_DEPLOY.md](backend/README_DEPLOY.md)  
+Для веб-лендинга см. [frontend/convertik/README.md](frontend/convertik/README.md)
 
 ### Аналитика и push
 * **AppMetrica / Firebase** — сбор DAU/MAU, конверсий, крашей.  
