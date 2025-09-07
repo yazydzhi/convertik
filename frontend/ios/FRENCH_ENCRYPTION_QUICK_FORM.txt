@@ -1,0 +1,63 @@
+FRENCH ENCRYPTION DECLARATION - QUICK FORM
+==========================================
+
+APPLICANT:
+Company: Ponravilos Development
+Contact: Ivan Uzhas
+Email: ivan.uzhas@yandex.com
+Phone: [To be provided]
+Country: Russian Federation
+
+APPLICATION:
+Name: Convertik
+Bundle ID: com.yazydzhi.Convertik
+Version: 2.1
+Platform: iOS
+
+ENCRYPTION DECLARATION:
+☑ Standard encryption algorithms only
+
+TECHNOLOGIES USED:
+- HTTPS/TLS (IETF standard protocols)
+- CoreData encryption (Apple's AES implementation)
+- Keychain Services (Apple's encryption)
+- StoreKit2 (Apple's RSA/ECC)
+- AdMob HTTPS (standard TLS)
+
+COMPLIANCE STATEMENT:
+We declare that Convertik uses only standard encryption algorithms 
+provided by Apple's operating system and does not implement any 
+proprietary or restricted encryption algorithms.
+
+FRENCH REGULATIONS COMPLIANCE:
+☑ Uses only standard encryption algorithms
+☑ No proprietary or military encryption implemented
+☑ Compliant with French export control regulations
+☑ Intended for commercial consumer use
+
+REGULATION REFERENCES:
+- French: Décret n° 2012-901 du 20 juillet 2012
+- European: Règlement (UE) 2021/821
+- Category: Civil-use encryption software
+
+DECLARATION:
+I, Ivan Uzhas, declare under penalty of perjury that the information 
+provided is accurate and complete. Convertik uses only standard 
+encryption algorithms and complies with French export control regulations.
+
+CONTACT:
+Primary: ivan.uzhas@yandex.com
+Secondary: convertik@ponravilos.ru
+Website: https://convertik.ponravilos.ru
+
+DATE: September 7, 2025
+SIGNATURE: [Digital signature to be added]
+NAME: Ivan Uzhas
+TITLE: Developer
+
+SUPPORTING DOCS REQUIRED:
+- Apple App Store Connect encryption declaration screenshot
+- Technical documentation
+- Privacy Policy (FR/EN)
+- Terms of Service (FR/EN)
+- Data Processing Policy (FR/EN)
