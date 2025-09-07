@@ -23,7 +23,7 @@ struct PaywallView: View {
                 .padding()
             }
             .background(themeManager.background)
-            .navigationTitle("Premium")
+            .navigationTitle("Ads Free")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -50,11 +50,13 @@ struct PaywallView: View {
 
     private var headerSection: some View {
         VStack(spacing: 16) {
-            Image(systemName: "crown.fill")
-                .font(.system(size: 60))
-                .foregroundColor(themeManager.amberAccent)
+            // Используем сгенерированную звезду вместо короны
+            Image("star_premium_v2")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 80, height: 80)
 
-            Text("Convertik Premium")
+            Text("Convertik Ads Free")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
@@ -93,39 +95,64 @@ struct PaywallView: View {
     }
 
     private var purchaseSection: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             if let product = storeService.monthlyProduct {
+                // Основная кнопка подписки
                 Button {
                     purchaseProduct(product)
                 } label: {
-                    HStack {
-                        Text("Подписаться")
-                            .fontWeight(.semibold)
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Подписаться")
+                                .fontWeight(.semibold)
+                                .font(.headline)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(product.displayPrice)
-                            .fontWeight(.semibold)
+                            Text(product.displayPrice)
+                                .fontWeight(.bold)
+                                .font(.headline)
+                        }
+                        .foregroundColor(.white)
+                        
+                        Text("в месяц")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.9))
                     }
-                    .foregroundColor(.white)
-                    .padding()
+                    .padding(.vertical, 16)
+                    .padding(.horizontal, 20)
                     .background(themeManager.accentGradient)
                     .cornerRadius(12)
                 }
                 .disabled(isLoading)
 
-                Text("199 ₽ в месяц, автопродление")
-                    .font(.caption)
-                    .foregroundColor(themeManager.textSecondary)
+                // Информация о подписке
+                VStack(spacing: 4) {
+                    Text("Автоматическое продление")
+                        .font(.caption)
+                        .foregroundColor(themeManager.textSecondary)
+                    
+                    Text("Отменить можно в настройках Apple ID")
+                        .font(.caption2)
+                        .foregroundColor(themeManager.textSecondary)
+                }
             } else {
-                ProgressView("Загрузка...")
-                    .frame(height: 50)
+                VStack(spacing: 12) {
+                    ProgressView("Загрузка...")
+                        .frame(height: 50)
+                    
+                    Text("Получение информации о подписке")
+                        .font(.caption)
+                        .foregroundColor(themeManager.textSecondary)
+                }
             }
 
+            // Кнопка восстановления покупок
             Button("Восстановить покупки") {
                 restorePurchases()
             }
             .foregroundColor(themeManager.amberAccent)
+            .font(.subheadline)
             .disabled(isLoading)
         }
         .overlay {
@@ -138,19 +165,43 @@ struct PaywallView: View {
     }
 
     private var disclaimerSection: some View {
-        VStack(spacing: 8) {
-            Text("Подписка автоматически продлевается. Отменить можно в настройках Apple ID.")
-                .font(.caption)
-                .foregroundColor(themeManager.textSecondary)
-                .multilineTextAlignment(.center)
-
-            HStack(spacing: 16) {
-                Link("Условия", destination: URL(string: "https://convertik.app/terms")!)
-                Link("Конфиденциальность", destination: URL(string: "https://convertik.app/privacy")!)
+        VStack(spacing: 12) {
+            // Основная информация о подписке
+            VStack(spacing: 4) {
+                Text("Подписка автоматически продлевается")
+                    .font(.caption)
+                    .foregroundColor(themeManager.textSecondary)
+                    .multilineTextAlignment(.center)
+                
+                Text("Отменить можно в настройках Apple ID")
+                    .font(.caption2)
+                    .foregroundColor(themeManager.textSecondary)
+                    .multilineTextAlignment(.center)
             }
-            .font(.caption)
-            .foregroundColor(themeManager.amberAccent)
+
+            // Ссылки на условия и политики
+            VStack(spacing: 8) {
+                HStack(spacing: 20) {
+                    Link("Условия использования", destination: URL(string: "https://convertik.ponravilos.ru/terms.html")!)
+                        .font(.caption)
+                        .foregroundColor(themeManager.amberAccent)
+                    
+                    Text("•")
+                        .font(.caption)
+                        .foregroundColor(themeManager.textSecondary)
+                    
+                    Link("Политика конфиденциальности", destination: URL(string: "https://convertik.ponravilos.ru/privacy.html")!)
+                        .font(.caption)
+                        .foregroundColor(themeManager.amberAccent)
+                }
+                
+                Link("Политика обработки персональных данных", destination: URL(string: "https://convertik.ponravilos.ru/data.html")!)
+                    .font(.caption)
+                    .foregroundColor(themeManager.amberAccent)
+            }
+            .multilineTextAlignment(.center)
         }
+        .padding(.top, 8)
     }
 
     // MARK: - Actions

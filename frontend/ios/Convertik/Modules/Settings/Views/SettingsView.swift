@@ -20,19 +20,21 @@ struct SettingsView: View {
                         }
                 }
 
-                // Раздел Premium
-                Section("Premium") {
+                // Раздел отключения рекламы
+                Section("Отключить рекламу") {
                     Button {
                         showingPaywall = true
                         analyticsService.trackPremiumViewed()
                     } label: {
                         HStack {
-                            Image(systemName: "crown.fill")
-                                .foregroundStyle(themeManager.accentGradient)
-                                .frame(width: 24)
+                            // Используем сгенерированную звезду
+                            Image("star_premium_v2")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 24, height: 24)
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Convertik Premium")
+                                Text("Convertik Ads Free")
                                     .foregroundColor(themeManager.textPrimary)
 
                                 if settingsService.isPremium {
@@ -40,7 +42,7 @@ struct SettingsView: View {
                                         .font(.caption)
                                         .foregroundColor(themeManager.amberAccent)
                                 } else {
-                                    Text("Отключить рекламу • 199 ₽/мес")
+                                    Text("Убрать рекламу и получить полный доступ")
                                         .font(.caption)
                                         .foregroundColor(themeManager.textSecondary)
                                 }
@@ -63,7 +65,7 @@ struct SettingsView: View {
 
                 // Раздел информации
                 Section("Информация") {
-                    Link(destination: URL(string: "https://convertik.app/privacy")!) {
+                    Link(destination: URL(string: "https://convertik.ponravilos.ru/privacy.html")!) {
                         HStack {
                             Image(systemName: "hand.raised.fill")
                                 .foregroundColor(themeManager.lilacHighlight)
@@ -80,13 +82,30 @@ struct SettingsView: View {
                         }
                     }
 
-                    Link(destination: URL(string: "https://convertik.app/terms")!) {
+                    Link(destination: URL(string: "https://convertik.ponravilos.ru/terms.html")!) {
                         HStack {
                             Image(systemName: "doc.text.fill")
-                                .foregroundColor(themeManager.amberAccent)
+                                .foregroundColor(themeManager.lilacHighlight)
                                 .frame(width: 24)
 
                             Text("Условия использования")
+                                .foregroundColor(themeManager.textPrimary)
+
+                            Spacer()
+
+                            Image(systemName: "arrow.up.right")
+                                .font(.caption)
+                                .foregroundColor(themeManager.textSecondary)
+                        }
+                    }
+
+                    Link(destination: URL(string: "https://convertik.ponravilos.ru/data.html")!) {
+                        HStack {
+                            Image(systemName: "shield.fill")
+                                .foregroundColor(themeManager.lilacHighlight)
+                                .frame(width: 24)
+
+                            Text("Политика обработки персональных данных")
                                 .foregroundColor(themeManager.textPrimary)
 
                             Spacer()

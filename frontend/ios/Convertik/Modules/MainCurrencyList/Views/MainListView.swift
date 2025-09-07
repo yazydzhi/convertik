@@ -19,7 +19,7 @@ struct MainListView: View {
                 // Список валют с полями ввода
                 currencyListSection
 
-                // Баннер рекламы (если не Premium)
+                // Баннер рекламы (если не Ads Free)
                 if !storeService.isPremium {
                     AdBannerContainerView()
                         .onAppear {
@@ -206,7 +206,7 @@ struct MainListView: View {
     private func triggerAdIfNeeded(action: @escaping () -> Void) {
         adTriggerCount += 1
         
-        // Показываем рекламу каждые 3 действия (если не Premium)
+        // Показываем рекламу каждые 3 действия (если не Ads Free)
         if !storeService.isPremium && adTriggerCount % 3 == 0 && interstitialService.isReady {
             // Получаем root view controller для показа рекламы
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

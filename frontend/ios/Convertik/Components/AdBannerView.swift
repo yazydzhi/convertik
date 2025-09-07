@@ -11,14 +11,14 @@ struct AdBannerView: View {
                     Image(systemName: "megaphone.fill")
                         .foregroundColor(themeManager.amberAccent)
 
-                    Text("Реклама • Уберите её с Premium")
+                    Text("Реклама • Уберите её с Ads Free")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
 
                     Spacer()
 
                     Button("Убрать") {
-                        // Переход к экрану Premium
+                        // Переход к экрану Ads Free
                     }
                     .font(.caption)
                     .foregroundColor(themeManager.amberAccent)

@@ -19,6 +19,7 @@
 		30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */; };
 		317DFF6066A9CC4F7032B311 /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9E0E86D99C1352D92E139 /* ThemeService.swift */; };
 		394FAE3B16182B97A9E5AB36 /* RatesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B702A6BB882C5E80F08E0946 /* RatesRepository.swift */; };
+		3B98D2292E6C92B70023F8E1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B98D2282E6C92B70023F8E1 /* StoreKit.framework */; };
 		445855EBDB6D64A7E92C4FC9 /* ConvertikDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C06E3EA188107AA572C815BD /* ConvertikDataModel.xcdatamodeld */; };
 		44F8AD80F19AC341E577DBF1 /* AdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D84348B0424DE7F836E0A4 /* AdConfig.swift */; };
 		494E156B5D9F8CE039E39389 /* InterstitialAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A09C2BF894B84AC3983A0A7 /* InterstitialAdView.swift */; };
@@ -35,7 +36,6 @@
 		9BC087DF57859084AF099968 /* Pods_Convertik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA7A5B97B6C4F2C9608033AE /* Pods_Convertik.framework */; };
 		B60BC683B933A594007EC707 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */; };
 		B73941EEDBDFEF590ED1825C /* MainListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500B712C20EAD921F549D121 /* MainListView.swift */; };
-		C439F7AFC352827201D598F9 /* AdUsageExamples.swift.bak in Resources */ = {isa = PBXBuildFile; fileRef = 8F489FDF2F9E91294B08B876 /* AdUsageExamples.swift.bak */; };
 		C6084E773F4DF76BA50AE61D /* AdBannerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DB194544F7A0CBEB93C5D2 /* AdBannerRepresentable.swift */; };
 		D0DC1E84340142E9623A8773 /* Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34595F1F0E2E1951ED9BA3D /* Rate.swift */; };
 		D315ECC53E9CDB4D40642BAF /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C60DB4F9775E4EBA8FA59A /* ColorPalette.swift */; };
@@ -58,6 +58,8 @@
 		2A1B2B61DCAF110550897C8A /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		3265FDF798774107AFE72B12 /* BackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundService.swift; sourceTree = "<group>"; };
 		39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
+		3B98D2282E6C92B70023F8E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3B98D22B2E6C931D0023F8E1 /*  test_config .storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = " test_config .storekit"; sourceTree = "<group>"; };
 		44174054BC9B82F8B106F95C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		48C60DB4F9775E4EBA8FA59A /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		4A04636B9485BA6486314D9E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -68,7 +70,6 @@
 		63AB90973C1D33E9E20862F9 /* Pods-Convertik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debug.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"; sourceTree = "<group>"; };
 		68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		8F489FDF2F9E91294B08B876 /* AdUsageExamples.swift.bak */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdUsageExamples.swift.bak; sourceTree = "<group>"; };
 		AB10EB238E92F1D9E0096C61 /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
 		AFD2C577D0DE55594174D842 /* ConvertikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikApp.swift; sourceTree = "<group>"; };
 		B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BC087DF57859084AF099968 /* Pods_Convertik.framework in Frameworks */,
+				3B98D2292E6C92B70023F8E1 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +127,7 @@
 		1F48656B267F839A4F542F5E = {
 			isa = PBXGroup;
 			children = (
+				3B98D22B2E6C931D0023F8E1 /*  test_config .storekit */,
 				D34D63D91BAE744CAEAFFA58 /* Convertik */,
 				25C6848C13264F8C54A7F4C4 /* Products */,
 				C2EA18D69FE8F66BA52932DA /* Pods */,
@@ -143,7 +146,6 @@
 		2D460D77416E941C1964E990 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				8F489FDF2F9E91294B08B876 /* AdUsageExamples.swift.bak */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -277,6 +279,7 @@
 		D1C5E23118A339B017765D87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3B98D2282E6C92B70023F8E1 /* StoreKit.framework */,
 				EA7A5B97B6C4F2C9608033AE /* Pods_Convertik.framework */,
 			);
 			name = Frameworks;
@@ -381,7 +384,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C439F7AFC352827201D598F9 /* AdUsageExamples.swift.bak in Resources */,
 				2393D02538B9B19C30B8BBAF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,13 +399,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -1,0 +1,26 @@
+ENCRYPTION DECLARATION - CONVERTIK
+
+App Name: Convertik
+Bundle ID: com.yazydzhi.Convertik
+Version: 2.1
+
+ENCRYPTION TYPE: Standard encryption algorithms only
+
+DETAILS:
+- HTTPS/TLS for API communication (standard IETF protocols)
+- CoreData encryption for local storage (Apple's AES implementation)
+- Keychain Services for sensitive data (Apple's encryption)
+- StoreKit2 for secure purchases (Apple's RSA/ECC)
+- AdMob HTTPS communication (standard TLS)
+
+COMPLIANCE:
+- Uses only Apple's standard encryption frameworks
+- No proprietary or custom encryption algorithms
+- Compliant with French export control regulations
+- Standard commercial encryption for consumer app
+
+DECLARATION:
+We declare that Convertik uses only standard encryption algorithms provided by Apple's operating system and does not implement any proprietary or restricted encryption algorithms.
+
+Contact: convertik@ponravilos.ru
+Date: September 6, 2025

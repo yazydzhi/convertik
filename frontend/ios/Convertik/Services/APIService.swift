@@ -8,7 +8,7 @@ final class APIService {
 
     private init() {
         // Продакшн backend
-        self.baseURL = URL(string: "https://convertik.ponravilos.ru/api/v1")!
+        self.baseURL = URL(string: "https://api.convertik.ponravilos.ru/api/v1")!
 
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
