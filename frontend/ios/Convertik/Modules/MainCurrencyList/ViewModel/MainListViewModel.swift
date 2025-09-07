@@ -60,6 +60,15 @@ final class MainListViewModel: ObservableObject {
             return
         }
 
+        // Отслеживаем конвертацию только если сумма больше 0
+        if value > 0 {
+            analyticsService.trackConversion(
+                from: "RUB",
+                to: currencyCode,
+                amount: value
+            )
+        }
+
         // Обновляем значение для активной валюты
         if let index = displayedCurrencies.firstIndex(where: { $0.rate.code == currencyCode }) {
             displayedCurrencies[index].inputAmount = value

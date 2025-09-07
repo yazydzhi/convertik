@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convertik — умный калькулятор валют</title>
+  <meta name="description" content="Convertik — быстрый и красивый калькулятор валют с актуальными курсами, избранным списком валют и тёмной темой.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#1A1324">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <strong>Convertik</strong>
+          <span>умный калькулятор валют</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html" class="active">RU</a>
+        <a href="./en/index.html">EN</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>Калькулятор валют — быстро, точно, красиво</h1>
+        <p class="lead">Актуальные курсы, избранные валюты с сортировкой, тёмная тема и плавный интерфейс. Премиум-доступ без рекламы для поддержки серверов с курсами валют.</p>
+              <div class="cta-row">
+        <a class="btn btn-primary" href="https://apps.apple.com/ge/app/id1663726480" target="_blank" rel="noopener">Скачать в App Store</a>
+        <a class="btn btn-secondary" href="#features">Особенности</a>
+      </div>
+      </div>
+      <div class="hero-screenshots">
+        <div class="iphone-frame">
+          <div class="iphone-screen">
+            <div class="screenshot-carousel">
+              <div class="screenshot active" data-theme="light">
+                <img src="./assets/img/screens/1_white.png" alt="Convertik - главный экран">
+              </div>
+              <div class="screenshot" data-theme="light">
+                <img src="./assets/img/screens/2_white.png" alt="Convertik - конвертация">
+              </div>
+              <div class="screenshot" data-theme="dark">
+                <img src="./assets/img/screens/1_dark.png" alt="Convertik - темная тема">
+              </div>
+              <div class="screenshot" data-theme="dark">
+                <img src="./assets/img/screens/2_dark.png" alt="Convertik - темная тема конвертация">
+              </div>
+              <div class="screenshot" data-theme="dark">
+                <img src="./assets/img/screens/3_dark.png" alt="Convertik - настройки">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn active" data-slide="0"></button>
+          <button class="carousel-btn" data-slide="1"></button>
+          <button class="carousel-btn" data-slide="2"></button>
+          <button class="carousel-btn" data-slide="3"></button>
+          <button class="carousel-btn" data-slide="4"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features section">
+    <div class="container">
+      <h2>Почему Convertik</h2>
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="feature-icon">⚡️</div>
+          <h3>Мгновенно</h3>
+          <p>Высокая скорость и точные расчёты на лету, без лишних действий.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">✨</div>
+          <h3>Визуально</h3>
+          <p>Палитра Velvet Sunset, приятные тени и аккуратная типографика.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌙</div>
+          <h3>Тёмная тема</h3>
+          <p>Автоматически или вручную — переключение в один тап.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⭐️</div>
+          <h3>Избранные валюты</h3>
+          <p>Быстрый доступ к нужным валютам с сортировкой и удобный поиск.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download" class="download section">
+    <div class="container">
+      <h2>Скачать приложение</h2>
+      <p class="muted">Доступно в App Store</p>
+      <a class="btn btn-primary btn-lg" href="https://apps.apple.com/ge/app/id1663726480" target="_blank" rel="noopener">Открыть в App Store</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="./privacy.html">Политика конфиденциальности</a>
+        <a href="./data.html">Политика обработки данных</a>
+        <a href="./terms.html">Пользовательское соглашение</a>
+      </div>
+      <div class="footer-meta">
+        <span>© <span id="year"></span> Convertik</span>
+        <span>Поддержка: <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeKey = 'convertik-theme';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(themeKey);
+    if (saved) root.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Carousel functionality
+    const carousel = document.querySelector('.screenshot-carousel');
+    const screenshots = carousel.querySelectorAll('.screenshot');
+    const controls = document.querySelectorAll('.carousel-btn');
+    
+    controls.forEach((btn, index) => {
+      btn.addEventListener('click', () => {
+        screenshots.forEach(s => s.classList.remove('active'));
+        controls.forEach(b => b.classList.remove('active'));
+        screenshots[index].classList.add('active');
+        btn.classList.add('active');
+      });
+    });
+    
+    // Auto-advance carousel
+    let currentSlide = 0;
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % screenshots.length;
+      screenshots.forEach(s => s.classList.remove('active'));
+      controls.forEach(b => b.classList.remove('active'));
+      screenshots[currentSlide].classList.add('active');
+      controls[currentSlide].classList.add('active');
+    }, 4000);
+  </script>
+</body>
+</html>
+
+

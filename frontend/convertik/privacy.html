@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Политика конфиденциальности — Convertik</title>
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html">
+        <div class="brand-mark"></div>
+        <div class="brand-text"><strong>Convertik</strong></div>
+      </a>
+      <nav class="nav">
+        <a href="./privacy.html" class="active">RU</a>
+        <a href="./en/privacy.html">EN</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal container section">
+    <h1>Политика конфиденциальности</h1>
+    <p>Дата вступления в силу: <strong><span id="date"></span></strong></p>
+
+    <h2>1. Общие положения</h2>
+    <p>Настоящая Политика конфиденциальности описывает, как приложение Convertik (далее — «Приложение») обрабатывает и защищает персональные данные пользователей.</p>
+
+    <h2>2. Какие данные мы обрабатываем</h2>
+    <ul>
+      <li>Данные об использовании приложения (анонимная аналитика)</li>
+      <li>Технические данные устройства (модель, версия ОС)</li>
+      <li>Настройки приложения (выбранные валюты, тема)</li>
+    </ul>
+
+    <h2>3. Цели обработки</h2>
+    <ul>
+      <li>Обеспечение функциональности Приложения</li>
+      <li>Улучшение качества и стабильности</li>
+      <li>Аналитика и диагностика ошибок</li>
+    </ul>
+
+    <h2>4. Передача третьим лицам</h2>
+    <p>Мы можем использовать сторонние сервисы аналитики и рекламы (например, Google AdMob) с соблюдением их политик и требований. Передача данных осуществляется в объёме, необходимом для работы этих сервисов.</p>
+
+    <h2>5. Хранение и защита данных</h2>
+    <p>Мы принимаем разумные меры для защиты данных. Срок хранения определяется целями обработки и требованиями законодательства.</p>
+
+    <h2>6. Права пользователя</h2>
+    <p>Вы можете запросить доступ, исправление или удаление персональных данных, связавшись с нами по адресу: <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a>.</p>
+
+    <h2>7. Контакты</h2>
+    <p>По вопросам конфиденциальности: <a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="./privacy.html">Политика конфиденциальности</a>
+        <a href="./data.html">Политика обработки данных</a>
+        <a href="./terms.html">Пользовательское соглашение</a>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> Convertik</div>
+    </div>
+  </footer>
+
+  <script>
+    const themeKey = 'convertik-theme';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(themeKey);
+    if (saved) root.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('date').textContent = new Date().toISOString().substring(0, 10);
+  </script>
+</body>
+</html>
+
+

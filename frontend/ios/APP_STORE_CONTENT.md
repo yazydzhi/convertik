@@ -49,6 +49,22 @@
 валюта, пересчет, расчет, курс, деньги, рубли, доллары, евро, офлайн, без интернета, конвертация
 ```
 
+### Privacy Policy (Политика конфиденциальности)
+
+```
+СБОР ДАННЫХ
+
+Приложение собирает минимально необходимые данные для улучшения работы:
+
+• Анонимная аналитика использования (без персональных данных)
+• Статистика конвертации валют для оптимизации курсов
+• Информация об ошибках для исправления багов
+• Данные о подписках для обработки платежей
+
+Все данные анонимны и не содержат персональной информации.
+Полная политика: https://convertik.ponravilos.ru/privacy.html
+```
+
 ---
 
 ## 🇺🇸 ENGLISH LANGUAGE
@@ -64,13 +80,56 @@
 ### Description
 
 ```
-я
+CONVERTIK - CURRENCY CONVERSION WITHOUT INTERNET
+
+Everyone knows the price of things in their "native" currency. But in a new country, it's hard to recalculate prices in your head. Convertik solves this problem in seconds!
+
+⚡ INSTANT CONVERSION
+• Works without internet - convert currencies anywhere
+• Current rates update automatically
+• Support for 160+ world currencies
+
+🎨 BEAUTIFUL DESIGN
+• Modern iOS-style interface
+• Dark and light theme
+• Smooth animations and transitions
+• Intuitive controls
+
+🚀 FAST WORK
+• Instant calculations
+• Easy currency addition
+• Convenient list sorting
+• Quick access to frequently used currencies
+
+💎 ADDITIONAL FEATURES
+• Ad removal (Ads Free)
+• Support for all popular currencies
+• Regular rate updates
+• Optimized for all iPhones
+
+Find out how much it really costs, don't let yourself be deceived!
 ```
 
 ### Keywords
 
 ```
 currency, conversion, calculation, rate, money, rubles, dollars, euros, offline, without internet, exchange
+```
+
+### Privacy Policy
+
+```
+DATA COLLECTION
+
+The app collects minimal necessary data to improve functionality:
+
+• Anonymous usage analytics (no personal data)
+• Currency conversion statistics to optimize exchange rates
+• Error information to fix bugs
+• Subscription data for payment processing
+
+All data is anonymous and contains no personal information.
+Full policy: https://convertik.ponravilos.ru/privacy.html
 ```
 
 ---
@@ -117,6 +176,7 @@ currency, conversion, calculation, rate, money, rubles, dollars, euros, offline,
 - [X] Promotional Text (RU/EN)
 - [X] Description (RU/EN)
 - [X] Keywords (RU/EN)
+- [X] Privacy Policy (RU/EN)
 - [X] Screenshots (1242×2688px)
 - [X] App Icon (1024×1024px)
 - [X] Subscription Icon (1024×1024px)

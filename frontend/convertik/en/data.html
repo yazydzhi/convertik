@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Processing Policy — Convertik</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./index.html">
+        <div class="brand-mark"></div>
+        <div class="brand-text"><strong>Convertik</strong></div>
+      </a>
+      <nav class="nav">
+        <a href="../data.html">RU</a>
+        <a href="./data.html" class="active">EN</a>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌓</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal container section">
+    <h1>Data Processing Policy</h1>
+    <p>Effective date: <strong><span id="date"></span></strong></p>
+
+    <h2>1. Legal basis</h2>
+    <p>Processing is based on user consent and for the performance of the Terms of Service.</p>
+
+    <h2>2. Processing principles</h2>
+    <ul>
+      <li>Lawfulness and transparency</li>
+      <li>Purpose limitation and data minimization</li>
+      <li>Accuracy and currency</li>
+      <li>Storage limitation</li>
+      <li>Integrity and confidentiality</li>
+    </ul>
+
+    <h2>3. Data subjects and categories</h2>
+    <p>App users. Categories processed — see Privacy Policy.</p>
+
+    <h2>4. Third‑party recipients</h2>
+    <p>Analytics and ads partners (e.g., Google AdMob) — only as needed for service operation.</p>
+
+    <h2>5. Cross‑border transfers</h2>
+    <p>Possible when using cloud services and strictly in compliance with applicable law.</p>
+
+    <h2>6. Data subject requests</h2>
+    <p><a href="mailto:convertik@ponravilos.ru">convertik@ponravilos.ru</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./data.html">Data Processing Policy</a>
+        <a href="./terms.html">Terms of Service</a>
+      </div>
+      <div class="footer-meta">© <span id="year"></span> Convertik</div>
+    </div>
+  </footer>
+
+  <script>
+    const themeKey = 'convertik-theme';
+    const root = document.documentElement;
+    const saved = localStorage.getItem(themeKey);
+    if (saved) root.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(themeKey, next);
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('date').textContent = new Date().toISOString().substring(0, 10);
+  </script>
+</body>
+</html>
+
+
