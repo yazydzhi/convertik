@@ -170,3 +170,4 @@ I, **Vladimir Yazydzhi**, acting as the authorized representative of the softwar
 ---
 
 **Note:** This declaration is submitted in English for international processing. French translation is available in the corresponding French version of this document.
+
