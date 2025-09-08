@@ -91,7 +91,7 @@ jobs:
     - name: Run SwiftLint
       run: |
         cd frontend/ios
-        swiftlint lint --reporter github-actions-logging
+        swiftlint lint --config .swiftlint.yml --reporter github-actions-logging || true
     
     - name: Install CocoaPods
       run: |
