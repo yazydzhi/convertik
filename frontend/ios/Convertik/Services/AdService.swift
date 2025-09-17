@@ -21,9 +21,15 @@ class AdService: ObservableObject {
     }
     
     private func setupAds() {
-        MobileAds.shared.start { status in
-            print("Google Mobile Ads SDK initialization status: \(status)")
-        }
+        print("🎯 AdService: Setting up ads with Banner ID: \(bannerAdUnitID)")
+        print("🎯 AdService: Setting up ads with Interstitial ID: \(interstitialAdUnitID)")
+        
+        // Выводим отладочную информацию
+        print("🔍 AdService Debug Info:")
+        print("🔍 App ID: \(AdConfig.appID)")
+        print("🔍 Banner Ad Unit ID: \(bannerAdUnitID)")
+        print("🔍 Interstitial Ad Unit ID: \(interstitialAdUnitID)")
+        
         loadInterstitialAd()
     }
     

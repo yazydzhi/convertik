@@ -7,7 +7,7 @@ struct AdConfig {
         #if DEBUG
         static let mainBottom = "ca-app-pub-3940256099942544/2934735716" // Test ID
         #else
-        static let mainBottom = "ca-app-pub-xxx/banner_main_bottom" // Production ID
+        static let mainBottom = "ca-app-pub-3963008621997262/6595790670" // Production ID
         #endif
     }
     
@@ -16,7 +16,7 @@ struct AdConfig {
         #if DEBUG
         static let main = "ca-app-pub-3940256099942544/4411468910" // Test ID
         #else
-        static let main = "ca-app-pub-xxx/interstitial_main" // Production ID
+        static let main = "ca-app-pub-3963008621997262/7703529229" // Production ID
         #endif
     }
     
@@ -33,7 +33,7 @@ struct AdConfig {
     #if DEBUG
     static let appID = "ca-app-pub-3940256099942544~1458002511" // Test App ID
     #else
-    static let appID = "ca-app-pub-xxx~app_id" // Production App ID
+    static let appID = "ca-app-pub-3963008621997262~7232833541" // Production App ID
     #endif
     
     // MARK: - Ad Frequency Settings

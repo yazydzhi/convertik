@@ -16,18 +16,23 @@ class InterstitialAdService: ObservableObject {
     }
     
     private func loadAd() {
+        print("🎯 InterstitialAdService: Loading interstitial ad with ID: \(adUnitID)")
         let request = Request()
         InterstitialAd.load(with: adUnitID, request: request) { [weak self] ad, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("Failed to load interstitial ad: \(error.localizedDescription)")
+                    print("❌ Interstitial ad failed to load!")
+                    print("❌ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
+                    print("❌ Error: \(error.localizedDescription)")
+                    print("❌ Error details: \(error)")
                     self?.isReady = false
                     return
                 }
                 
                 self?.interstitialAd = ad
                 self?.isReady = true
-                print("Interstitial ad loaded successfully")
+                print("✅ Interstitial ad loaded successfully!")
+                print("✅ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
             }
         }
     }

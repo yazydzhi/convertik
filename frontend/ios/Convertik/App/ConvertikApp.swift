@@ -11,8 +11,18 @@ struct ConvertikApp: App {
     @StateObject private var analyticsService = AnalyticsService.shared
 
     init() {
+        // Настройка тестовых устройств для AdMob
+        #if DEBUG
+        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [
+            "2077ef9a63d2b398840261c8221a0c9b" // Симулятор iOS
+        ]
+        #endif
+        
         MobileAds.shared.start { status in
-            print("Google Mobile Ads SDK initialization status: \(status)")
+            print("🚀 Google Mobile Ads SDK initialization status: \(status)")
+            print("🚀 AdMob App ID: \(AdConfig.appID)")
+            print("🚀 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
+            print("🚀 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
         }
     }
 

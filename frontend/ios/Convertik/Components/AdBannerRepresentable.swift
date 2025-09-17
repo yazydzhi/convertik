@@ -11,8 +11,13 @@ struct AdBannerRepresentable: UIViewRepresentable {
         bannerView.rootViewController = context.coordinator.getRootViewController()
         bannerView.delegate = context.coordinator
         
+        print("📱 AdBannerRepresentable: Creating banner with Ad Unit ID: \(adService.bannerAdUnitID)")
+        print("📱 AdBannerRepresentable: Root view controller: \(context.coordinator.getRootViewController() != nil ? "Found" : "Not found")")
+        
         // Загружаем рекламу
         let request = Request()
+        
+        print("📱 AdBannerRepresentable: Loading banner ad...")
         bannerView.load(request)
         
         return bannerView
@@ -45,6 +50,8 @@ struct AdBannerRepresentable: UIViewRepresentable {
         
         func bannerViewDidReceiveAd(_ bannerView: BannerView) {
             DispatchQueue.main.async {
+                print("✅ Banner ad loaded successfully!")
+                print("✅ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
                 self.parent.adService.isBannerLoaded = true
                 self.parent.adService.trackAdImpression(adUnitId: bannerView.adUnitID ?? "")
             }
@@ -52,8 +59,11 @@ struct AdBannerRepresentable: UIViewRepresentable {
         
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
             DispatchQueue.main.async {
+                print("❌ Banner ad failed to load!")
+                print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
+                print("❌ Error: \(error.localizedDescription)")
+                print("❌ Error details: \(error)")
                 self.parent.adService.isBannerLoaded = false
-                print("Banner ad failed to load: \(error.localizedDescription)")
             }
         }
         
@@ -125,11 +135,13 @@ struct AdBannerContainerView: View {
                 
                 // Баннер рекламы
                 ZStack {
-                    if adService.isBannerLoaded {
-                        AdBannerRepresentable(adService: adService)
-                            .frame(height: 50)
-                    } else {
-                        // Placeholder пока баннер загружается
+                    // Всегда создаем AdBannerRepresentable для загрузки рекламы
+                    AdBannerRepresentable(adService: adService)
+                        .frame(height: 50)
+                        .opacity(adService.isBannerLoaded ? 1.0 : 0.0)
+                    
+                    // Показываем placeholder пока баннер не загрузился
+                    if !adService.isBannerLoaded {
                         Rectangle()
                             .fill(themeManager.cardBackground)
                             .overlay(
@@ -152,6 +164,17 @@ struct AdBannerContainerView: View {
             .sheet(isPresented: $showingPaywall) {
                 PaywallView()
             }
+            .onAppear {
+                print("📱 AdBannerContainerView: isPremium = \(storeService.isPremium)")
+                print("📱 AdBannerContainerView: Banner should be visible")
+                print("📱 AdBannerContainerView: adService.isBannerLoaded = \(adService.isBannerLoaded)")
+            }
+        } else {
+            EmptyView()
+                .onAppear {
+                    print("📱 AdBannerContainerView: isPremium = \(storeService.isPremium)")
+                    print("📱 AdBannerContainerView: Banner hidden (premium user)")
+                }
         }
     }
 }
