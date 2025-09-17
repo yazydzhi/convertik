@@ -63,6 +63,21 @@ struct AdBannerRepresentable: UIViewRepresentable {
                 print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
                 print("❌ Error: \(error.localizedDescription)")
                 print("❌ Error details: \(error)")
+                
+                // Проверяем тип ошибки
+                if let admobError = error as NSError? {
+                    print("❌ AdMob Error Code: \(admobError.code)")
+                    print("❌ AdMob Error Domain: \(admobError.domain)")
+                    
+                    // Если это ошибка "No ad to show", попробуем еще раз через 5 секунд
+                    if admobError.code == 1 && admobError.domain == "com.google.admob" {
+                        print("🔄 Retrying banner ad load in 5 seconds...")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                            bannerView.load(Request())
+                        }
+                    }
+                }
+                
                 self.parent.adService.isBannerLoaded = false
             }
         }

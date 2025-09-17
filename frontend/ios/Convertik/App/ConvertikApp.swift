@@ -14,7 +14,8 @@ struct ConvertikApp: App {
         // Настройка тестовых устройств для AdMob
         #if DEBUG
         MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [
-            "2077ef9a63d2b398840261c8221a0c9b" // Симулятор iOS
+            "2077ef9a63d2b398840261c8221a0c9b", // Симулятор iOS
+            "00000000-0000-0000-0000-000000000000" // Дополнительный тестовый ID
         ]
         #endif
         
