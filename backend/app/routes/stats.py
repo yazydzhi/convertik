@@ -33,9 +33,16 @@ async def submit_stats(
             # Конвертируем timestamp в datetime
             event_time = datetime.fromtimestamp(event.ts)
             
+            # Конвертируем device_id из строки в UUID
+            try:
+                device_uuid = uuid.UUID(event.device_id)
+            except ValueError:
+                logger.warning(f"Invalid device_id format: {event.device_id}")
+                continue
+            
             # Создаем объект события
             usage_event = UsageEvent(
-                device_id=event.device_id,
+                device_id=device_uuid,
                 event_name=event.name,
                 payload=event.params,
                 created_at=event_time

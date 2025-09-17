@@ -7,8 +7,13 @@ final class APIService {
     private let session: URLSession
 
     private init() {
+        #if DEBUG
+        // Локальный backend для разработки
+        self.baseURL = URL(string: "http://localhost:8000/api/v1")!
+        #else
         // Продакшн backend
         self.baseURL = URL(string: "https://api.convertik.ponravilos.ru/api/v1")!
+        #endif
 
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30

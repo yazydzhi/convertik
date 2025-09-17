@@ -37,7 +37,7 @@ class CurrencyNamesResponse(BaseModel):
 class UsageEventCreate(BaseModel):
     """Создание события аналитики"""
     name: str = Field(..., max_length=64, description="Название события")
-    device_id: uuid.UUID = Field(..., description="ID устройства")
+    device_id: str = Field(..., description="ID устройства")
     ts: int = Field(..., description="Unix timestamp события")
     params: Optional[Dict[str, Any]] = Field(None, description="Дополнительные параметры")
 

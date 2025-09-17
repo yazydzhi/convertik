@@ -17,7 +17,7 @@ final class AnalyticsService: ObservableObject {
         let statsEvent = StatsEvent(
             name: event,
             deviceId: settingsService.deviceId,
-            timestamp: Date().timeIntervalSince1970,
+            timestamp: Int(Date().timeIntervalSince1970),
             params: params?.mapValues(AnyCodable.init)
         )
 

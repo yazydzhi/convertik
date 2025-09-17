@@ -27,7 +27,7 @@ struct CurrencyNamesResponse: Codable {
 struct StatsEvent: Codable {
     let name: String
     let deviceId: String
-    let timestamp: TimeInterval
+    let timestamp: Int
     let params: [String: AnyCodable]?
 
     enum CodingKeys: String, CodingKey {
