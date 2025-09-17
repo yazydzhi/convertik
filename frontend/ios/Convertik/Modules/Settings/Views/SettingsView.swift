@@ -126,7 +126,7 @@ struct SettingsView: View {
 
                         Spacer()
 
-                        Text("2.1")
+                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                             .foregroundColor(themeManager.textSecondary)
                     }
                 }

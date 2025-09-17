@@ -10,11 +10,16 @@
 		0322BB7B8C45069B5AEBC272 /* UserCurrencyEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */; };
 		05046AECF787DF0509CF2A24 /* BackgroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265FDF798774107AFE72B12 /* BackgroundService.swift */; };
 		0836340A7C6462AFC164ED2D /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10EB238E92F1D9E0096C61 /* ConversionService.swift */; };
+		0CAE4D4BCC004F57AF4CAB86 /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */; };
+		0CAE4D4BCC004F57AF4CAB88 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */; };
+		0CAE4D4BCC004F57AF4CAB8A /* ConvertikUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */; };
+		0CAE4D4BCC004F57AF4CAB8C /* ConvertikUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */; };
 		1CC6FA46CECBAADD322235DC /* ConvertikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD2C577D0DE55594174D842 /* ConvertikApp.swift */; };
 		1D1EB01E574640E97C294B85 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D9C352254817F4E94C43E /* AnalyticsService.swift */; };
 		1FB87A221B2CE1CF11E2D7DD /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */; };
 		2393D02538B9B19C30B8BBAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06801B82FB7652D862A9C9F /* Assets.xcassets */; };
 		29DD1882E34C49055649EB54 /* InterstitialAdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC5246EE34A33B59848B671 /* InterstitialAdService.swift */; };
+		2BB50EE544724DF1BC1BB1AC /* ConvertikTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */; };
 		2D043751FE6557E89C01737B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44174054BC9B82F8B106F95C /* ContentView.swift */; };
 		30BA57E082106645B503A1CC /* CurrencyRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */; };
 		317DFF6066A9CC4F7032B311 /* ThemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9E0E86D99C1352D92E139 /* ThemeService.swift */; };
@@ -45,15 +50,32 @@
 		ED2DF4A6B3C468556F58CA6B /* AddCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */; };
 		F0876FD22A108E259061B896 /* RewardedAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB1D74438267828D1D72F7F /* RewardedAdView.swift */; };
 		FDC63EA1933637944ED40D0F /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A7C4918F704152B465049 /* AdService.swift */; };
-		2BB50EE544724DF1BC1BB1AC /* ConvertikTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */; };
-		0CAE4D4BCC004F57AF4CAB86 /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */; };
-		0CAE4D4BCC004F57AF4CAB88 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */; };
-		0CAE4D4BCC004F57AF4CAB8A /* ConvertikUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */; };
-		0CAE4D4BCC004F57AF4CAB8C /* ConvertikUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0CAE4D4BCC004F57AF4CAB96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16BED28B8EB50DE5E505FF8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A24412A872A5DCB8729596AC;
+			remoteInfo = Convertik;
+		};
+		2BB50EE544724DF1BC1BB1B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16BED28B8EB50DE5E505FF8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A24412A872A5DCB8729596AC;
+			remoteInfo = Convertik;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0A09C2BF894B84AC3983A0A7 /* InterstitialAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdView.swift; sourceTree = "<group>"; };
+		0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
+		0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
+		0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikUITests.swift; sourceTree = "<group>"; };
+		0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0CAE4D4BCC004F57AF4CAB99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyView.swift; sourceTree = "<group>"; };
 		16D84348B0424DE7F836E0A4 /* AdConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConfig.swift; sourceTree = "<group>"; };
 		1DB1D74438267828D1D72F7F /* RewardedAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdView.swift; sourceTree = "<group>"; };
@@ -61,10 +83,14 @@
 		2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
 		278280FD697FEDD79881D094 /* RewardedAdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdService.swift; sourceTree = "<group>"; };
 		2A1B2B61DCAF110550897C8A /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikTests.swift; sourceTree = "<group>"; };
+		2BB50EE544724DF1BC1BB1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3265FDF798774107AFE72B12 /* BackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundService.swift; sourceTree = "<group>"; };
 		39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
 		3B98D2282E6C92B70023F8E1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3B98D22B2E6C931D0023F8E1 /*  test_config .storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = " test_config .storekit"; sourceTree = "<group>"; };
+		3BACD6082E7AF2E80083D3FD /* ConvertikTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvertikTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BACD6092E7AF2E80083D3FD /* ConvertikUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvertikUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44174054BC9B82F8B106F95C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		48C60DB4F9775E4EBA8FA59A /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		4A04636B9485BA6486314D9E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -95,18 +121,23 @@
 		EA7A5B97B6C4F2C9608033AE /* Pods_Convertik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Convertik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFB013420F27F0AB42BA95CD /* APIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIModels.swift; sourceTree = "<group>"; };
 		FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCurrencyEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikTests.swift; sourceTree = "<group>"; };
-		0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
-		0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
-		0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikUITests.swift; sourceTree = "<group>"; };
-		0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		2BB50EE544724DF1BC1BB1AE /* ConvertikTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvertikTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CAE4D4BCC004F57AF4CAB8E /* ConvertikUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConvertikUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2BB50EE544724DF1BC1BB1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0CAE4D4BCC004F57AF4CAB99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0CAE4D4BCC004F57AF4CAB92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BB50EE544724DF1BC1BB1B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		691873CF6D7A028161848839 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -119,6 +150,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0CAE4D4BCC004F57AF4CAB95 /* ConvertikUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */,
+				0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */,
+				0CAE4D4BCC004F57AF4CAB99 /* Info.plist */,
+			);
+			path = ConvertikUITests;
+			sourceTree = "<group>";
+		};
 		1417590BE3CDE540E2A58F34 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,8 +194,21 @@
 			isa = PBXGroup;
 			children = (
 				DA136F3375AA8EE040270B1B /* Convertik.app */,
+				3BACD6082E7AF2E80083D3FD /* ConvertikTests.xctest */,
+				3BACD6092E7AF2E80083D3FD /* ConvertikUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2BB50EE544724DF1BC1BB1B5 /* ConvertikTests */ = {
+			isa = PBXGroup;
+			children = (
+				2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */,
+				0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */,
+				0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */,
+				2BB50EE544724DF1BC1BB1B9 /* Info.plist */,
+			);
+			path = ConvertikTests;
 			sourceTree = "<group>";
 		};
 		2D460D77416E941C1964E990 /* Examples */ = {
@@ -345,30 +399,45 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		2BB50EE544724DF1BC1BB1B5 /* ConvertikTests */ = {
-			isa = PBXGroup;
-			children = (
-				2BB50EE544724DF1BC1BB1AD /* ConvertikTests.swift */,
-				0CAE4D4BCC004F57AF4CAB87 /* APITests.swift */,
-				0CAE4D4BCC004F57AF4CAB89 /* NavigationTests.swift */,
-				2BB50EE544724DF1BC1BB1B9 /* Info.plist */,
-			);
-			path = ConvertikTests;
-			sourceTree = "<group>";
-		};
-		0CAE4D4BCC004F57AF4CAB95 /* ConvertikUITests */ = {
-			isa = PBXGroup;
-			children = (
-				0CAE4D4BCC004F57AF4CAB8B /* ConvertikUITests.swift */,
-				0CAE4D4BCC004F57AF4CAB8D /* ConvertikUITestsLaunchTests.swift */,
-				0CAE4D4BCC004F57AF4CAB99 /* Info.plist */,
-			);
-			path = ConvertikUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0CAE4D4BCC004F57AF4CAB8F /* ConvertikUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CAE4D4BCC004F57AF4CAB90 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */;
+			buildPhases = (
+				0CAE4D4BCC004F57AF4CAB91 /* Sources */,
+				0CAE4D4BCC004F57AF4CAB92 /* Frameworks */,
+				0CAE4D4BCC004F57AF4CAB93 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CAE4D4BCC004F57AF4CAB94 /* PBXTargetDependency */,
+			);
+			name = ConvertikUITests;
+			productName = ConvertikUITests;
+			productReference = 3BACD6092E7AF2E80083D3FD /* ConvertikUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		2BB50EE544724DF1BC1BB1AF /* ConvertikTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BB50EE544724DF1BC1BB1B0 /* Build configuration list for PBXNativeTarget "ConvertikTests" */;
+			buildPhases = (
+				2BB50EE544724DF1BC1BB1B1 /* Sources */,
+				2BB50EE544724DF1BC1BB1B2 /* Frameworks */,
+				2BB50EE544724DF1BC1BB1B3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2BB50EE544724DF1BC1BB1B4 /* PBXTargetDependency */,
+			);
+			name = ConvertikTests;
+			productName = ConvertikTests;
+			productReference = 3BACD6082E7AF2E80083D3FD /* ConvertikTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A24412A872A5DCB8729596AC /* Convertik */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
@@ -387,42 +456,6 @@
 			productName = Convertik;
 			productReference = DA136F3375AA8EE040270B1B /* Convertik.app */;
 			productType = "com.apple.product-type.application";
-		};
-		2BB50EE544724DF1BC1BB1AF /* ConvertikTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2BB50EE544724DF1BC1BB1B0 /* Build configuration list for PBXNativeTarget "ConvertikTests" */;
-			buildPhases = (
-				2BB50EE544724DF1BC1BB1B1 /* Sources */,
-				2BB50EE544724DF1BC1BB1B2 /* Frameworks */,
-				2BB50EE544724DF1BC1BB1B3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2BB50EE544724DF1BC1BB1B4 /* PBXTargetDependency */,
-			);
-			name = ConvertikTests;
-			productName = ConvertikTests;
-			productReference = 2BB50EE544724DF1BC1BB1AE /* ConvertikTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		0CAE4D4BCC004F57AF4CAB8F /* ConvertikUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0CAE4D4BCC004F57AF4CAB90 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */;
-			buildPhases = (
-				0CAE4D4BCC004F57AF4CAB91 /* Sources */,
-				0CAE4D4BCC004F57AF4CAB92 /* Frameworks */,
-				0CAE4D4BCC004F57AF4CAB93 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0CAE4D4BCC004F57AF4CAB94 /* PBXTargetDependency */,
-			);
-			name = ConvertikUITests;
-			productName = ConvertikUITests;
-			productReference = 0CAE4D4BCC004F57AF4CAB8E /* ConvertikUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -455,26 +488,8 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F9AEB818949A6DCDA57539B2 /* Resources */ = {
+		0CAE4D4BCC004F57AF4CAB93 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2393D02538B9B19C30B8BBAF /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2BB50EE544724DF1BC1BB1B1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2BB50EE544724DF1BC1BB1AC /* ConvertikTests.swift in Sources */,
-				0CAE4D4BCC004F57AF4CAB86 /* APITests.swift in Sources */,
-				0CAE4D4BCC004F57AF4CAB88 /* NavigationTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2BB50EE544724DF1BC1BB1B2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -487,26 +502,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0CAE4D4BCC004F57AF4CAB91 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0CAE4D4BCC004F57AF4CAB8A /* ConvertikUITests.swift in Sources */,
-				0CAE4D4BCC004F57AF4CAB8C /* ConvertikUITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0CAE4D4BCC004F57AF4CAB92 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0CAE4D4BCC004F57AF4CAB93 /* Resources */ = {
+		F9AEB818949A6DCDA57539B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2393D02538B9B19C30B8BBAF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,20 +558,26 @@
 		};
 /* End PBXShellScriptBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		2BB50EE544724DF1BC1BB1B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A24412A872A5DCB8729596AC /* Convertik */;
-			targetProxy = 2BB50EE544724DF1BC1BB1B6 /* PBXContainerItemProxy */;
-		};
-		0CAE4D4BCC004F57AF4CAB94 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A24412A872A5DCB8729596AC /* Convertik */;
-			targetProxy = 0CAE4D4BCC004F57AF4CAB96 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXSourcesBuildPhase section */
+		0CAE4D4BCC004F57AF4CAB91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CAE4D4BCC004F57AF4CAB8A /* ConvertikUITests.swift in Sources */,
+				0CAE4D4BCC004F57AF4CAB8C /* ConvertikUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2BB50EE544724DF1BC1BB1B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BB50EE544724DF1BC1BB1AC /* ConvertikTests.swift in Sources */,
+				0CAE4D4BCC004F57AF4CAB86 /* APITests.swift in Sources */,
+				0CAE4D4BCC004F57AF4CAB88 /* NavigationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		36097644B896D79319D99E29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -616,22 +622,18 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXContainerItemProxy section */
-		2BB50EE544724DF1BC1BB1B6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 16BED28B8EB50DE5E505FF8C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A24412A872A5DCB8729596AC;
-			remoteInfo = Convertik;
+/* Begin PBXTargetDependency section */
+		0CAE4D4BCC004F57AF4CAB94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A24412A872A5DCB8729596AC /* Convertik */;
+			targetProxy = 0CAE4D4BCC004F57AF4CAB96 /* PBXContainerItemProxy */;
 		};
-		0CAE4D4BCC004F57AF4CAB96 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 16BED28B8EB50DE5E505FF8C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A24412A872A5DCB8729596AC;
-			remoteInfo = Convertik;
+		2BB50EE544724DF1BC1BB1B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A24412A872A5DCB8729596AC /* Convertik */;
+			targetProxy = 2BB50EE544724DF1BC1BB1B6 /* PBXContainerItemProxy */;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		02354AB50ECB8B1BF9D8D22F /* Debug */ = {
@@ -696,13 +698,35 @@
 			};
 			name = Debug;
 		};
+		0CAE4D4BCC004F57AF4CAB97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ConvertikUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Convertik;
+			};
+			name = Debug;
+		};
+		0CAE4D4BCC004F57AF4CAB98 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ConvertikUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Convertik;
+			};
+			name = Release;
+		};
 		20AF9F7DC48338A8DD4A4DC3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5FEC887C6FEEFC8C1AA86808 /* Pods-Convertik.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
@@ -713,10 +737,34 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2BB50EE544724DF1BC1BB1B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ConvertikTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convertik.app/Convertik";
+			};
+			name = Debug;
+		};
+		2BB50EE544724DF1BC1BB1B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ConvertikTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convertik.app/Convertik";
 			};
 			name = Release;
 		};
@@ -726,7 +774,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
@@ -737,7 +785,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -799,55 +847,27 @@
 			};
 			name = Release;
 		};
-		2BB50EE544724DF1BC1BB1B7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = ConvertikTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convertik.app/Convertik";
-			};
-			name = Debug;
-		};
-		2BB50EE544724DF1BC1BB1B8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = ConvertikTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Convertik.app/Convertik";
-			};
-			name = Release;
-		};
-		0CAE4D4BCC004F57AF4CAB97 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = ConvertikUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = Convertik;
-			};
-			name = Debug;
-		};
-		0CAE4D4BCC004F57AF4CAB98 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = ConvertikUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = Convertik;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0CAE4D4BCC004F57AF4CAB90 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CAE4D4BCC004F57AF4CAB97 /* Debug */,
+				0CAE4D4BCC004F57AF4CAB98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2BB50EE544724DF1BC1BB1B0 /* Build configuration list for PBXNativeTarget "ConvertikTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BB50EE544724DF1BC1BB1B7 /* Debug */,
+				2BB50EE544724DF1BC1BB1B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -865,24 +885,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
-		};
-		2BB50EE544724DF1BC1BB1B0 /* Build configuration list for PBXNativeTarget "ConvertikTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2BB50EE544724DF1BC1BB1B7 /* Debug */,
-				2BB50EE544724DF1BC1BB1B8 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0CAE4D4BCC004F57AF4CAB90 /* Build configuration list for PBXNativeTarget "ConvertikUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0CAE4D4BCC004F57AF4CAB97 /* Debug */,
-				0CAE4D4BCC004F57AF4CAB98 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
