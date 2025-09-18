@@ -6,12 +6,13 @@ struct AdBannerRepresentable: UIViewRepresentable {
     @ObservedObject var adService: AdService
     
     func makeUIView(context: Context) -> BannerView {
+        // Используем адаптивный баннер для лучшего использования пространства
         let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = adService.bannerAdUnitID
         bannerView.rootViewController = context.coordinator.getRootViewController()
         bannerView.delegate = context.coordinator
         
-        print("📱 AdBannerRepresentable: Creating banner with Ad Unit ID: \(adService.bannerAdUnitID)")
+        print("📱 AdBannerRepresentable: Creating adaptive banner with Ad Unit ID: \(adService.bannerAdUnitID)")
         print("📱 AdBannerRepresentable: Root view controller: \(context.coordinator.getRootViewController() != nil ? "Found" : "Not found")")
         
         // Загружаем рекламу
@@ -57,6 +58,13 @@ struct AdBannerRepresentable: UIViewRepresentable {
                 self.parent.adService.isBannerLoaded = true
                 self.parent.adService.bannerLoadAttempted = true
                 self.parent.adService.trackAdImpression(adUnitId: bannerView.adUnitID ?? "")
+                
+                // Планируем автоматическое обновление баннера через 45 секунд
+                // Это соответствует рекомендациям Google AdMob
+                DispatchQueue.main.asyncAfter(deadline: .now() + 45.0) {
+                    print("🔄 Auto-refreshing banner ad...")
+                    bannerView.load(Request())
+                }
             }
         }
         
@@ -131,7 +139,7 @@ struct AdBannerPlaceholder: View {
                         .foregroundColor(themeManager.textSecondary.opacity(0.7))
                 }
             )
-            .frame(height: 50)
+            .frame(height: 60) // Увеличиваем высоту для лучшей видимости
     }
 }
 
@@ -172,7 +180,7 @@ struct AdBannerContainerView: View {
                 ZStack {
                     // Всегда создаем AdBannerRepresentable для загрузки рекламы
                     AdBannerRepresentable(adService: adService)
-                        .frame(height: 50)
+                        .frame(height: 60) // Увеличиваем высоту для лучшей видимости
                         .opacity(adService.isBannerLoaded ? 1.0 : 0.0)
                     
                     // Показываем placeholder только если загрузка еще не была попыткой
@@ -188,7 +196,7 @@ struct AdBannerContainerView: View {
                                         .foregroundColor(themeManager.textSecondary)
                                 }
                             )
-                            .frame(height: 50)
+                            .frame(height: 60) // Увеличиваем высоту для лучшей видимости
                     }
                 }
             }
