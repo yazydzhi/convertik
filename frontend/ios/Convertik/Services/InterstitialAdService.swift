@@ -21,6 +21,18 @@ class InterstitialAdService: ObservableObject {
         InterstitialAd.load(with: adUnitID, request: request) { [weak self] ad, error in
             DispatchQueue.main.async {
                 if let error = error {
+                    // Проверяем тип ошибки
+                    if let admobError = error as NSError? {
+                        // Если это ошибка "No ad to show" (код 1) - это нормальная ситуация
+                        if admobError.code == 1 && admobError.domain == "com.google.admob" {
+                            print("ℹ️ No interstitial ad available at the moment (this is normal)")
+                            print("ℹ️ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
+                            self?.isReady = false
+                            return
+                        }
+                    }
+                    
+                    // Для всех остальных ошибок показываем детальную информацию
                     print("❌ Interstitial ad failed to load!")
                     print("❌ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
                     print("❌ Error: \(error.localizedDescription)")

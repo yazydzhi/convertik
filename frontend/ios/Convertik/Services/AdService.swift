@@ -7,6 +7,7 @@ class AdService: ObservableObject {
     
     @Published var isBannerLoaded = false
     @Published var isInterstitialReady = false
+    @Published var bannerLoadAttempted = false // Отслеживаем попытки загрузки баннера
     
     // Ad Unit IDs
     let bannerAdUnitID: String

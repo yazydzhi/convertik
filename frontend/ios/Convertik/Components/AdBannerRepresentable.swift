@@ -55,35 +55,50 @@ struct AdBannerRepresentable: UIViewRepresentable {
                 print("✅ Banner ad loaded successfully!")
                 print("✅ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
                 self.parent.adService.isBannerLoaded = true
+                self.parent.adService.bannerLoadAttempted = true
                 self.parent.adService.trackAdImpression(adUnitId: bannerView.adUnitID ?? "")
             }
         }
         
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
             DispatchQueue.main.async { [self] in
-                print("❌ Banner ad failed to load!")
-                print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
-                print("❌ Error: \(error.localizedDescription)")
-                print("❌ Error details: \(error)")
-                
                 // Проверяем тип ошибки
                 if let admobError = error as NSError? {
                     print("❌ AdMob Error Code: \(admobError.code)")
                     print("❌ AdMob Error Domain: \(admobError.domain)")
                     
-                    // Если это ошибка "No ad to show", попробуем еще раз через 5 секунд (максимум 3 попытки)
-                    if admobError.code == 1 && admobError.domain == "com.google.admob" && retryCount < maxRetries {
+                    // Если это ошибка "No ad to show" (код 1) - это нормальная ситуация, не ошибка
+                    if admobError.code == 1 && admobError.domain == "com.google.admob" {
+                        print("ℹ️ No banner ad available at the moment (this is normal)")
+                        print("ℹ️ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
+                        self.parent.adService.bannerLoadAttempted = true
+                        // Не устанавливаем isBannerLoaded = false для "No ad to show"
+                        return
+                    }
+                }
+                
+                // Для всех остальных ошибок показываем детальную информацию
+                print("❌ Banner ad failed to load!")
+                print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
+                print("❌ Error: \(error.localizedDescription)")
+                print("❌ Error details: \(error)")
+                
+                // Для реальных ошибок (не "No ad to show") можем попробовать retry
+                if let admobError = error as NSError?,
+                   !(admobError.code == 1 && admobError.domain == "com.google.admob") {
+                    if retryCount < maxRetries {
                         retryCount += 1
                         print("🔄 Retrying banner ad load in 5 seconds... (attempt \(retryCount)/\(maxRetries))")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                             bannerView.load(Request())
                         }
-                    } else if retryCount >= maxRetries {
+                    } else {
                         print("❌ Max retry attempts reached, giving up on banner ad")
                     }
                 }
                 
                 self.parent.adService.isBannerLoaded = false
+                self.parent.adService.bannerLoadAttempted = true
             }
         }
         
@@ -160,8 +175,8 @@ struct AdBannerContainerView: View {
                         .frame(height: 50)
                         .opacity(adService.isBannerLoaded ? 1.0 : 0.0)
                     
-                    // Показываем placeholder пока баннер не загрузился
-                    if !adService.isBannerLoaded {
+                    // Показываем placeholder только если загрузка еще не была попыткой
+                    if !adService.isBannerLoaded && !adService.bannerLoadAttempted {
                         Rectangle()
                             .fill(themeManager.cardBackground)
                             .overlay(
