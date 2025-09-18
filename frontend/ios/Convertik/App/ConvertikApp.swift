@@ -38,6 +38,16 @@ struct ConvertikApp: App {
                 .environmentObject(analyticsService)
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
+                .onAppear {
+                    // Принудительно проверяем статус подписки при запуске
+                    Task {
+                        do {
+                            try await storeService.restorePurchases()
+                        } catch {
+                            print("Failed to restore purchases: \(error)")
+                        }
+                    }
+                }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                     // Отправляем накопленные события при переходе в фоновый режим
                     Task {

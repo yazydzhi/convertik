@@ -1,5 +1,6 @@
 import StoreKit
 import Foundation
+import Combine
 
 @MainActor
 final class StoreService: ObservableObject {
@@ -14,6 +15,7 @@ final class StoreService: ObservableObject {
 
     private let settingsService = SettingsService.shared
     private let analyticsService = AnalyticsService.shared
+    private var cancellables = Set<AnyCancellable>()
 
     private init() {
         // Слушаем транзакции
@@ -25,6 +27,14 @@ final class StoreService: ObservableObject {
         Task {
             await updatePremiumStatus()
         }
+        
+        // Синхронизируем с SettingsService при изменении статуса
+        $isPremium
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isPremium in
+                self?.settingsService.setPremiumStatus(isPremium)
+            }
+            .store(in: &cancellables)
     }
 
     // MARK: - Product Loading

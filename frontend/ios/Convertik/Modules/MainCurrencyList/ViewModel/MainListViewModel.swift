@@ -9,6 +9,7 @@ final class MainListViewModel: ObservableObject {
 
     private let ratesRepository = RatesRepository.shared
     private let settingsService = SettingsService.shared
+    private let storeService = StoreService.shared
     private let conversionService = ConversionService.shared
     private let analyticsService = AnalyticsService.shared
 
@@ -36,8 +37,8 @@ final class MainListViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        // Подписываемся на изменения премиум статуса
-        settingsService.$isPremium
+        // Подписываемся на изменения премиум статуса из StoreService (источник истины)
+        storeService.$isPremium
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.updateDisplayedCurrencies()

@@ -25,7 +25,10 @@ final class SettingsService: ObservableObject {
 
     private init() {
         self.isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
-        self.isPremium = UserDefaults.standard.bool(forKey: "isPremium")
+        
+        // НЕ загружаем isPremium из UserDefaults при инициализации
+        // Вместо этого ждем обновления от StoreService
+        self.isPremium = false
 
         // Инициализируем пользовательские валюты
         let savedCurrencies = UserDefaults.standard.array(forKey: userCurrenciesKey) as? [String] ?? ["RUB", "USD", "EUR", "GBP"]
