@@ -443,6 +443,7 @@
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
 			buildPhases = (
 				17C9395BD145755ECC9BA355 /* [CP] Check Pods Manifest.lock */,
+				C2BB33CD9774404DB453C29F /* Increment Build Number */,
 				36097644B896D79319D99E29 /* Sources */,
 				F9AEB818949A6DCDA57539B2 /* Resources */,
 				691873CF6D7A028161848839 /* Frameworks */,
@@ -513,6 +514,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C2BB33CD9774404DB453C29F /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PROJECT_DIR/increment_build_number.sh\"\n";
+		};
 		0E64864F74E4C7350016758C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -726,7 +745,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
@@ -774,7 +793,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
