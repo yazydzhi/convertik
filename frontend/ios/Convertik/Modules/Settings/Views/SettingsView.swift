@@ -116,18 +116,39 @@ struct SettingsView: View {
                         }
                     }
 
-                    HStack {
-                        Image(systemName: "info.circle.fill")
-                            .foregroundColor(themeManager.lilacHighlight)
-                            .frame(width: 24)
+                    VStack(spacing: 8) {
+                        HStack {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundColor(themeManager.lilacHighlight)
+                                .frame(width: 24)
 
-                        Text("Версия")
-                            .foregroundColor(themeManager.textPrimary)
+                            Text("Версия")
+                                .foregroundColor(themeManager.textPrimary)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
-                            .foregroundColor(themeManager.textSecondary)
+                            Text(getVersionWithBuildType())
+                                .foregroundColor(themeManager.textSecondary)
+                        }
+                        
+                        HStack {
+                            Image(systemName: "hammer.fill")
+                                .foregroundColor(themeManager.lilacHighlight)
+                                .frame(width: 24)
+
+                            Text("Сборка")
+                                .foregroundColor(themeManager.textPrimary)
+
+                            Spacer()
+
+                            Text(getBuildType())
+                                .foregroundColor(getBuildTypeColor())
+                                .font(.caption)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(getBuildTypeBackgroundColor())
+                                .cornerRadius(8)
+                        }
                     }
                 }
             }
@@ -151,6 +172,43 @@ struct SettingsView: View {
             analyticsService.trackSettingsOpened()
         }
         .id(themeService.isDarkMode) // Принудительное обновление при изменении темы
+    }
+    
+    // MARK: - Helper Functions
+    
+    private func getVersionWithBuildType() -> String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        
+        #if DEBUG
+        return "\(version)d (\(buildNumber))"
+        #else
+        return "\(version)r (\(buildNumber))"
+        #endif
+    }
+    
+    private func getBuildType() -> String {
+        #if DEBUG
+        return "DEBUG"
+        #else
+        return "RELEASE"
+        #endif
+    }
+    
+    private func getBuildTypeColor() -> Color {
+        #if DEBUG
+        return .orange
+        #else
+        return .green
+        #endif
+    }
+    
+    private func getBuildTypeBackgroundColor() -> Color {
+        #if DEBUG
+        return Color.orange.opacity(0.2)
+        #else
+        return Color.green.opacity(0.2)
+        #endif
     }
 }
 

@@ -875,7 +875,7 @@
 				20AF9F7DC48338A8DD4A4DC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		4803F3A05AB60876F3D47B94 /* Build configuration list for PBXProject "Convertik" */ = {
 			isa = XCConfigurationList;
@@ -884,7 +884,7 @@
 				76BB92DEC4AB73A1D6925267 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
