@@ -8,6 +8,7 @@ struct SettingsView: View {
     @StateObject private var analyticsService = AnalyticsService.shared
 
     @State private var showingPaywall = false
+    @State private var showBuildInfo = false
 
     var body: some View {
         NavigationView {
@@ -127,10 +128,14 @@ struct SettingsView: View {
 
                             Spacer()
 
-                            Text(getVersionWithBuildType())
+                            Text(getDisplayVersion())
                                 .foregroundColor(themeManager.textSecondary)
                         }
+                        .onTapGesture {
+                            showBuildInfo.toggle()
+                        }
                         
+                        #if DEBUG
                         HStack {
                             Image(systemName: "hammer.fill")
                                 .foregroundColor(themeManager.lilacHighlight)
@@ -148,6 +153,37 @@ struct SettingsView: View {
                                 .padding(.vertical, 4)
                                 .background(getBuildTypeBackgroundColor())
                                 .cornerRadius(8)
+                        }
+                        #endif
+                        
+                        if showBuildInfo {
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text("Версия сборки:")
+                                        .font(.caption)
+                                        .foregroundColor(themeManager.textSecondary)
+                                    Spacer()
+                                    Text(getVersionWithBuildType())
+                                        .font(.caption)
+                                        .foregroundColor(themeManager.textSecondary)
+                                }
+                                
+                                HStack {
+                                    Text("Тип сборки:")
+                                        .font(.caption)
+                                        .foregroundColor(themeManager.textSecondary)
+                                    Spacer()
+                                    Text(getBuildType())
+                                        .font(.caption)
+                                        .foregroundColor(getBuildTypeColor())
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(getBuildTypeBackgroundColor())
+                                        .cornerRadius(6)
+                                }
+                            }
+                            .padding(.top, 8)
+                            .transition(.opacity.combined(with: .scale))
                         }
                     }
                 }
@@ -175,6 +211,16 @@ struct SettingsView: View {
     }
     
     // MARK: - Helper Functions
+    
+    private func getDisplayVersion() -> String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        
+        #if DEBUG
+        return "\(version)d"
+        #else
+        return version
+        #endif
+    }
     
     private func getVersionWithBuildType() -> String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
