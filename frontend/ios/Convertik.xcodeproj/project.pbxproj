@@ -441,13 +441,13 @@
 		A24412A872A5DCB8729596AC /* Convertik */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
-		buildPhases = (
-			17C9395BD145755ECC9BA355 /* [CP] Check Pods Manifest.lock */,
-			36097644B896D79319D99E29 /* Sources */,
-			F9AEB818949A6DCDA57539B2 /* Resources */,
-			691873CF6D7A028161848839 /* Frameworks */,
-			0E64864F74E4C7350016758C /* [CP] Copy Pods Resources */,
-		);
+			buildPhases = (
+				17C9395BD145755ECC9BA355 /* [CP] Check Pods Manifest.lock */,
+				36097644B896D79319D99E29 /* Sources */,
+				F9AEB818949A6DCDA57539B2 /* Resources */,
+				691873CF6D7A028161848839 /* Frameworks */,
+				0E64864F74E4C7350016758C /* [CP] Copy Pods Resources */,
+			);
 			buildRules = (
 			);
 			dependencies = (
@@ -726,7 +726,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
@@ -774,7 +774,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;

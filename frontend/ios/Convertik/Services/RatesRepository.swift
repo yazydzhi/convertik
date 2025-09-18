@@ -28,6 +28,7 @@ final class RatesRepository: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     private let logger = Logger(subsystem: "com.azg.Convertik", category: "RatesRepository")
+    private var isSyncing = false // Защита от множественных синхронизаций
 
     private init() {
         logger.debug("RatesRepository init() called")
@@ -38,9 +39,11 @@ final class RatesRepository: ObservableObject {
             addDefaultRates()
         }
         
-        // Запускаем синхронизацию в фоне после инициализации
+        // Запускаем синхронизацию в фоне после инициализации с задержкой
         logger.debug("Scheduling background sync after init()")
         Task.detached { [weak self] in
+            // Добавляем небольшую задержку чтобы UI успел загрузиться
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 секунда
             await self?.syncRemote()
         }
     }
@@ -63,6 +66,13 @@ final class RatesRepository: ObservableObject {
     }
 
     func syncRemote() async {
+        // Защита от множественных синхронизаций
+        guard !isSyncing else {
+            logger.debug("Sync already in progress, skipping...")
+            return
+        }
+        
+        isSyncing = true
         logger.debug("Starting remote sync...")
         isLoading = true
         error = nil
@@ -103,6 +113,8 @@ final class RatesRepository: ObservableObject {
             
             logger.error("Remote sync failed: \(error)")
         }
+        
+        isSyncing = false // Сбрасываем флаг синхронизации
     }
 
     func rate(for code: String) -> Rate? {
@@ -156,8 +168,10 @@ final class RatesRepository: ObservableObject {
     private func updateLocalRates(from response: RatesResponse, names: [String: String]) async {
         self.logger.debug("Starting to update local rates...")
         
-        DispatchQueue.main.async {
-            let context = self.coreDataStack.persistentContainer.viewContext
+        // Используем background context для избежания блокировки UI
+        let context = self.coreDataStack.persistentContainer.newBackgroundContext()
+        
+        await context.perform {
             self.logger.debug("Processing \(response.rates.count + 1) currencies...")
             
             // Создаем или обновляем базовую валюту
@@ -184,12 +198,15 @@ final class RatesRepository: ObservableObject {
                 try context.save()
                 self.logger.debug("Successfully saved to CoreData")
                 
-                self.loadLocalRates()
-                let oldLastUpdated = self.lastUpdated
-                // Используем текущее время для отладки, если API время не меняется
-                let newTime = Date()
-                self.lastUpdated = newTime
-                self.logger.debug("updateLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
+                // Обновляем UI на главном потоке
+                DispatchQueue.main.async {
+                    self.loadLocalRates()
+                    let oldLastUpdated = self.lastUpdated
+                    // Используем текущее время для отладки, если API время не меняется
+                    let newTime = Date()
+                    self.lastUpdated = newTime
+                    self.logger.debug("updateLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
+                }
             } catch {
                 self.logger.error("Failed to save to CoreData: \(error)")
             }

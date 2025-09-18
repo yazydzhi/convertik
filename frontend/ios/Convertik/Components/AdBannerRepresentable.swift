@@ -33,6 +33,8 @@ struct AdBannerRepresentable: UIViewRepresentable {
     
     class Coordinator: NSObject, BannerViewDelegate {
         var parent: AdBannerRepresentable
+        private var retryCount = 0
+        private let maxRetries = 3 // Максимум 3 попытки
         
         init(_ parent: AdBannerRepresentable) {
             self.parent = parent
@@ -58,7 +60,7 @@ struct AdBannerRepresentable: UIViewRepresentable {
         }
         
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 print("❌ Banner ad failed to load!")
                 print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
                 print("❌ Error: \(error.localizedDescription)")
@@ -69,12 +71,15 @@ struct AdBannerRepresentable: UIViewRepresentable {
                     print("❌ AdMob Error Code: \(admobError.code)")
                     print("❌ AdMob Error Domain: \(admobError.domain)")
                     
-                    // Если это ошибка "No ad to show", попробуем еще раз через 5 секунд
-                    if admobError.code == 1 && admobError.domain == "com.google.admob" {
-                        print("🔄 Retrying banner ad load in 5 seconds...")
+                    // Если это ошибка "No ad to show", попробуем еще раз через 5 секунд (максимум 3 попытки)
+                    if admobError.code == 1 && admobError.domain == "com.google.admob" && retryCount < maxRetries {
+                        retryCount += 1
+                        print("🔄 Retrying banner ad load in 5 seconds... (attempt \(retryCount)/\(maxRetries))")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                             bannerView.load(Request())
                         }
+                    } else if retryCount >= maxRetries {
+                        print("❌ Max retry attempts reached, giving up on banner ad")
                     }
                 }
                 

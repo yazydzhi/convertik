@@ -49,8 +49,10 @@ struct ConvertikApp: App {
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
                 .onAppear {
-                    // Проверяем статус подписки тихо без принудительной авторизации
+                    // Проверяем статус подписки тихо без принудительной авторизации с задержкой
                     Task.detached {
+                        // Добавляем задержку чтобы UI успел загрузиться
+                        try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 секунды
                         await storeService.checkSubscriptionSilently()
                     }
                 }
