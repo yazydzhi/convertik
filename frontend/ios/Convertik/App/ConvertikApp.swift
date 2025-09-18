@@ -11,19 +11,29 @@ struct ConvertikApp: App {
     @StateObject private var analyticsService = AnalyticsService.shared
 
     init() {
-        // Настройка тестовых устройств для AdMob
         #if DEBUG
+        print("🔧 ConvertikApp: Running in DEBUG mode")
+        // Настройка тестовых устройств для AdMob
         MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [
             "2077ef9a63d2b398840261c8221a0c9b", // Симулятор iOS
             "00000000-0000-0000-0000-000000000000" // Дополнительный тестовый ID
         ]
+        #else
+        print("🚀 ConvertikApp: Running in RELEASE mode")
         #endif
         
         MobileAds.shared.start { status in
+            #if DEBUG
+            print("🔧 Google Mobile Ads SDK initialization status: \(status)")
+            print("🔧 AdMob App ID: \(AdConfig.appID)")
+            print("🔧 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
+            print("🔧 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
+            #else
             print("🚀 Google Mobile Ads SDK initialization status: \(status)")
             print("🚀 AdMob App ID: \(AdConfig.appID)")
             print("🚀 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
             print("🚀 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
+            #endif
         }
     }
 

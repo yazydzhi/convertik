@@ -18,6 +18,12 @@ final class StoreService: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     private init() {
+        #if DEBUG
+        print("🔧 StoreService: Running in DEBUG mode with test configuration")
+        #else
+        print("🚀 StoreService: Running in RELEASE mode with production configuration")
+        #endif
+        
         // Слушаем транзакции
         Task {
             await listenForTransactions()
@@ -74,7 +80,13 @@ final class StoreService: ObservableObject {
     // MARK: - Restore
 
     func restorePurchases() async throws {
+        #if DEBUG
+        // В DEBUG режиме используем тестовую конфигурацию
         try await AppStore.sync()
+        #else
+        // В RELEASE режиме используем реальную проверку подписки
+        try await AppStore.sync()
+        #endif
         await updatePremiumStatus()
     }
 
@@ -83,12 +95,23 @@ final class StoreService: ObservableObject {
     private func updatePremiumStatus() async {
         var hasPremium = false
 
+        #if DEBUG
+        print("🔧 StoreService: Checking premium status in DEBUG mode")
+        #else
+        print("🚀 StoreService: Checking premium status in RELEASE mode")
+        #endif
+
         for await result in Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
 
                 if productIds.contains(transaction.productID) {
                     hasPremium = true
+                    #if DEBUG
+                    print("🔧 StoreService: Found active subscription: \(transaction.productID)")
+                    #else
+                    print("🚀 StoreService: Found active subscription: \(transaction.productID)")
+                    #endif
                     break
                 }
             } catch {
@@ -98,6 +121,12 @@ final class StoreService: ObservableObject {
 
         isPremium = hasPremium
         settingsService.setPremiumStatus(hasPremium)
+        
+        #if DEBUG
+        print("🔧 StoreService: Premium status updated: \(hasPremium)")
+        #else
+        print("🚀 StoreService: Premium status updated: \(hasPremium)")
+        #endif
     }
 
     // MARK: - Transaction Listening
