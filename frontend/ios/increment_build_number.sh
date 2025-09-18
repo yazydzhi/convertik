@@ -28,11 +28,11 @@ if [ ! -f "$PROJECT_FILE" ]; then
     exit 1
 fi
 
-# Получаем текущий номер сборки из project.pbxproj
-CURRENT_BUILD_NUMBER=$(grep "CURRENT_PROJECT_VERSION = " "$PROJECT_FILE" | head -1 | sed 's/.*CURRENT_PROJECT_VERSION = \([0-9]*\).*/\1/')
+# Получаем текущий номер сборки из Info.plist
+CURRENT_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFO_PLIST")
 
 if [ -z "$CURRENT_BUILD_NUMBER" ]; then
-    echo "Error: Could not find CURRENT_PROJECT_VERSION in project file"
+    echo "Error: Could not find CFBundleVersion in Info.plist"
     exit 1
 fi
 
@@ -42,7 +42,7 @@ NEW_BUILD_NUMBER=$((CURRENT_BUILD_NUMBER + 1))
 echo "Current build number: $CURRENT_BUILD_NUMBER"
 echo "New build number: $NEW_BUILD_NUMBER"
 
-# Обновляем номер сборки в project.pbxproj для обеих конфигураций (Debug и Release)
-sed -i '' "s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $NEW_BUILD_NUMBER/g" "$PROJECT_FILE"
+# Обновляем номер сборки в Info.plist
+/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD_NUMBER" "$INFO_PLIST"
 
 echo "Build number incremented from $CURRENT_BUILD_NUMBER to $NEW_BUILD_NUMBER"
