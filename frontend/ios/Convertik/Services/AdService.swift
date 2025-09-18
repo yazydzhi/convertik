@@ -20,8 +20,9 @@ class AdService: ObservableObject {
         
         // Запускаем настройку рекламы в фоне
         Task.detached { [weak self] in
+            guard let self = self else { return }
             await MainActor.run {
-                self?.setupAds()
+                self.setupAds()
             }
         }
     }
