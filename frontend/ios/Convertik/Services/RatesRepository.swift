@@ -38,10 +38,10 @@ final class RatesRepository: ObservableObject {
             addDefaultRates()
         }
         
-        // Автоматически синхронизируемся с API при инициализации
-        logger.debug("Starting automatic sync in init()")
-        Task {
-            await syncRemote()
+        // Запускаем синхронизацию в фоне после инициализации
+        logger.debug("Scheduling background sync after init()")
+        Task.detached { [weak self] in
+            await self?.syncRemote()
         }
     }
 

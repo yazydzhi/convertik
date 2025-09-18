@@ -17,7 +17,13 @@ class AdService: ObservableObject {
     private init() {
         self.bannerAdUnitID = AdConfig.Banner.mainBottom
         self.interstitialAdUnitID = AdConfig.Interstitial.main
-        setupAds()
+        
+        // Запускаем настройку рекламы в фоне
+        Task.detached { [weak self] in
+            await MainActor.run {
+                self?.setupAds()
+            }
+        }
     }
     
     private func setupAds() {

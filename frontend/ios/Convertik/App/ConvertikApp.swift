@@ -49,8 +49,8 @@ struct ConvertikApp: App {
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
                 .onAppear {
-                    // Принудительно проверяем статус подписки при запуске
-                    Task {
+                    // Запускаем фоновую проверку подписки без блокировки UI
+                    Task.detached {
                         do {
                             try await storeService.restorePurchases()
                         } catch {

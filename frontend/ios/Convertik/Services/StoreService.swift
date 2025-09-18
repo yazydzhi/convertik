@@ -24,16 +24,6 @@ final class StoreService: ObservableObject {
         print("🚀 StoreService: Running in RELEASE mode with production configuration")
         #endif
         
-        // Слушаем транзакции
-        Task {
-            await listenForTransactions()
-        }
-
-        // Проверяем текущие покупки
-        Task {
-            await updatePremiumStatus()
-        }
-        
         // Синхронизируем с SettingsService при изменении статуса
         $isPremium
             .receive(on: DispatchQueue.main)
@@ -41,6 +31,15 @@ final class StoreService: ObservableObject {
                 self?.settingsService.setPremiumStatus(isPremium)
             }
             .store(in: &cancellables)
+        
+        // Запускаем фоновые задачи после инициализации
+        Task.detached { [weak self] in
+            await self?.listenForTransactions()
+        }
+        
+        Task.detached { [weak self] in
+            await self?.updatePremiumStatus()
+        }
     }
 
     // MARK: - Product Loading
