@@ -49,13 +49,9 @@ struct ConvertikApp: App {
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
                 .onAppear {
-                    // Запускаем фоновую проверку подписки без блокировки UI
+                    // Проверяем статус подписки локально без принудительной авторизации
                     Task.detached {
-                        do {
-                            try await storeService.restorePurchases()
-                        } catch {
-                            print("Failed to restore purchases: \(error)")
-                        }
+                        await storeService.updatePremiumStatus()
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in

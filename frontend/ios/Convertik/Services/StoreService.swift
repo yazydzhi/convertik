@@ -80,10 +80,13 @@ final class StoreService: ObservableObject {
 
     func restorePurchases() async throws {
         #if DEBUG
+        print("🔧 StoreService: Restoring purchases in DEBUG mode")
         // В DEBUG режиме используем тестовую конфигурацию
         try await AppStore.sync()
         #else
+        print("🚀 StoreService: Restoring purchases in RELEASE mode")
         // В RELEASE режиме используем реальную проверку подписки
+        // AppStore.sync() может вызвать окно авторизации, поэтому вызываем только при явном запросе пользователя
         try await AppStore.sync()
         #endif
         await updatePremiumStatus()
@@ -91,7 +94,7 @@ final class StoreService: ObservableObject {
 
     // MARK: - Ads Free Status
 
-    private func updatePremiumStatus() async {
+    func updatePremiumStatus() async {
         var hasPremium = false
 
         #if DEBUG
