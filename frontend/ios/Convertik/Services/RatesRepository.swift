@@ -13,7 +13,6 @@ extension Date {
     }
 }
 
-@MainActor
 final class RatesRepository: ObservableObject {
     static let shared = RatesRepository()
     
@@ -36,7 +35,9 @@ final class RatesRepository: ObservableObject {
         // Добавляем базовые валюты, если их нет
         if rates.isEmpty {
             logger.debug("No rates found, adding default rates")
-            addDefaultRates()
+            Task {
+                await addDefaultRates()
+            }
         }
         
         // Запускаем синхронизацию в фоне после инициализации с задержкой
@@ -74,9 +75,12 @@ final class RatesRepository: ObservableObject {
         
         isSyncing = true
         logger.debug("Starting remote sync...")
-        isLoading = true
-        error = nil
-        connectionError = nil // Сбрасываем ошибку соединения
+        
+        await MainActor.run {
+            isLoading = true
+            error = nil
+            connectionError = nil // Сбрасываем ошибку соединения
+        }
 
         do {
             logger.debug("Fetching rates from API...")
@@ -89,26 +93,33 @@ final class RatesRepository: ObservableObject {
             currencyNames = Rate.currencyNames
             
             await updateLocalRates(from: response, names: currencyNames)
-            isLoading = false
+            
+            await MainActor.run {
+                isLoading = false
+            }
             logger.debug("Remote sync completed successfully")
         } catch {
-            self.error = error
-            isLoading = false
+            await MainActor.run {
+                self.error = error
+                isLoading = false
+            }
             
             // Определяем тип ошибки и устанавливаем соответствующее сообщение
-            if let urlError = error as? URLError {
-                switch urlError.code {
-                case .notConnectedToInternet, .networkConnectionLost:
-                    connectionError = "Нет подключения к интернету"
-                case .timedOut:
-                    connectionError = "Превышено время ожидания"
-                case .cannotFindHost, .cannotConnectToHost:
-                    connectionError = "Не удается подключиться к серверу"
-                default:
-                    connectionError = "Ошибка сети: \(urlError.localizedDescription)"
+            await MainActor.run {
+                if let urlError = error as? URLError {
+                    switch urlError.code {
+                    case .notConnectedToInternet, .networkConnectionLost:
+                        connectionError = "Нет подключения к интернету"
+                    case .timedOut:
+                        connectionError = "Превышено время ожидания"
+                    case .cannotFindHost, .cannotConnectToHost:
+                        connectionError = "Не удается подключиться к серверу"
+                    default:
+                        connectionError = "Ошибка сети: \(urlError.localizedDescription)"
+                    }
+                } else {
+                    connectionError = "Ошибка синхронизации: \(error.localizedDescription)"
                 }
-            } else {
-                connectionError = "Ошибка синхронизации: \(error.localizedDescription)"
             }
             
             logger.error("Remote sync failed: \(error)")
@@ -123,10 +134,10 @@ final class RatesRepository: ObservableObject {
 
     // MARK: - Default Rates
 
-    private func addDefaultRates() {
+    private func addDefaultRates() async {
         let context = coreDataStack.persistentContainer.newBackgroundContext()
 
-        context.perform {
+        await context.perform {
             do {
                 // Добавляем базовые валюты
                 let defaultRates = [
@@ -153,13 +164,15 @@ final class RatesRepository: ObservableObject {
                 try context.save()
                 self.logger.debug("Added \(defaultRates.count) default rates to CoreData")
                 
-                // Обновляем локальные данные
-                DispatchQueue.main.async {
-                    self.loadLocalRates()
-                }
+                // Обновляем локальные данные (будет выполнено после context.perform)
             } catch {
                 self.logger.error("Failed to save default rates: \(error)")
             }
+        }
+        
+        // Обновляем локальные данные на главном потоке
+        await MainActor.run {
+            self.loadLocalRates()
         }
     }
 
@@ -198,18 +211,20 @@ final class RatesRepository: ObservableObject {
                 try context.save()
                 self.logger.debug("Successfully saved to CoreData")
                 
-                // Обновляем UI на главном потоке
-                DispatchQueue.main.async {
-                    self.loadLocalRates()
-                    let oldLastUpdated = self.lastUpdated
-                    // Используем текущее время для отладки, если API время не меняется
-                    let newTime = Date()
-                    self.lastUpdated = newTime
-                    self.logger.debug("updateLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
-                }
+                // Обновление UI будет выполнено после context.perform
             } catch {
                 self.logger.error("Failed to save to CoreData: \(error)")
             }
+        }
+        
+        // Обновляем UI на главном потоке
+        await MainActor.run {
+            self.loadLocalRates()
+            let oldLastUpdated = self.lastUpdated
+            // Используем текущее время для отладки, если API время не меняется
+            let newTime = Date()
+            self.lastUpdated = newTime
+            self.logger.debug("updateLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
         }
     }
 
