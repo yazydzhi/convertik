@@ -85,11 +85,42 @@ final class StoreService: ObservableObject {
         try await AppStore.sync()
         #else
         print("🚀 StoreService: Restoring purchases in RELEASE mode")
-        // В RELEASE режиме используем реальную проверку подписки
-        // AppStore.sync() может вызвать окно авторизации, поэтому вызываем только при явном запросе пользователя
-        try await AppStore.sync()
-        #endif
+        // В RELEASE режиме сначала проверяем локально
         await updatePremiumStatus()
+        
+        // Если локально нет активной подписки, пытаемся синхронизировать
+        if !isPremium {
+            print("🚀 StoreService: No local subscription found, attempting sync...")
+            // Используем более мягкий подход - проверяем транзакции без принудительной авторизации
+            do {
+                try await AppStore.sync()
+                await updatePremiumStatus()
+            } catch {
+                print("🚀 StoreService: Sync failed, but continuing with local check: \(error)")
+                // Даже если синхронизация не удалась, продолжаем с локальной проверкой
+            }
+        } else {
+            print("🚀 StoreService: Active subscription found locally, skipping sync")
+        }
+        #endif
+    }
+    
+    // MARK: - Silent Subscription Check
+    
+    func checkSubscriptionSilently() async {
+        #if DEBUG
+        print("🔧 StoreService: Silent subscription check in DEBUG mode")
+        #else
+        print("🚀 StoreService: Silent subscription check in RELEASE mode")
+        #endif
+        
+        // Проверяем подписку без принудительной авторизации
+        await updatePremiumStatus()
+        
+        // Если подписка не найдена локально, пытаемся получить информацию о продуктах
+        if !isPremium {
+            await loadProducts()
+        }
     }
 
     // MARK: - Ads Free Status

@@ -49,9 +49,9 @@ struct ConvertikApp: App {
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
                 .onAppear {
-                    // Проверяем статус подписки локально без принудительной авторизации
+                    // Проверяем статус подписки тихо без принудительной авторизации
                     Task.detached {
-                        await storeService.updatePremiumStatus()
+                        await storeService.checkSubscriptionSilently()
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
