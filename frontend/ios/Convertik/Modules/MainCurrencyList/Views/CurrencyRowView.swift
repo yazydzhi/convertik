@@ -13,6 +13,7 @@ struct CurrencyRowView: View {
 
     @State private var amountText: String = ""
     @FocusState private var isFocused: Bool
+    @State private var showCopyConfirmation = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -37,43 +38,61 @@ struct CurrencyRowView: View {
                 
                 Spacer(minLength: 8) // Минимальное расстояние между кодом и полем ввода
                 
-                // Поле ввода (сдвинуто правее)
-                TextField("0", text: $amountText)
-                    .textFieldStyle(CustomTextFieldStyle())
-                    .keyboardType(.decimalPad)
-                    .multilineTextAlignment(.trailing)
-                    .frame(minWidth: 120, maxWidth: .infinity) // Гибкая ширина поля ввода
-                    .focused($isFocused)
-                    .allowsHitTesting(true)
-                    .disabled(false)
-                    .onChange(of: amountText) { newValue in
-                        onAmountChange(newValue)
+                // Поле ввода с кнопкой копирования
+                HStack(spacing: 8) {
+                    // Кнопка копирования
+                    Button(action: copyAmountToClipboard) {
+                        Image(systemName: "doc.on.doc")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(amountText.isEmpty ? themeManager.textSecondary.opacity(0.5) : themeManager.textSecondary)
                     }
-                    .onChange(of: isFocused) { focused in
-                        onFocusChange(focused)
-                        if focused {
-                            // При фокусе очищаем поле
-                            amountText = ""
+                    .disabled(amountText.isEmpty)
+                    .scaleEffect(amountText.isEmpty ? 0.95 : 1.0)
+                    .animation(.easeInOut(duration: 0.2), value: amountText.isEmpty)
+                    
+                    TextField("0", text: $amountText)
+                        .textFieldStyle(CustomTextFieldStyle())
+                        .keyboardType(.decimalPad)
+                        .multilineTextAlignment(.trailing)
+                        .frame(minWidth: 120, maxWidth: .infinity) // Гибкая ширина поля ввода
+                        .focused($isFocused)
+                        .allowsHitTesting(true)
+                        .disabled(false)
+                        .onChange(of: amountText) { newValue in
+                            onAmountChange(newValue)
                         }
-                    }
-                    .onTapGesture {
-                        isFocused = true
-                    }
+                        .onChange(of: isFocused) { focused in
+                            onFocusChange(focused)
+                            if focused {
+                                // При фокусе очищаем поле
+                                amountText = ""
+                            }
+                        }
+                        .onTapGesture {
+                            isFocused = true
+                        }
+                }
             }
             
             // Вторая строка: название валюты и курс
-            HStack {
+            HStack(spacing: 12) {
                 Text(rate.displayName)
                     .font(.caption)
                     .foregroundColor(themeManager.textSecondary)
                 
-                Spacer()
+                Spacer(minLength: 8)
                 
-                // Показываем курс только для не-рублевых валют
+                // Показываем курс только для не-рублевых валют, выравниваем по правому краю с полем ввода
                 if rate.code != "RUB" {
                     Text("1 \(rate.code) = \(conversionService.formatRate(rate)) ₽")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
+                        .multilineTextAlignment(.trailing)
+                        .frame(minWidth: 120, maxWidth: .infinity, alignment: .trailing) // Выравниваем с полем ввода
+                } else {
+                    // Для рубля добавляем пустое пространство для выравнивания
+                    Spacer()
+                        .frame(minWidth: 120, maxWidth: .infinity)
                 }
             }
         }
@@ -114,9 +133,57 @@ struct CurrencyRowView: View {
                 amountText = conversionService.formatAmount(newAmount, currencyCode: rate.code, showSymbol: false)
             }
         }
+        .overlay(
+            // Уведомление о копировании
+            Group {
+                if showCopyConfirmation {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                        Text("Скопировано")
+                            .font(.caption)
+                            .foregroundColor(themeManager.textPrimary)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(themeManager.cardBackground)
+                    .cornerRadius(ConvertikCornerRadius.sm)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: ConvertikCornerRadius.sm)
+                            .stroke(themeManager.separator, lineWidth: 1)
+                    )
+                    .shadow(color: themeManager.cardGlowColor, radius: 4, x: 0, y: 2)
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.3), value: showCopyConfirmation)
+                }
+            },
+            alignment: .topTrailing
+        )
     }
     
     // MARK: - Helper Functions
+    
+    /// Копирование суммы в буфер обмена
+    private func copyAmountToClipboard() {
+        guard !amountText.isEmpty else { return }
+        
+        // Копируем значение в буфер обмена
+        UIPasteboard.general.string = amountText
+        
+        // Тактильная обратная связь
+        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+        impactFeedback.impactOccurred()
+        
+        // Показываем уведомление о копировании
+        showCopyConfirmation = true
+        
+        // Скрываем уведомление через 2 секунды
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                showCopyConfirmation = false
+            }
+        }
+    }
     
     /// Получение символа валюты
     private func getCurrencySymbol(for code: String) -> String {

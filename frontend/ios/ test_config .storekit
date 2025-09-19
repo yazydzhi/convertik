@@ -95,7 +95,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.yazydzhi.Convertik",
+          "productID" : "com.azg.Convertik",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "AdsFree",
           "subscriptionGroupID" : "0948EBA3",

@@ -10,7 +10,7 @@ final class StoreService: ObservableObject {
     @Published private(set) var isPremium = false
 
     private let productIds = [
-        "com.yazydzhi.Convertik"
+        "com.azg.Convertik"
     ]
 
     private let settingsService = SettingsService.shared
@@ -47,7 +47,7 @@ final class StoreService: ObservableObject {
     func loadProducts() async {
         do {
             let products = try await Product.products(for: productIds)
-            monthlyProduct = products.first { $0.id == "com.yazydzhi.Convertik" }
+            monthlyProduct = products.first { $0.id == "com.azg.Convertik" }
         } catch {
             print("Failed to load products: \(error)")
         }
