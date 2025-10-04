@@ -748,7 +748,8 @@
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
-				INFOPLIST_KEY_ITSEncryptionExportComplianceCode = Yes;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_ITSEncryptionExportComplianceCode = "f977d696-9bb9-4997-8920-7950c99487b1";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -796,7 +797,8 @@
 				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Convertik;
-				INFOPLIST_KEY_ITSEncryptionExportComplianceCode = Yes;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = YES;
+				INFOPLIST_KEY_ITSEncryptionExportComplianceCode = "f977d696-9bb9-4997-8920-7950c99487b1";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
