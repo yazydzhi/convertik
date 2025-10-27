@@ -1,5 +1,13 @@
 # Настройка In-App Purchase для App Store
 
+## ⚠️ ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ
+
+**Тип продукта**: Выбирайте **"Auto-Renewable Subscription"** (не Consumable и не Non-Consumable)
+
+- ❌ **Consumable** — для монет, жизней (одноразовые)
+- ❌ **Non-Consumable** — для функций навсегда (разовая покупка)
+- ✅ **Auto-Renewable Subscription** — для подписки без рекламы (ваш случай)
+
 ## Проблема
 
 Apple отклонил сборку с сообщением:
@@ -15,7 +23,23 @@ Apple отклонил сборку с сообщением:
 2. Выберите ваше приложение "Convertik"
 3. Перейдите в раздел **"Features"** → **"In-App Purchases"**
 4. Нажмите **"+"** или **"Create"**
-5. Выберите **"Auto-Renewable Subscription"**
+
+⚠️ **ВАЖНО: Тип продукта**
+
+Вы увидите выбор между "Consumable" и "Non-Consumable" - **ЭТО НЕ ПОДХОДИТ!**
+
+Нужно выбрать **"Auto-Renewable Subscription"** (может быть в списке ниже или в отдельной секции).
+
+Если вы видите только Consumable/Non-Consumable:
+- Нажмите "Cancel"
+- Найдите кнопку **"Manage"** → **"Subscription Groups"** 
+- Создайте Subscription Group "AdsFree"
+- Затем вернитесь и создайте продукт типа **"Auto-Renewable Subscription"** внутри этой группы
+
+**Почему именно Subscription:**
+- **Consumable** — одноразовые покупки (жизни в игре, монеты)
+- **Non-Consumable** — покупка раз и навсегда (функции, фильтры)
+- **Auto-Renewable Subscription** — подписка, которая продлевается автоматически (удаление рекламы на время подписки) ✅
 
 ### Шаг 2: Заполнение данных продукта
 
