@@ -33,7 +33,12 @@ struct PaywallView: View {
                 }
             }
             .task {
-                await storeService.loadProducts()
+                do {
+                    try await storeService.loadProducts()
+                } catch {
+                    errorMessage = error.localizedDescription
+                    showingError = true
+                }
             }
             .alert("Ошибка", isPresented: $showingError) {
                 Button("OK") { }

@@ -140,12 +140,13 @@ async def health_check():
 
 
 # Импорт роутов
-from .routes import rates_router, stats_router, admin_router
+from .routes import rates_router, stats_router, admin_router, iap_router
 
 # Подключение роутов
 app.include_router(rates_router, prefix="/api/v1", tags=["rates"])
 app.include_router(stats_router, prefix="/api/v1", tags=["stats"])
 app.include_router(admin_router, prefix="/api/v1", tags=["admin"])
+app.include_router(iap_router, prefix="/api/v1", tags=["iap"])
 
 
 if __name__ == "__main__":

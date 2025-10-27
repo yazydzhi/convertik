@@ -44,12 +44,18 @@ final class StoreService: ObservableObject {
 
     // MARK: - Product Loading
 
-    func loadProducts() async {
+    func loadProducts() async throws {
         do {
             let products = try await Product.products(for: productIds)
             monthlyProduct = products.first { $0.id == "com.azg.Convertik" }
+            
+            if monthlyProduct == nil {
+                print("⚠️ StoreService: Product 'com.azg.Convertik' not found")
+                throw StoreError.noProductsFound
+            }
         } catch {
-            print("Failed to load products: \(error)")
+            print("❌ StoreService: Failed to load products: \(error)")
+            throw error
         }
     }
 
@@ -192,6 +198,7 @@ enum StoreError: Error, LocalizedError {
     case failedVerification
     case networkError
     case unknownError
+    case noProductsFound
 
     var errorDescription: String? {
         switch self {
@@ -201,6 +208,8 @@ enum StoreError: Error, LocalizedError {
             return "Ошибка сети"
         case .unknownError:
             return "Неизвестная ошибка"
+        case .noProductsFound:
+            return "Продукты не найдены"
         }
     }
 }

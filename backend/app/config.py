@@ -23,13 +23,16 @@ class Settings(BaseSettings):
     apns_key_id: Optional[str] = None
     apns_team_id: Optional[str] = None
     
+    # App Store Receipt Verification
+    app_store_shared_secret: Optional[str] = None
+    
     # Rate Limiting (Free Plan: 900 requests/month)
     rates_update_interval_minutes: int = 60  # минимум 1 час между запросами к API
     rates_check_interval_minutes: int = 30   # проверка каждые 30 минут
     
     # Приложение
     app_name: str = "Convertik API"
-    app_version: str = "1.0.0"
+    app_version: str = "2.4.0"
     debug: bool = False
     
     # Логирование
