@@ -125,7 +125,11 @@ final class StoreService: ObservableObject {
         
         // Если подписка не найдена локально, пытаемся получить информацию о продуктах
         if !isPremium {
-            await loadProducts()
+            do {
+                try await loadProducts()
+            } catch {
+                print("⚠️ StoreService: Failed to load products silently: \(error)")
+            }
         }
     }
 
