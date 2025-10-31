@@ -4,7 +4,17 @@ import Foundation
 final class BackgroundService {
     static let shared = BackgroundService()
 
-    private let refreshTaskId = "com.azg.convertik.refresh"
+    private let refreshTaskId: String = {
+        #if DEBUG
+        return "com.azg.convertik.refresh"
+        #elseif DEPLOY_OLD
+        return "com.yazydzhi.convertik.refresh"
+        #elseif DEPLOY_NEW
+        return "com.azg.convertik.refresh"
+        #else
+        return "com.azg.convertik.refresh"
+        #endif
+    }()
 
     private init() {}
 

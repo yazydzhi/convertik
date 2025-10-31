@@ -8,6 +8,12 @@ options:
   createIntermediateGroups: true
   groupSortPosition: top
 
+configs:
+  Debug: Configs/Debug.xcconfig
+  Release: Configs/Debug.xcconfig  # Используем Debug для Release по умолчанию
+  DeployOld: Configs/DeployOld.xcconfig
+  DeployNew: Configs/DeployNew.xcconfig
+
 schemes:
   Convertik:
     build:
@@ -23,6 +29,36 @@ schemes:
       config: Debug
     archive:
       config: Release
+  
+  Convertik-Old:
+    build:
+      targets:
+        Convertik: all
+    run:
+      config: DeployOld
+    test:
+      config: Debug
+    profile:
+      config: DeployOld
+    analyze:
+      config: DeployOld
+    archive:
+      config: DeployOld
+  
+  Convertik-New:
+    build:
+      targets:
+        Convertik: all
+    run:
+      config: DeployNew
+    test:
+      config: Debug
+    profile:
+      config: DeployNew
+    analyze:
+      config: DeployNew
+    archive:
+      config: DeployNew
 
 dependencies:
   - package: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
@@ -33,6 +69,19 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: 15.0
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(PRODUCT_BUNDLE_IDENTIFIER)
+        SWIFT_VERSION: "5.9"
+        SWIFT_COMPILATION_MODE: wholemodule
+        SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+      configs:
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+        DeployOld:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+        DeployNew:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
     sources:
       - path: Convertik
         excludes:
@@ -61,7 +110,7 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         BGTaskSchedulerPermittedIdentifiers:
-          - "com.azg.convertik.refresh"
+          - "$(BG_TASK_REFRESH_IDENTIFIER)"
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: false
           NSExceptionDomains:

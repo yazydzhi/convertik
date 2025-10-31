@@ -9,9 +9,17 @@ final class StoreService: ObservableObject {
     @Published private(set) var monthlyProduct: Product?
     @Published private(set) var isPremium = false
 
-    private let productIds = [
-        "com.azg.Convertik"
-    ]
+    private let productIds: [String] = {
+        #if DEBUG
+        return ["com.azg.Convertik"] // Test SKU
+        #elseif DEPLOY_OLD
+        return ["com.yazydzhi.convertik"] // Old Version SKU
+        #elseif DEPLOY_NEW
+        return ["com.azg.Convertik"] // New Version SKU
+        #else
+        return ["com.azg.Convertik"] // Default SKU
+        #endif
+    }()
 
     private let settingsService = SettingsService.shared
     private let analyticsService = AnalyticsService.shared
@@ -47,10 +55,12 @@ final class StoreService: ObservableObject {
     func loadProducts() async throws {
         do {
             let products = try await Product.products(for: productIds)
-            monthlyProduct = products.first { $0.id == "com.azg.Convertik" }
+            // Используем первый продукт из списка в зависимости от конфигурации
+            monthlyProduct = products.first { productIds.contains($0.id) }
             
             if monthlyProduct == nil {
-                print("⚠️ StoreService: Product 'com.azg.Convertik' not found")
+                let expectedProductId = productIds.first ?? "unknown"
+                print("⚠️ StoreService: Product '\(expectedProductId)' not found")
                 throw StoreError.noProductsFound
             }
         } catch {

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-               BuildableName = "Convertik.app"
+               BuildableName = ".app"
                BlueprintName = "Convertik"
                ReferencedContainer = "container:Convertik.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>
@@ -54,14 +54,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <StoreKitConfigurationFileReference
-         identifier = "../ test_config .storekit">
-      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -74,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>

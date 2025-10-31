@@ -150,6 +150,13 @@ frontend/ios/fastlane/test_output
 ## App Store Connect API Key
 frontend/ios/AuthKey_*.p8
 
+# iOS Product Deployment Configs (contains production secrets!)
+frontend/ios/Configs/DeployOld.xcconfig
+frontend/ios/Configs/DeployNew.xcconfig
+# Allow example/template configs
+!frontend/ios/Configs/*.example
+!frontend/ios/Configs/*.template
+
 # Backup files
 *.bak
 *.backup

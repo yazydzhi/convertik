@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-               BuildableName = "Convertik.app"
+               BuildableName = ".app"
                BlueprintName = "Convertik"
                ReferencedContainer = "container:Convertik.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>
@@ -40,7 +40,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "DeployOld"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -54,14 +54,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "DeployOld"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -71,17 +71,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A24412A872A5DCB8729596AC"
-            BuildableName = "Convertik.app"
+            BuildableName = ".app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "DeployOld">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "DeployOld"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

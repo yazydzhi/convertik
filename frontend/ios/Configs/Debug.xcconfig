@@ -1,0 +1,37 @@
+//
+//  Debug.xcconfig
+//  Debug конфигурация с тестовыми данными
+//
+
+// Bundle Identifier (используем новую версию для debug)
+PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
+
+// IAP Product SKU (тестовый)
+IAP_PRODUCT_SKU = com.azg.Convertik
+
+// Swift Compilation Flags
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG
+
+// Info.plist values (для чтения во время выполнения)
+INFOPLIST_KEY_IAP_PRODUCT_SKU = com.azg.Convertik
+INFOPLIST_KEY_ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+INFOPLIST_KEY_ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3940256099942544/2934735716
+INFOPLIST_KEY_ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3940256099942544/4411468910
+INFOPLIST_KEY_ADMOB_REWARDED_MAIN = ca-app-pub-3940256099942544/1712485313
+
+// Google Ads Configuration - Test IDs
+// App ID
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+
+// Banner Ad Unit IDs
+ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3940256099942544/2934735716
+
+// Interstitial Ad Unit IDs
+ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3940256099942544/4411468910
+
+// Rewarded Ad Unit IDs
+ADMOB_REWARDED_MAIN = ca-app-pub-3940256099942544/1712485313
+
+// Background Task Identifier
+BG_TASK_REFRESH_IDENTIFIER = com.azg.convertik.refresh
+
