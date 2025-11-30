@@ -54,6 +54,7 @@ targets:
         CFBundleShortVersionString: "2.5"
         CFBundleVersion: "4"
         GADApplicationIdentifier: "ca-app-pub-3963008621997262~3198843168"
+        ITSAppUsesNonExemptEncryption: false
         LSApplicationCategoryType: "public.app-category.finance"
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true

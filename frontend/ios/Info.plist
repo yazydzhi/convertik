@@ -26,6 +26,8 @@
 	<string>4</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3963008621997262~3198843168</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.finance</string>
 	<key>NSAppTransportSecurity</key>
