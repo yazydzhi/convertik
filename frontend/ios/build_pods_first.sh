@@ -10,12 +10,25 @@ echo "🔧 [Pre-Build] Building Pods first..."
 CONFIGURATION="${CONFIGURATION:-Debug}"
 DESTINATION="${PLATFORM_NAME:-iphonesimulator}"
 
-# Путь к workspace
-WORKSPACE_PATH="${SRCROOT}/Convertik.xcworkspace"
+# Определяем путь к workspace
+# Если запускается из Xcode, используем SRCROOT
+# Если из командной строки, используем директорию скрипта
+if [ -n "$SRCROOT" ]; then
+    # Запуск из Xcode
+    SCRIPT_DIR="$SRCROOT"
+else
+    # Запуск из командной строки
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
+WORKSPACE_PATH="$SCRIPT_DIR/Convertik.xcworkspace"
 
 # Проверяем наличие workspace
 if [ ! -f "$WORKSPACE_PATH/contents.xcworkspacedata" ]; then
     echo "❌ Error: Workspace not found at $WORKSPACE_PATH"
+    echo "   Current directory: $(pwd)"
+    echo "   Script directory: $SCRIPT_DIR"
+    echo "   SRCROOT: ${SRCROOT:-not set}"
     exit 1
 fi
 
