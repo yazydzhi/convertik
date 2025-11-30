@@ -10,9 +10,10 @@ options:
 
 configs:
   Debug: Configs/Debug.xcconfig
-  Release: Configs/Debug.xcconfig  # Используем Debug для Release по умолчанию
-  DeployOld: Configs/DeployOld.xcconfig
-  DeployNew: Configs/DeployNew.xcconfig
+  Release: Configs/Release.xcconfig
+
+fileGroups:
+  - Configs
 
 schemes:
   Convertik:
@@ -29,40 +30,6 @@ schemes:
       config: Debug
     archive:
       config: Release
-  
-  Convertik-Old:
-    build:
-      targets:
-        Convertik: all
-    run:
-      config: DeployOld
-    test:
-      config: Debug
-    profile:
-      config: DeployOld
-    analyze:
-      config: DeployOld
-    archive:
-      config: DeployOld
-  
-  Convertik-New:
-    build:
-      targets:
-        Convertik: all
-    run:
-      config: DeployNew
-    test:
-      config: Debug
-    profile:
-      config: DeployNew
-    analyze:
-      config: DeployNew
-    archive:
-      config: DeployNew
-
-dependencies:
-  - package: https://github.com/googleads/swift-package-manager-google-mobile-ads.git
-    from: 10.15.0
 
 targets:
   Convertik:
@@ -71,17 +38,11 @@ targets:
     deploymentTarget: 15.0
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: $(PRODUCT_BUNDLE_IDENTIFIER)
+        PRODUCT_NAME: $(TARGET_NAME)
         SWIFT_VERSION: "5.9"
-        SWIFT_COMPILATION_MODE: wholemodule
-        SWIFT_OPTIMIZATION_LEVEL: "-Onone"
-      configs:
-        Release:
-          SWIFT_OPTIMIZATION_LEVEL: "-O"
-        DeployOld:
-          SWIFT_OPTIMIZATION_LEVEL: "-O"
-        DeployNew:
-          SWIFT_OPTIMIZATION_LEVEL: "-O"
+        ALWAYS_SEARCH_USER_PATHS: NO
+        CLANG_USE_MODULES: YES
+        ENABLE_MODULES: YES
     sources:
       - path: Convertik
         excludes:
@@ -90,8 +51,9 @@ targets:
       path: Info.plist
       properties:
         CFBundleDisplayName: Конвертик
-        CFBundleShortVersionString: "2.4"
+        CFBundleShortVersionString: "2.5"
         CFBundleVersion: "1"
+        GADApplicationIdentifier: "ca-app-pub-3963008621997262~3198843168"
         LSApplicationCategoryType: "public.app-category.finance"
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true
@@ -110,7 +72,7 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         BGTaskSchedulerPermittedIdentifiers:
-          - "$(BG_TASK_REFRESH_IDENTIFIER)"
+          - "com.azg.convertik.refresh"
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: false
           NSExceptionDomains:
