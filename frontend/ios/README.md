@@ -88,9 +88,51 @@ private func recalculateAllCurrencies(baseCurrencyCode: String, baseAmount: Doub
 
 ## Установка и запуск
 
-1. Откройте проект в Xcode
-2. Выберите симулятор iPhone
-3. Нажмите Cmd+R для запуска
+### Быстрый старт
+
+1. Установите зависимости:
+   ```bash
+   cd frontend/ios
+   pod install
+   ```
+
+2. Откройте проект в Xcode:
+   ```bash
+   open Convertik.xcworkspace
+   ```
+   ⚠️ **Важно**: Открывайте `.xcworkspace`, а не `.xcodeproj`!
+
+3. Выберите симулятор iPhone
+4. Нажмите Cmd+R для запуска
+
+### Сборка из командной строки
+
+Используйте скрипт для автоматической сборки (рекомендуется):
+
+```bash
+cd frontend/ios
+./build.sh
+```
+
+Скрипт автоматически:
+- Собирает Pods перед основной сборкой
+- Решает проблему "Unable to find module dependency: 'GoogleMobileAds'"
+- Показывает понятные сообщения об ошибках
+
+### Решение проблем со сборкой
+
+Если возникает ошибка `Unable to find module dependency: 'GoogleMobileAds'`:
+
+1. **Используйте скрипт сборки** (см. выше)
+2. Или соберите Pods вручную:
+   ```bash
+   xcodebuild -workspace Convertik.xcworkspace \
+       -scheme Pods-Convertik \
+       -configuration Debug \
+       -destination 'generic/platform=iOS Simulator' \
+       build
+   ```
+3. Подробнее: см. [GOOGLEMOBILEADS_BUILD_FIX.md](GOOGLEMOBILEADS_BUILD_FIX.md)
 
 ## Требования
 
