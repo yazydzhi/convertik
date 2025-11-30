@@ -52,7 +52,7 @@ targets:
       properties:
         CFBundleDisplayName: Конвертик
         CFBundleShortVersionString: "2.5"
-        CFBundleVersion: "3"
+        CFBundleVersion: "4"
         GADApplicationIdentifier: "ca-app-pub-3963008621997262~3198843168"
         LSApplicationCategoryType: "public.app-category.finance"
         UIApplicationSceneManifest:

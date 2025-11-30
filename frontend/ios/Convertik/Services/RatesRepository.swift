@@ -31,20 +31,31 @@ final class RatesRepository: ObservableObject {
 
     private init() {
         logger.debug("RatesRepository init() called")
+        
+        // Загружаем локальные данные синхронно (быстро, не блокирует UI)
         loadLocalRates()
-        // Добавляем базовые валюты, если их нет
+        
+        // Если данных нет, добавляем дефолтные курсы СИНХРОННО в фоне
+        // Это гарантирует, что UI сразу покажет хотя бы дефолтные валюты
         if rates.isEmpty {
-            logger.debug("No rates found, adding default rates")
-            Task {
-                await addDefaultRates()
+            logger.debug("No rates found, adding default rates synchronously")
+            // Загружаем дефолтные курсы асинхронно, но не блокируя UI
+            Task.detached { [weak self] in
+                await self?.addDefaultRates()
+                // После добавления дефолтных курсов обновляем UI
+                await MainActor.run {
+                    self?.loadLocalRates()
+                }
             }
         }
         
-        // Запускаем синхронизацию в фоне после инициализации с задержкой
+        // Запускаем синхронизацию в фоне ПОСЛЕ показа UI
+        // Порядок: UI → Локальные данные (уже загружены) → Синхронизация → Premium → Реклама
         logger.debug("Scheduling background sync after init()")
         Task.detached { [weak self] in
-            // Добавляем небольшую задержку чтобы UI успел загрузиться
-            try? await Task.sleep(nanoseconds: 1_000_000_000) // 1 секунда
+            // Увеличена задержка до 3 секунд, чтобы UI точно успел показаться
+            // и пользователь мог начать работать с приложением
+            try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 секунды
             await self?.syncRemote()
         }
     }
@@ -52,17 +63,21 @@ final class RatesRepository: ObservableObject {
     // MARK: - Public Methods
 
     func loadLocalRates() {
+        // Загрузка локальных данных - быстрая операция, не блокирует UI
+        // Используем viewContext, который уже на главном потоке
         let request: NSFetchRequest<RateEntity> = RateEntity.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \RateEntity.code, ascending: true)]
 
         do {
             let entities = try coreDataStack.persistentContainer.viewContext.fetch(request)
+            // Обновляем rates на главном потоке (мы уже на MainActor)
             self.rates = entities.map(Rate.init)
             let oldLastUpdated = self.lastUpdated
             self.lastUpdated = rates.first?.updatedAt
             logger.debug("loadLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
         } catch {
             logger.error("Failed to load local rates: \(error)")
+            // В случае ошибки оставляем пустой массив, UI все равно покажется
         }
     }
 
@@ -217,13 +232,14 @@ final class RatesRepository: ObservableObject {
             }
         }
         
-        // Обновляем UI на главном потоке
-        await MainActor.run {
+        // Обновляем UI на главном потоке асинхронно, не блокируя
+        // Это гарантирует, что UI остается отзывчивым
+        await MainActor.run { [weak self] in
+            guard let self = self else { return }
             self.loadLocalRates()
             let oldLastUpdated = self.lastUpdated
-            // Используем текущее время для отладки, если API время не меняется
-            let newTime = Date()
-            self.lastUpdated = newTime
+            // Используем время из response для точности
+            self.lastUpdated = response.updatedAt
             self.logger.debug("updateLocalRates: old lastUpdated=\(oldLastUpdated?.formattedForDisplay() ?? "nil"), new lastUpdated=\(self.lastUpdated?.formattedForDisplay() ?? "nil")")
         }
     }
