@@ -113,6 +113,8 @@ private func recalculateAllCurrencies(baseCurrencyCode: String, baseAmount: Doub
 cd frontend/ios
 ./build.sh                    # Обычная сборка
 ./build.sh --clean            # Очистка кэша и сборка (рекомендуется при проблемах)
+./build.sh --open             # Сборка и открытие workspace в Xcode
+./build.sh --clean --open     # Очистка, сборка и открытие workspace
 ```
 
 Скрипт автоматически:
@@ -120,15 +122,22 @@ cd frontend/ios
 - Решает проблему "Unable to find module dependency: 'GoogleMobileAds'"
 - Показывает понятные сообщения об ошибках
 
-**Опция `--clean`** очищает:
-- DerivedData для проекта Convertik
-- Swift module cache
-- Build folder через xcodebuild clean
+**Опции:**
 
-Используйте `--clean` если:
-- Возникают ошибки "Unable to find module dependency"
-- Xcode показывает устаревшие ошибки
-- После обновления Pods или зависимостей
+- `--clean` - Очистка кэша перед сборкой:
+  - Закрывает Xcode если открыт
+  - Очищает DerivedData для проекта Convertik
+  - Очищает Swift module cache
+  - Очищает build folder через xcodebuild clean
+  
+  Используйте если:
+  - Возникают ошибки "Unable to find module dependency"
+  - Xcode показывает устаревшие ошибки
+  - После обновления Pods или зависимостей
+
+- `--open` - Открыть workspace в Xcode после успешной сборки
+  - Автоматически открывает `Convertik.xcworkspace` после сборки
+  - Полезно для быстрого перехода к работе в Xcode
 
 ### Решение проблем со сборкой
 

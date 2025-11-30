@@ -3,12 +3,17 @@
 # Автоматически собирает Pods перед основной сборкой
 #
 # Использование:
-#   ./build.sh [Debug|Release] [destination] [scheme] [--clean]
+#   ./build.sh [Debug|Release] [destination] [scheme] [--clean] [--open]
+#
+# Опции:
+#   --clean  Очистка кэша перед сборкой (закрывает Xcode если открыт)
+#   --open   Открыть workspace в Xcode после успешной сборки
 #
 # Примеры:
 #   ./build.sh Debug "generic/platform=iOS Simulator" Convertik
 #   ./build.sh Debug "generic/platform=iOS Simulator" Convertik --clean
-#   ./build.sh --clean  # Очистка кэша и сборка с параметрами по умолчанию
+#   ./build.sh --clean --open  # Очистка, сборка и открытие workspace
+#   ./build.sh --open  # Сборка и открытие workspace
 
 set -e
 
@@ -24,10 +29,13 @@ NC='\033[0m' # No Color
 
 # Парсим аргументы
 CLEAN_CACHE=false
+OPEN_WORKSPACE=false
 ARGS=()
 for arg in "$@"; do
     if [[ "$arg" == "--clean" ]]; then
         CLEAN_CACHE=true
+    elif [[ "$arg" == "--open" ]]; then
+        OPEN_WORKSPACE=true
     else
         ARGS+=("$arg")
     fi
@@ -52,6 +60,17 @@ if [ ! -f "Convertik.xcworkspace/contents.xcworkspacedata" ]; then
     echo -e "${RED}❌ Error: Convertik.xcworkspace not found!${NC}"
     echo "Make sure you're in the frontend/ios directory"
     exit 1
+fi
+
+# Закрытие Xcode (если открыт и запрошена очистка или открытие workspace)
+if [ "$CLEAN_CACHE" = true ] || [ "$OPEN_WORKSPACE" = true ]; then
+    if pgrep -x "Xcode" > /dev/null; then
+        echo -e "${YELLOW}🔒 Closing Xcode...${NC}"
+        killall Xcode 2>/dev/null || true
+        # Ждем закрытия Xcode
+        sleep 2
+        echo -e "${GREEN}✅ Xcode closed${NC}"
+    fi
 fi
 
 # Очистка кэша (если запрошено)
@@ -130,6 +149,15 @@ if xcodebuild \
     build \
     > /tmp/app_build.log 2>&1; then
     echo -e "${GREEN}✅ Build SUCCEEDED!${NC}"
+    echo ""
+    
+    # Открытие workspace после успешной сборки (если запрошено)
+    if [ "$OPEN_WORKSPACE" = true ]; then
+        echo -e "${BLUE}🚀 Opening workspace in Xcode...${NC}"
+        open Convertik.xcworkspace
+        echo -e "${GREEN}✅ Workspace opened${NC}"
+    fi
+    
     exit 0
 else
     echo -e "${RED}❌ Build FAILED!${NC}"
