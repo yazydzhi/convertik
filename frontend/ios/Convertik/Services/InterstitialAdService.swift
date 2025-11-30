@@ -12,7 +12,21 @@ class InterstitialAdService: ObservableObject {
     
     private init() {
         self.adUnitID = AdConfig.Interstitial.main
-        loadAd()
+        // НЕ загружаем рекламу сразу - отложим до инициализации AdMob SDK
+        // loadAd() будет вызван через initializeAd() после инициализации AdMob
+    }
+    
+    // Метод для инициализации рекламы после загрузки AdMob SDK
+    func initializeAd() {
+        print("🎯 InterstitialAdService: Initializing ad after AdMob SDK is ready...")
+        Task.detached { [weak self] in
+            guard let self = self else { return }
+            // Добавляем небольшую задержку после инициализации AdMob
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 секунды
+            await MainActor.run {
+                self.loadAd()
+            }
+        }
     }
     
     private func loadAd() {

@@ -30,21 +30,8 @@ struct ConvertikApp: App {
             print("❌ This will cause Google Mobile Ads SDK initialization to fail!")
         }
         
-        // Инициализируем AdMob SDK
-        // SDK автоматически читает GADApplicationIdentifier из Info.plist
-        MobileAds.shared.start { status in
-            #if DEBUG
-            print("🔧 Google Mobile Ads SDK initialization status: \(status)")
-            print("🔧 AdMob App ID from AdConfig: \(AdConfig.appID)")
-            print("🔧 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
-            print("🔧 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
-            #else
-            print("🚀 Google Mobile Ads SDK initialization status: \(status)")
-            print("🚀 AdMob App ID from AdConfig: \(AdConfig.appID)")
-            print("🚀 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
-            print("🚀 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
-            #endif
-        }
+        // НЕ инициализируем AdMob здесь - отложим до onAppear для быстрого запуска UI
+        // Инициализация будет выполнена асинхронно после показа интерфейса
     }
 
     var body: some Scene {
@@ -59,9 +46,42 @@ struct ConvertikApp: App {
                 .environment(\.themeManager, ThemeManager(themeService: themeService))
                 .preferredColorScheme(themeService.isDarkMode ? .dark : .light)
                 .onAppear {
+                    // Оптимизированный порядок инициализации для быстрого запуска:
+                    // 1. UI показывается сразу (уже произошло)
+                    // 2. Локальные данные уже загружены (RatesRepository.loadLocalRates)
+                    // 3. Инициализируем AdMob через 3 секунды (не блокирует UI)
+                    // 4. Проверяем подписку через 2 секунды
+                    // 5. Синхронизация данных запускается из RatesRepository через 1 секунду
+                    
+                    // Инициализация AdMob SDK (отложена для быстрого запуска UI)
+                    Task.detached {
+                        try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 секунды
+                        await MainActor.run {
+                            print("📱 Initializing AdMob SDK (delayed for fast UI launch)...")
+                            MobileAds.shared.start { status in
+                                #if DEBUG
+                                print("🔧 Google Mobile Ads SDK initialization status: \(status)")
+                                print("🔧 AdMob App ID from AdConfig: \(AdConfig.appID)")
+                                print("🔧 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
+                                print("🔧 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
+                                #else
+                                print("🚀 Google Mobile Ads SDK initialization status: \(status)")
+                                print("🚀 AdMob App ID from AdConfig: \(AdConfig.appID)")
+                                print("🚀 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
+                                print("🚀 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
+                                #endif
+                                
+                                // После инициализации AdMob запускаем загрузку рекламы
+                                adService.initializeAds()
+                                
+                                // Также инициализируем InterstitialAdService
+                                InterstitialAdService.shared.initializeAd()
+                            }
+                        }
+                    }
+                    
                     // Проверяем статус подписки тихо без принудительной авторизации с задержкой
                     Task.detached {
-                        // Добавляем задержку чтобы UI успел загрузиться
                         try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 секунды
                         await storeService.checkSubscriptionSilently()
                     }

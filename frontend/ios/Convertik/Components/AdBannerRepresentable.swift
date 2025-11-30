@@ -15,17 +15,20 @@ struct AdBannerRepresentable: UIViewRepresentable {
         print("📱 AdBannerRepresentable: Creating adaptive banner with Ad Unit ID: \(adService.bannerAdUnitID)")
         print("📱 AdBannerRepresentable: Root view controller: \(context.coordinator.getRootViewController() != nil ? "Found" : "Not found")")
         
-        // Загружаем рекламу
-        let request = Request()
-        
-        print("📱 AdBannerRepresentable: Loading banner ad...")
-        bannerView.load(request)
+        // НЕ загружаем рекламу сразу - отложим до инициализации AdMob SDK
+        // Загрузка будет выполнена через loadBannerAd() после инициализации AdMob
+        // Это ускоряет показ UI
         
         return bannerView
     }
     
     func updateUIView(_ uiView: BannerView, context: Context) {
-        // Обновление не требуется
+        // Загружаем рекламу только если AdMob SDK инициализирован и еще не пытались загрузить
+        if adService.isAdMobInitialized && !adService.bannerLoadAttempted {
+            print("📱 AdBannerRepresentable: Loading banner ad (AdMob is ready)...")
+            let request = Request()
+            uiView.load(request)
+        }
     }
     
     func makeCoordinator() -> Coordinator {

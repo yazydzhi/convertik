@@ -8,6 +8,7 @@ class AdService: ObservableObject {
     @Published var isBannerLoaded = false
     @Published var isInterstitialReady = false
     @Published var bannerLoadAttempted = false // Отслеживаем попытки загрузки баннера
+    @Published var isAdMobInitialized = false // Флаг инициализации AdMob SDK
     
     // Ad Unit IDs
     let bannerAdUnitID: String
@@ -19,9 +20,18 @@ class AdService: ObservableObject {
         self.bannerAdUnitID = AdConfig.Banner.mainBottom
         self.interstitialAdUnitID = AdConfig.Interstitial.main
         
-        // Запускаем настройку рекламы в фоне
+        // НЕ запускаем настройку рекламы сразу - отложим до инициализации AdMob SDK
+        // setupAds() будет вызван после инициализации AdMob через initializeAds()
+    }
+    
+    // Метод для инициализации рекламы после загрузки AdMob SDK
+    func initializeAds() {
+        print("🎯 AdService: Initializing ads after AdMob SDK is ready...")
+        isAdMobInitialized = true
         Task.detached { [weak self] in
             guard let self = self else { return }
+            // Добавляем небольшую задержку после инициализации AdMob
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 секунды
             await MainActor.run {
                 self.setupAds()
             }
