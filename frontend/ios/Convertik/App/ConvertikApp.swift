@@ -22,15 +22,25 @@ struct ConvertikApp: App {
         print("🚀 ConvertikApp: Running in RELEASE mode")
         #endif
         
+        // Проверяем наличие GADApplicationIdentifier в Info.plist
+        if let appID = Bundle.main.object(forInfoDictionaryKey: "GADApplicationIdentifier") as? String {
+            print("✅ GADApplicationIdentifier found in Info.plist: \(appID)")
+        } else {
+            print("❌ WARNING: GADApplicationIdentifier NOT found in Info.plist!")
+            print("❌ This will cause Google Mobile Ads SDK initialization to fail!")
+        }
+        
+        // Инициализируем AdMob SDK
+        // SDK автоматически читает GADApplicationIdentifier из Info.plist
         MobileAds.shared.start { status in
             #if DEBUG
             print("🔧 Google Mobile Ads SDK initialization status: \(status)")
-            print("🔧 AdMob App ID: \(AdConfig.appID)")
+            print("🔧 AdMob App ID from AdConfig: \(AdConfig.appID)")
             print("🔧 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
             print("🔧 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
             #else
             print("🚀 Google Mobile Ads SDK initialization status: \(status)")
-            print("🚀 AdMob App ID: \(AdConfig.appID)")
+            print("🚀 AdMob App ID from AdConfig: \(AdConfig.appID)")
             print("🚀 Banner Ad Unit ID: \(AdConfig.Banner.mainBottom)")
             print("🚀 Interstitial Ad Unit ID: \(AdConfig.Interstitial.main)")
             #endif

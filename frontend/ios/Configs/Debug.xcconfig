@@ -3,6 +3,8 @@
 //  Debug конфигурация с тестовыми данными
 //
 
+#include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"
+
 // Bundle Identifier (используем новую версию для debug)
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 

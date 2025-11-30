@@ -9,6 +9,8 @@ struct SettingsView: View {
 
     @State private var showingPaywall = false
     @State private var showBuildInfo = false
+    @State private var showDebugInfo = false
+    @State private var versionTapCount = 0
 
     var body: some View {
         NavigationView {
@@ -133,6 +135,9 @@ struct SettingsView: View {
                         }
                         .onTapGesture {
                             showBuildInfo.toggle()
+                            if !showBuildInfo {
+                                versionTapCount = 0
+                            }
                         }
                         
                         #if DEBUG
@@ -184,6 +189,13 @@ struct SettingsView: View {
                             }
                             .padding(.top, 8)
                             .transition(.opacity.combined(with: .scale))
+                            .onTapGesture {
+                                versionTapCount += 1
+                                if versionTapCount >= 5 {
+                                    showDebugInfo = true
+                                    versionTapCount = 0
+                                }
+                            }
                         }
                     }
                 }
@@ -203,6 +215,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
+        }
+        .sheet(isPresented: $showDebugInfo) {
+            DebugInfoView()
         }
         .onAppear {
             analyticsService.trackSettingsOpened()
@@ -255,6 +270,115 @@ struct SettingsView: View {
         #else
         return Color.green.opacity(0.2)
         #endif
+    }
+}
+
+// MARK: - Debug Info View
+struct DebugInfoView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.themeManager) private var themeManager
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Bundle ID
+                    InfoRow(
+                        title: "Bundle ID",
+                        value: Bundle.main.bundleIdentifier ?? "N/A",
+                        themeManager: themeManager
+                    )
+                    
+                    Divider()
+                    
+                    // AdMob App ID
+                    InfoRow(
+                        title: "AdMob App ID",
+                        value: AdConfig.appID,
+                        themeManager: themeManager
+                    )
+                    
+                    Divider()
+                    
+                    // Banner Ad Unit ID
+                    InfoRow(
+                        title: "Banner Ad Unit ID",
+                        value: AdConfig.Banner.mainBottom,
+                        themeManager: themeManager
+                    )
+                    
+                    Divider()
+                    
+                    // Interstitial Ad Unit ID
+                    InfoRow(
+                        title: "Interstitial Ad Unit ID",
+                        value: AdConfig.Interstitial.main,
+                        themeManager: themeManager
+                    )
+                    
+                    Divider()
+                    
+                    // Rewarded Ad Unit ID
+                    InfoRow(
+                        title: "Rewarded Ad Unit ID",
+                        value: AdConfig.Rewarded.main,
+                        themeManager: themeManager
+                    )
+                }
+                .padding()
+            }
+            .background(themeManager.background)
+            .navigationTitle("Отладочная информация")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Закрыть") {
+                        dismiss()
+                    }
+                    .foregroundColor(themeManager.amberAccent)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Info Row Component
+struct InfoRow: View {
+    let title: String
+    let value: String
+    let themeManager: ThemeManager
+    
+    @State private var isCopied = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(themeManager.textPrimary)
+            
+            HStack {
+                Text(value)
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(themeManager.textSecondary)
+                    .textSelection(.enabled)
+                
+                Spacer()
+                
+                Button {
+                    UIPasteboard.general.string = value
+                    isCopied = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        isCopied = false
+                    }
+                } label: {
+                    Image(systemName: isCopied ? "checkmark.circle.fill" : "doc.on.doc")
+                        .foregroundColor(isCopied ? .green : themeManager.amberAccent)
+                }
+            }
+            .padding()
+            .background(themeManager.cardBackground)
+            .cornerRadius(8)
+        }
     }
 }
 
