@@ -111,13 +111,24 @@ private func recalculateAllCurrencies(baseCurrencyCode: String, baseAmount: Doub
 
 ```bash
 cd frontend/ios
-./build.sh
+./build.sh                    # Обычная сборка
+./build.sh --clean            # Очистка кэша и сборка (рекомендуется при проблемах)
 ```
 
 Скрипт автоматически:
 - Собирает Pods перед основной сборкой
 - Решает проблему "Unable to find module dependency: 'GoogleMobileAds'"
 - Показывает понятные сообщения об ошибках
+
+**Опция `--clean`** очищает:
+- DerivedData для проекта Convertik
+- Swift module cache
+- Build folder через xcodebuild clean
+
+Используйте `--clean` если:
+- Возникают ошибки "Unable to find module dependency"
+- Xcode показывает устаревшие ошибки
+- После обновления Pods или зависимостей
 
 ### Решение проблем со сборкой
 
