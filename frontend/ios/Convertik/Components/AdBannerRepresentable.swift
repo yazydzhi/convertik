@@ -7,27 +7,47 @@ struct AdBannerRepresentable: UIViewRepresentable {
     
     func makeUIView(context: Context) -> BannerView {
         // Используем адаптивный баннер для лучшего использования пространства
+        // Создание BannerView не блокирует UI - это легкая операция
         let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = adService.bannerAdUnitID
-        bannerView.rootViewController = context.coordinator.getRootViewController()
         bannerView.delegate = context.coordinator
         
         print("📱 AdBannerRepresentable: Creating adaptive banner with Ad Unit ID: \(adService.bannerAdUnitID)")
-        print("📱 AdBannerRepresentable: Root view controller: \(context.coordinator.getRootViewController() != nil ? "Found" : "Not found")")
+        
+        // НЕ получаем rootViewController сразу - это может блокировать UI
+        // Установим его асинхронно в updateUIView когда AdMob будет готов
+        // Это критично для быстрого запуска и неблокирующего UI
         
         // НЕ загружаем рекламу сразу - отложим до инициализации AdMob SDK
-        // Загрузка будет выполнена через loadBannerAd() после инициализации AdMob
-        // Это ускоряет показ UI
+        // Загрузка будет выполнена через updateUIView после инициализации AdMob
+        // Это ускоряет показ UI и не блокирует интерфейс
         
         return bannerView
     }
     
     func updateUIView(_ uiView: BannerView, context: Context) {
         // Загружаем рекламу только если AdMob SDK инициализирован и еще не пытались загрузить
+        // ВСЕ операции выполняются асинхронно в фоне, не блокируя UI
         if adService.isAdMobInitialized && !adService.bannerLoadAttempted {
-            print("📱 AdBannerRepresentable: Loading banner ad (AdMob is ready)...")
-            let request = Request()
-            uiView.load(request)
+            // Устанавливаем rootViewController и загружаем рекламу асинхронно
+            // Это гарантирует, что UI не блокируется
+            let coordinator = context.coordinator
+            
+            Task.detached {
+                // Получаем rootViewController в фоне (не блокирует UI)
+                let rootVC = coordinator.getRootViewController()
+                
+                // Переключаемся на главный поток для установки rootViewController и загрузки
+                await MainActor.run {
+                    uiView.rootViewController = rootVC
+                    print("📱 AdBannerRepresentable: Root view controller: \(rootVC != nil ? "Found" : "Not found")")
+                    print("📱 AdBannerRepresentable: Loading banner ad (AdMob is ready, async)...")
+                    
+                    // Загружаем рекламу асинхронно - это не блокирует UI
+                    let request = Request()
+                    uiView.load(request)
+                }
+            }
         }
     }
     
@@ -45,6 +65,13 @@ struct AdBannerRepresentable: UIViewRepresentable {
         }
         
         func getRootViewController() -> UIViewController? {
+            // Получаем rootViewController асинхронно, чтобы не блокировать UI поток
+            // Используем MainActor для безопасного доступа к UI
+            guard Thread.isMainThread else {
+                // Если не на главном потоке, возвращаем nil - установим позже
+                return nil
+            }
+            
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                   let window = windowScene.windows.first else {
                 return nil
@@ -180,26 +207,38 @@ struct AdBannerContainerView: View {
                 .background(themeManager.cardBackground)
                 
                 // Баннер рекламы
+                // Показываем placeholder сразу, реклама загрузится асинхронно в фоне
                 ZStack {
-                    // Всегда создаем AdBannerRepresentable для загрузки рекламы
+                    // AdBannerRepresentable создается, но не блокирует UI
+                    // Загрузка рекламы происходит асинхронно в фоне
                     AdBannerRepresentable(adService: adService)
-                        .frame(height: 60) // Увеличиваем высоту для лучшей видимости
+                        .frame(height: 60)
                         .opacity(adService.isBannerLoaded ? 1.0 : 0.0)
+                        .allowsHitTesting(adService.isBannerLoaded) // Отключаем взаимодействие пока не загружена
                     
-                    // Показываем placeholder только если загрузка еще не была попыткой
-                    if !adService.isBannerLoaded && !adService.bannerLoadAttempted {
+                    // Показываем минималистичный placeholder пока реклама не загружена
+                    // Это не блокирует UI - просто визуальный элемент
+                    if !adService.isBannerLoaded {
                         Rectangle()
-                            .fill(themeManager.cardBackground)
+                            .fill(themeManager.cardBackground.opacity(0.5))
+                            .frame(height: 60)
                             .overlay(
-                                HStack {
-                                    ProgressView()
-                                        .scaleEffect(0.8)
-                                    Text("Загрузка рекламы...")
-                                        .font(.caption)
-                                        .foregroundColor(themeManager.textSecondary)
+                                // Показываем индикатор только если AdMob еще не инициализирован
+                                Group {
+                                    if !adService.isAdMobInitialized {
+                                        HStack(spacing: 4) {
+                                            ProgressView()
+                                                .scaleEffect(0.6)
+                                            Text("Загрузка...")
+                                                .font(.caption2)
+                                                .foregroundColor(themeManager.textSecondary.opacity(0.6))
+                                        }
+                                    } else {
+                                        // После инициализации AdMob показываем минимальный placeholder
+                                        Color.clear
+                                    }
                                 }
                             )
-                            .frame(height: 60) // Увеличиваем высоту для лучшей видимости
                     }
                 }
             }

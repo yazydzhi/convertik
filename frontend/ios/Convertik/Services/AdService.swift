@@ -57,18 +57,25 @@ class AdService: ObservableObject {
     }
     
     private func loadInterstitialAd() {
-        let request = Request()
-        InterstitialAd.load(with: interstitialAdUnitID, request: request) { [weak self] ad, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("Failed to load interstitial ad: \(error.localizedDescription)")
-                    self?.isInterstitialReady = false
-                    return
+        // Загружаем рекламу асинхронно в фоне, не блокируя UI
+        Task.detached { [weak self] in
+            guard let self = self else { return }
+            let request = Request()
+            
+            // Загрузка выполняется в фоне
+            InterstitialAd.load(with: self.interstitialAdUnitID, request: request) { ad, error in
+                // Обработка результата на главном потоке
+                Task { @MainActor in
+                    if let error = error {
+                        print("Failed to load interstitial ad: \(error.localizedDescription)")
+                        self.isInterstitialReady = false
+                        return
+                    }
+                    
+                    self.interstitialAd = ad
+                    self.isInterstitialReady = true
+                    print("Interstitial ad loaded successfully")
                 }
-                
-                self?.interstitialAd = ad
-                self?.isInterstitialReady = true
-                print("Interstitial ad loaded successfully")
             }
         }
     }

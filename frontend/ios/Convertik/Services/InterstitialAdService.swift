@@ -30,35 +30,43 @@ class InterstitialAdService: ObservableObject {
     }
     
     private func loadAd() {
+        // Загружаем рекламу асинхронно в фоне, не блокируя UI
         print("🎯 InterstitialAdService: Loading interstitial ad with ID: \(adUnitID)")
-        let request = Request()
-        InterstitialAd.load(with: adUnitID, request: request) { [weak self] ad, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    // Проверяем тип ошибки
-                    if let admobError = error as NSError? {
-                        // Если это ошибка "No ad to show" (код 1) - это нормальная ситуация
-                        if admobError.code == 1 && admobError.domain == "com.google.admob" {
-                            print("ℹ️ No interstitial ad available at the moment (this is normal)")
-                            print("ℹ️ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
-                            self?.isReady = false
-                            return
+        
+        Task.detached { [weak self] in
+            guard let self = self else { return }
+            let request = Request()
+            
+            // Загрузка выполняется в фоне
+            InterstitialAd.load(with: self.adUnitID, request: request) { ad, error in
+                // Обработка результата на главном потоке
+                Task { @MainActor in
+                    if let error = error {
+                        // Проверяем тип ошибки
+                        if let admobError = error as NSError? {
+                            // Если это ошибка "No ad to show" (код 1) - это нормальная ситуация
+                            if admobError.code == 1 && admobError.domain == "com.google.admob" {
+                                print("ℹ️ No interstitial ad available at the moment (this is normal)")
+                                print("ℹ️ Ad Unit ID: \(self.adUnitID)")
+                                self.isReady = false
+                                return
+                            }
                         }
+                        
+                        // Для всех остальных ошибок показываем детальную информацию
+                        print("❌ Interstitial ad failed to load!")
+                        print("❌ Ad Unit ID: \(self.adUnitID)")
+                        print("❌ Error: \(error.localizedDescription)")
+                        print("❌ Error details: \(error)")
+                        self.isReady = false
+                        return
                     }
                     
-                    // Для всех остальных ошибок показываем детальную информацию
-                    print("❌ Interstitial ad failed to load!")
-                    print("❌ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
-                    print("❌ Error: \(error.localizedDescription)")
-                    print("❌ Error details: \(error)")
-                    self?.isReady = false
-                    return
+                    self.interstitialAd = ad
+                    self.isReady = true
+                    print("✅ Interstitial ad loaded successfully!")
+                    print("✅ Ad Unit ID: \(self.adUnitID)")
                 }
-                
-                self?.interstitialAd = ad
-                self?.isReady = true
-                print("✅ Interstitial ad loaded successfully!")
-                print("✅ Ad Unit ID: \(self?.adUnitID ?? "Unknown")")
             }
         }
     }
