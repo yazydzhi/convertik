@@ -54,8 +54,9 @@ struct ConvertikApp: App {
                     // 5. Синхронизация данных запускается из RatesRepository через 1 секунду
                     
                     // Инициализация AdMob SDK (отложена для быстрого запуска UI)
+                    // Уменьшено до 1.5 секунд для более быстрой загрузки рекламы
                     Task.detached {
-                        try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 секунды
+                        try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5 секунды (было 3)
                         await MainActor.run {
                             print("📱 Initializing AdMob SDK (delayed for fast UI launch)...")
                             MobileAds.shared.start { status in

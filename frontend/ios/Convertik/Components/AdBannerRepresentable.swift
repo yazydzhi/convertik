@@ -27,25 +27,35 @@ struct AdBannerRepresentable: UIViewRepresentable {
     
     func updateUIView(_ uiView: BannerView, context: Context) {
         // Загружаем рекламу только если AdMob SDK инициализирован и еще не пытались загрузить
-        // ВСЕ операции выполняются асинхронно в фоне, не блокируя UI
+        // ВСЕ операции выполняются асинхронно, не блокируя UI
         if adService.isAdMobInitialized && !adService.bannerLoadAttempted {
-            // Устанавливаем rootViewController и загружаем рекламу асинхронно
-            // Это гарантирует, что UI не блокируется
-            let coordinator = context.coordinator
-            
-            Task.detached {
-                // Получаем rootViewController в фоне (не блокирует UI)
+            // Получаем rootViewController и загружаем рекламу асинхронно на главном потоке
+            // Это гарантирует, что UI не блокируется, но rootViewController будет найден
+            Task { @MainActor in
+                let coordinator = context.coordinator
                 let rootVC = coordinator.getRootViewController()
                 
-                // Переключаемся на главный поток для установки rootViewController и загрузки
-                await MainActor.run {
-                    uiView.rootViewController = rootVC
-                    print("📱 AdBannerRepresentable: Root view controller: \(rootVC != nil ? "Found" : "Not found")")
+                uiView.rootViewController = rootVC
+                print("📱 AdBannerRepresentable: Root view controller: \(rootVC != nil ? "Found" : "Not found")")
+                
+                if rootVC != nil {
                     print("📱 AdBannerRepresentable: Loading banner ad (AdMob is ready, async)...")
-                    
                     // Загружаем рекламу асинхронно - это не блокирует UI
                     let request = Request()
                     uiView.load(request)
+                } else {
+                    // Если rootViewController еще не готов, попробуем через небольшую задержку
+                    print("⚠️ AdBannerRepresentable: Root view controller not ready, retrying in 0.5s...")
+                    try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 секунды
+                    let retryRootVC = coordinator.getRootViewController()
+                    uiView.rootViewController = retryRootVC
+                    if retryRootVC != nil {
+                        print("📱 AdBannerRepresentable: Root view controller found on retry, loading ad...")
+                        let request = Request()
+                        uiView.load(request)
+                    } else {
+                        print("⚠️ AdBannerRepresentable: Root view controller still not found, ad will load when ready")
+                    }
                 }
             }
         }
@@ -65,18 +75,23 @@ struct AdBannerRepresentable: UIViewRepresentable {
         }
         
         func getRootViewController() -> UIViewController? {
-            // Получаем rootViewController асинхронно, чтобы не блокировать UI поток
-            // Используем MainActor для безопасного доступа к UI
-            guard Thread.isMainThread else {
-                // Если не на главном потоке, возвращаем nil - установим позже
+            // Получаем rootViewController - должен вызываться на главном потоке
+            // Пробуем несколько способов получения rootViewController для надежности
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
                 return nil
             }
             
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let window = windowScene.windows.first else {
-                return nil
+            // Пробуем получить из первого окна
+            if let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+                return window.rootViewController
             }
-            return window.rootViewController
+            
+            // Если ключевое окно не найдено, пробуем первое доступное
+            if let window = windowScene.windows.first {
+                return window.rootViewController
+            }
+            
+            return nil
         }
         
         // MARK: - BannerViewDelegate
