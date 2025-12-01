@@ -473,6 +473,49 @@ else
     echo -e "${GREEN}✅ Pods build completed (warnings are OK)${NC}"
 fi
 
+# Шаг 1.5: Создаем символические ссылки на Pods фреймворки для нестандартных конфигураций
+# Это необходимо, потому что Swift компилятор ищет модули в конфигурации-специфичных путях
+if [ "$CONFIGURATION" != "$PODS_CONFIGURATION" ]; then
+    echo -e "${YELLOW}🔗 Step 1.5: Creating symlinks for Pods frameworks...${NC}"
+    
+    # Определяем пути к Release/Debug и DeployOld/DeployNew/DebugOld/DebugNew фреймворкам
+    BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Convertik -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    PODS_BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Pods-Convertik -configuration "$PODS_CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    
+    if [ -n "$BUILD_DIR" ] && [ -n "$PODS_BUILD_DIR" ]; then
+        # Определяем EFFECTIVE_PLATFORM_NAME
+        if [[ "$DESTINATION" == *"Simulator"* ]]; then
+            EFFECTIVE_PLATFORM="-iphonesimulator"
+        else
+            EFFECTIVE_PLATFORM="-iphoneos"
+        fi
+        
+        SOURCE_DIR="${PODS_BUILD_DIR}/${PODS_CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        TARGET_DIR="${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        
+        # Создаем директорию назначения, если её нет
+        mkdir -p "$TARGET_DIR"
+        
+        # Создаем символические ссылки на Google-Mobile-Ads-SDK и XCFrameworkIntermediates
+        if [ -d "${SOURCE_DIR}/Google-Mobile-Ads-SDK" ]; then
+            if [ ! -e "${TARGET_DIR}/Google-Mobile-Ads-SDK" ]; then
+                ln -sf "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+                echo "  ✅ Created symlink: Google-Mobile-Ads-SDK"
+            fi
+        fi
+        
+        if [ -d "${SOURCE_DIR}/XCFrameworkIntermediates" ]; then
+            if [ ! -e "${TARGET_DIR}/XCFrameworkIntermediates" ]; then
+                ln -sf "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/XCFrameworkIntermediates"
+                echo "  ✅ Created symlink: XCFrameworkIntermediates"
+            fi
+        fi
+        
+        echo -e "${GREEN}✅ Symlinks created${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Could not determine BUILD_DIR, skipping symlinks${NC}"
+    fi
+fi
 echo ""
 
 # Шаг 2: Сборка приложения

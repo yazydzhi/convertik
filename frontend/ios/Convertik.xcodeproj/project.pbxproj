@@ -453,6 +453,7 @@
 		};
 		1EF198D7635DDB0BEF38DE4B /* DeployNew */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0940F69ED0A430D656997AC /* DeployNew.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -467,7 +468,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
@@ -501,6 +501,7 @@
 		};
 		30A77CE0247B5F6B865C40E2 /* DeployOld */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5662F467D00C205126E15956 /* DeployOld.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -515,7 +516,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
@@ -563,6 +563,7 @@
 		};
 		DBF0D96100B1063689D8A54E /* DebugNew */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88BA5CF1F4CAEBBD2801AB49 /* DebugNew.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -577,7 +578,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
@@ -594,6 +594,7 @@
 		};
 		FC41066CEADF546B1DBA8EC5 /* DeployOld */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5662F467D00C205126E15956 /* DeployOld.xcconfig */;
 			buildSettings = {
 				SDKROOT = iphoneos;
 			};
@@ -601,6 +602,7 @@
 		};
 		FDD237E81A87612823B9C669 /* DebugOld */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE4CFC624A438422BD75BF7A /* DebugOld.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -615,7 +617,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
