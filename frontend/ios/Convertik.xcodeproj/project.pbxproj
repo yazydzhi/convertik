@@ -10,7 +10,6 @@
 		0322BB7B8C45069B5AEBC272 /* UserCurrencyEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */; };
 		05046AECF787DF0509CF2A24 /* BackgroundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3265FDF798774107AFE72B12 /* BackgroundService.swift */; };
 		0836340A7C6462AFC164ED2D /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB10EB238E92F1D9E0096C61 /* ConversionService.swift */; };
-		1C28EAAC1606CDCB290FCD81 /* Pods_Convertik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F375EEE77199B19B5A09EE9 /* Pods_Convertik.framework */; };
 		1CC6FA46CECBAADD322235DC /* ConvertikApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD2C577D0DE55594174D842 /* ConvertikApp.swift */; };
 		1D1EB01E574640E97C294B85 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20D9C352254817F4E94C43E /* AnalyticsService.swift */; };
 		1FB87A221B2CE1CF11E2D7DD /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */; };
@@ -51,9 +50,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		021A98A91508174819004D2D /* Pods-Convertik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.release.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.release.xcconfig"; sourceTree = "<group>"; };
 		0A09C2BF894B84AC3983A0A7 /* InterstitialAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdView.swift; sourceTree = "<group>"; };
-		0FEB0BE19F505968DF78424D /* Pods-Convertik.debugold.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debugold.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debugold.xcconfig"; sourceTree = "<group>"; };
 		141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencyView.swift; sourceTree = "<group>"; };
 		16D84348B0424DE7F836E0A4 /* AdConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConfig.swift; sourceTree = "<group>"; };
 		1DB1D74438267828D1D72F7F /* RewardedAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdView.swift; sourceTree = "<group>"; };
@@ -76,12 +73,8 @@
 		70EE793C1838BFF2EACEA2E8 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		736CC7E5996D8A7D4ED957A0 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		7FE12CEA97389A32362E432B /* Pods-Convertik.deploynew.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.deploynew.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.deploynew.xcconfig"; sourceTree = "<group>"; };
 		88BA5CF1F4CAEBBD2801AB49 /* DebugNew.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugNew.xcconfig; sourceTree = "<group>"; };
-		8F7DE81E80804D42D42052FD /* Pods-Convertik.debugnew.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debugnew.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debugnew.xcconfig"; sourceTree = "<group>"; };
-		9F375EEE77199B19B5A09EE9 /* Pods_Convertik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Convertik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10EB238E92F1D9E0096C61 /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
-		AD9FAAC5602ECD6DCC045326 /* Pods-Convertik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debug.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"; sourceTree = "<group>"; };
 		AFD2C577D0DE55594174D842 /* ConvertikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikApp.swift; sourceTree = "<group>"; };
 		B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B1B9E0E86D99C1352D92E139 /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
@@ -90,7 +83,6 @@
 		C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		C20D9C352254817F4E94C43E /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		C34595F1F0E2E1951ED9BA3D /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
-		C40CECF3C8CCAFAE6620B72B /* Pods-Convertik.deployold.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.deployold.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.deployold.xcconfig"; sourceTree = "<group>"; };
 		CA0DF738BEE5ABE3E5C725DA /* ThemePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreviewView.swift; sourceTree = "<group>"; };
 		CFC5246EE34A33B59848B671 /* InterstitialAdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdService.swift; sourceTree = "<group>"; };
 		D06801B82FB7652D862A9C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,17 +98,6 @@
 		FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCurrencyEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FE4CFC624A438422BD75BF7A /* DebugOld.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugOld.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		299E9C81021DB0DA8125F6EB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1C28EAAC1606CDCB290FCD81 /* Pods_Convertik.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1417590BE3CDE540E2A58F34 /* Views */ = {
@@ -144,8 +125,6 @@
 				46FA768462331FAA88A944A6 /* Configs */,
 				D34D63D91BAE744CAEAFFA58 /* Convertik */,
 				25C6848C13264F8C54A7F4C4 /* Products */,
-				939A8F5538B97C94E571B7F5 /* Pods */,
-				9BCE970015AD90D7C84ACA9E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,28 +213,6 @@
 				34A8CD57C9254314B2D54CC3 /* Views */,
 			);
 			path = Paywall;
-			sourceTree = "<group>";
-		};
-		939A8F5538B97C94E571B7F5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AD9FAAC5602ECD6DCC045326 /* Pods-Convertik.debug.xcconfig */,
-				8F7DE81E80804D42D42052FD /* Pods-Convertik.debugnew.xcconfig */,
-				0FEB0BE19F505968DF78424D /* Pods-Convertik.debugold.xcconfig */,
-				7FE12CEA97389A32362E432B /* Pods-Convertik.deploynew.xcconfig */,
-				C40CECF3C8CCAFAE6620B72B /* Pods-Convertik.deployold.xcconfig */,
-				021A98A91508174819004D2D /* Pods-Convertik.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		9BCE970015AD90D7C84ACA9E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9F375EEE77199B19B5A09EE9 /* Pods_Convertik.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A48EEA9C5425C7B6DF9285E3 /* Persistence */ = {
@@ -371,17 +328,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
 			buildPhases = (
-				AC72BDF484FF49584D7CBDB9 /* [CP] Check Pods Manifest.lock */,
 				36097644B896D79319D99E29 /* Sources */,
 				F9AEB818949A6DCDA57539B2 /* Resources */,
-				299E9C81021DB0DA8125F6EB /* Frameworks */,
-				1418FCBDBC5656CBE294E282 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Convertik;
+			packageProductDependencies = (
+			);
 			productName = Convertik;
 			productReference = DA136F3375AA8EE040270B1B /* Convertik.app */;
 			productType = "com.apple.product-type.application";
@@ -394,6 +350,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A24412A872A5DCB8729596AC = {
+						DevelopmentTeam = 8RRKKV98JS;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 4803F3A05AB60876F3D47B94 /* Build configuration list for PBXProject "Convertik" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -406,7 +368,6 @@
 			mainGroup = 1F48656B267F839A4F542F5E;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 25C6848C13264F8C54A7F4C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -427,48 +388,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1418FCBDBC5656CBE294E282 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC72BDF484FF49584D7CBDB9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Convertik-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		36097644B896D79319D99E29 /* Sources */ = {
@@ -534,12 +453,13 @@
 		};
 		1EF198D7635DDB0BEF38DE4B /* DeployNew */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7FE12CEA97389A32362E432B /* Pods-Convertik.deploynew.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -557,12 +477,13 @@
 		};
 		20AF9F7DC48338A8DD4A4DC3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 021A98A91508174819004D2D /* Pods-Convertik.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -580,12 +501,13 @@
 		};
 		30A77CE0247B5F6B865C40E2 /* DeployOld */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C40CECF3C8CCAFAE6620B72B /* Pods-Convertik.deployold.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -603,12 +525,13 @@
 		};
 		327E61693B1B0085BF15F5B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD9FAAC5602ECD6DCC045326 /* Pods-Convertik.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -640,12 +563,13 @@
 		};
 		DBF0D96100B1063689D8A54E /* DebugNew */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F7DE81E80804D42D42052FD /* Pods-Convertik.debugnew.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -677,12 +601,13 @@
 		};
 		FDD237E81A87612823B9C669 /* DebugOld */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FEB0BE19F505968DF78424D /* Pods-Convertik.debugold.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8RRKKV98JS;
 				ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
