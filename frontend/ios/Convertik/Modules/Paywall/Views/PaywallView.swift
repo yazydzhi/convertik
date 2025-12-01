@@ -10,8 +10,24 @@ struct PaywallView: View {
     @State private var isLoading = false
     @State private var showingError = false
     @State private var errorMessage = ""
+    
+    // Проверяем bundle ID для определения версии приложения
+    private var isOldVersion: Bool {
+        Bundle.main.bundleIdentifier == "com.yazydzhi.convertik"
+    }
 
     var body: some View {
+        // Если старая версия - показываем экран обновления
+        if isOldVersion {
+            UpdateRequiredView()
+        } else {
+            // Новая версия - показываем обычный Paywall
+            paywallContent
+        }
+    }
+    
+    @ViewBuilder
+    private var paywallContent: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 32) {
