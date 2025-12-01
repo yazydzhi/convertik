@@ -112,9 +112,9 @@ struct UpdateRequiredView: View {
                 .multilineTextAlignment(.center)
             
             VStack(alignment: .leading, spacing: 8) {
-                InfoRow(text: "Оформить подписку Ads Free")
-                InfoRow(text: "Отменить подписку в настройках Apple ID")
-                InfoRow(text: "Использовать все новые функции")
+                UpdateInfoRow(text: "Оформить подписку Ads Free")
+                UpdateInfoRow(text: "Отменить подписку в настройках Apple ID")
+                UpdateInfoRow(text: "Использовать все новые функции")
             }
             .padding()
             .background(
@@ -133,7 +133,7 @@ struct UpdateRequiredView: View {
     }
 }
 
-struct InfoRow: View {
+struct UpdateInfoRow: View {
     @Environment(\.themeManager) private var themeManager
     let text: String
     
