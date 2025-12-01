@@ -332,10 +332,19 @@ struct DebugInfoView: View {
                         title: "ITSAppUsesNonExemptEncryption",
                         value: {
                             if let value = Bundle.main.object(forInfoDictionaryKey: "ITSAppUsesNonExemptEncryption") as? Bool {
-                                return value ? "true" : "false"
+                                return value ? "YES" : "NO"
                             }
                             return "not set"
                         }(),
+                        themeManager: themeManager
+                    )
+                    
+                    Divider()
+                    
+                    // Encryption Export Compliance Code (for France)
+                    InfoRow(
+                        title: "ITSEncryptionExportComplianceCode",
+                        value: Bundle.main.object(forInfoDictionaryKey: "ITSEncryptionExportComplianceCode") as? String ?? "not set",
                         themeManager: themeManager
                     )
                 }

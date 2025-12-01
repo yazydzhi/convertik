@@ -18,8 +18,11 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEPLOY_NEW
 INFOPLIST_KEY_CFBundleShortVersionString = 2.5
 INFOPLIST_KEY_CFBundleVersion = 6
 
-// App Encryption Export Compliance Code
-ITSAppUsesNonExemptEncryption = NO
+// App Encryption Export Compliance
+// YES because app uses standard encryption (HTTPS, etc.)
+// Code obtained from French encryption declaration
+ITSAppUsesNonExemptEncryption = YES
+ITSEncryptionExportComplianceCode = f977d696-9bb9-4997-8920-7950c99487b1
 
 // Info.plist values (для чтения во время выполнения)
 INFOPLIST_KEY_IAP_PRODUCT_SKU = com.azg.Convertik
