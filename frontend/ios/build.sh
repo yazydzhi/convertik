@@ -3,11 +3,12 @@
 # Автоматически собирает Pods перед основной сборкой
 #
 # Использование:
-#   ./build.sh [Debug|Release] [destination] [scheme] [--clean] [--open]
+#   ./build.sh [Debug|Release] [destination] [scheme] [--clean] [--open] [--increment-build]
 #
 # Опции:
-#   --clean  Очистка кэша перед сборкой (закрывает Xcode если открыт)
-#   --open   Открыть workspace в Xcode после успешной сборки
+#   --clean          Очистка кэша перед сборкой (закрывает Xcode если открыт)
+#   --open           Открыть workspace в Xcode после успешной сборки
+#   --increment-build Увеличить номер сборки перед сборкой
 #
 # Примеры:
 #   ./build.sh Debug "generic/platform=iOS Simulator" Convertik
@@ -30,12 +31,15 @@ NC='\033[0m' # No Color
 # Парсим аргументы
 CLEAN_CACHE=false
 OPEN_WORKSPACE=false
+INCREMENT_BUILD=false
 ARGS=()
 for arg in "$@"; do
     if [[ "$arg" == "--clean" ]]; then
         CLEAN_CACHE=true
     elif [[ "$arg" == "--open" ]]; then
         OPEN_WORKSPACE=true
+    elif [[ "$arg" == "--increment-build" ]]; then
+        INCREMENT_BUILD=true
     else
         ARGS+=("$arg")
     fi
@@ -103,9 +107,93 @@ get_bundle_id() {
     fi
 }
 
+# Функция для увеличения номера сборки
+increment_build_number() {
+    local info_plist="Info.plist"
+    local project_yml="project.yml"
+    local test_info_plist="ConvertikTests/Info.plist"
+    
+    # Получаем текущий номер сборки
+    local current_build=""
+    if command -v plutil &> /dev/null; then
+        current_build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "")
+    elif command -v defaults &> /dev/null; then
+        current_build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "")
+    else
+        current_build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+    fi
+    
+    if [ -z "$current_build" ]; then
+        echo -e "${RED}❌ Error: Could not read current build number${NC}"
+        return 1
+    fi
+    
+    # Увеличиваем номер сборки
+    local new_build=$((current_build + 1))
+    
+    echo -e "${YELLOW}📈 Incrementing build number: ${current_build} → ${new_build}${NC}"
+    
+    # Обновляем Info.plist
+    if command -v plutil &> /dev/null; then
+        plutil -replace CFBundleVersion -string "$new_build" "$info_plist" 2>/dev/null || {
+            # Fallback: используем sed для XML (многострочный паттерн)
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+            else
+                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+            fi
+        }
+    else
+        # Используем sed для обновления (многострочный паттерн)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+        else
+            sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+        fi
+    fi
+    
+    # Обновляем project.yml
+    if [ -f "$project_yml" ]; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/CFBundleVersion: \"[0-9]*\"/CFBundleVersion: \"${new_build}\"/" "$project_yml"
+        else
+            sed -i "s/CFBundleVersion: \"[0-9]*\"/CFBundleVersion: \"${new_build}\"/" "$project_yml"
+        fi
+    fi
+    
+    # Обновляем ConvertikTests/Info.plist
+    if [ -f "$test_info_plist" ]; then
+        if command -v plutil &> /dev/null; then
+            plutil -replace CFBundleVersion -string "$new_build" "$test_info_plist" 2>/dev/null || {
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                else
+                    sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                fi
+            }
+        else
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+            else
+                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+            fi
+        fi
+    fi
+    
+    echo -e "${GREEN}✅ Build number incremented to ${new_build}${NC}"
+    echo ""
+}
+
 # Получаем версию, сборку и bundle ID
 APP_VERSION=$(get_app_version)
 BUNDLE_ID=$(get_bundle_id)
+
+# Увеличиваем номер сборки, если запрошено
+if [ "$INCREMENT_BUILD" = true ]; then
+    increment_build_number
+    # Обновляем версию после увеличения
+    APP_VERSION=$(get_app_version)
+fi
 
 echo -e "${GREEN}🔧 Building Convertik${NC}"
 echo -e "${BLUE}📱 App Version: ${APP_VERSION}${NC}"
@@ -115,6 +203,9 @@ echo "Destination: $DESTINATION"
 echo "Scheme: $SCHEME"
 if [ "$CLEAN_CACHE" = true ]; then
     echo -e "${BLUE}🧹 Clean cache: ENABLED${NC}"
+fi
+if [ "$INCREMENT_BUILD" = true ]; then
+    echo -e "${BLUE}📈 Increment build: ENABLED${NC}"
 fi
 echo ""
 
