@@ -51,11 +51,11 @@ done
 if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = false ] && [ "$INCREMENT_BUILD" = false ]; then
     echo -e "${GREEN}🔧 Convertik Build Script${NC}"
     echo ""
-    echo "Выберите конфигурацию (схема выберется автоматически):"
-    echo "  1) Debug (разработка, схема: Convertik)"
-    echo "  2) Release (продакшн, схема: Convertik)"
-    echo "  3) DeployOld (старая версия: com.yazydzhi.convertik, схема: Convertik-Old)"
-    echo "  4) DeployNew (новая версия: com.azg.Convertik, схема: Convertik-New)"
+    echo "Выберите конфигурацию:"
+    echo "  1) Debug (разработка, Bundle ID: com.azg.Convertik)"
+    echo "  2) Release (продакшн, Bundle ID: com.azg.Convertik)"
+    echo "  3) DeployOld (старая версия, Bundle ID: com.yazydzhi.convertik)"
+    echo "  4) DeployNew (новая версия, Bundle ID: com.azg.Convertik)"
     echo ""
     read -p "Ваш выбор [1-4] (по умолчанию: 1): " config_choice
     config_choice=${config_choice:-1}
@@ -71,11 +71,11 @@ if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = 
             ;;
         3) 
             CONFIGURATION="DeployOld"
-            SCHEME="Convertik-Old"
+            SCHEME="Convertik"
             ;;
         4) 
             CONFIGURATION="DeployNew"
-            SCHEME="Convertik-New"
+            SCHEME="Convertik"
             ;;
         *) 
             CONFIGURATION="Debug"
@@ -147,19 +147,7 @@ else
     # Параметры по умолчанию (если переданы аргументы)
     CONFIGURATION="${ARGS[0]:-Debug}"
     DESTINATION="${ARGS[1]:-platform=iOS Simulator,name=iPhone 17 Pro Max}"
-    
-    # Автоматически определяем схему по конфигурации
-    case "$CONFIGURATION" in
-        DeployOld)
-            SCHEME="${ARGS[2]:-Convertik-Old}"
-            ;;
-        DeployNew)
-            SCHEME="${ARGS[2]:-Convertik-New}"
-            ;;
-        *)
-            SCHEME="${ARGS[2]:-Convertik}"
-            ;;
-    esac
+    SCHEME="${ARGS[2]:-Convertik}"
 fi
 
 # Функция для чтения версии и сборки из Info.plist
