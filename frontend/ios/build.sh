@@ -378,27 +378,21 @@ if [ "$CLEAN_CACHE" = true ] || [ "$OPEN_WORKSPACE" = true ]; then
     fi
 fi
 
-# Очистка кэша (если запрошено)
+# Шаг 0: Очистка кэша (если запрошено) - НО СОХРАНЯЕМ PODS!
+# Важно: очищаем только кэш приложения, но НЕ удаляем собранные Pods,
+# чтобы они были доступны для нестандартных конфигураций
 if [ "$CLEAN_CACHE" = true ]; then
-    echo -e "${YELLOW}🧹 Step 0: Cleaning build cache...${NC}"
+    echo -e "${YELLOW}🧹 Step 0: Cleaning build cache (preserving Pods)...${NC}"
     
-    # Очистка DerivedData для этого проекта
-    DERIVED_DATA_PATH="$HOME/Library/Developer/Xcode/DerivedData"
-    if [ -d "$DERIVED_DATA_PATH" ]; then
-        # Находим и удаляем DerivedData для Convertik
-        find "$DERIVED_DATA_PATH" -maxdepth 1 -type d -name "*Convertik*" -exec rm -rf {} + 2>/dev/null || true
-        echo -e "${GREEN}✅ Cleaned DerivedData for Convertik${NC}"
-    fi
-    
-    # Очистка модулей Swift (Swift Module Cache)
+    # Очистка модулей Swift (Swift Module Cache) - это безопасно
     SWIFT_CACHE_PATH="$HOME/Library/Developer/Xcode/DerivedData/ModuleCache.noindex"
     if [ -d "$SWIFT_CACHE_PATH" ]; then
         rm -rf "$SWIFT_CACHE_PATH"/* 2>/dev/null || true
         echo -e "${GREEN}✅ Cleaned Swift module cache${NC}"
     fi
     
-    # Clean build folder через xcodebuild
-    echo -e "${BLUE}🧹 Cleaning build folder...${NC}"
+    # Clean build folder только для основного приложения (НЕ для Pods!)
+    echo -e "${BLUE}🧹 Cleaning app build folder (preserving Pods)...${NC}"
     xcodebuild \
         -workspace Convertik.xcworkspace \
         -scheme "$SCHEME" \
@@ -406,14 +400,10 @@ if [ "$CLEAN_CACHE" = true ]; then
         clean \
         > /dev/null 2>&1 || true
     
-    xcodebuild \
-        -workspace Convertik.xcworkspace \
-        -scheme Pods-Convertik \
-        -configuration "$CONFIGURATION" \
-        clean \
-        > /dev/null 2>&1 || true
+    # НЕ очищаем Pods-Convertik, чтобы сохранить собранные фреймворки!
+    # Они нужны для нестандартных конфигураций (DeployOld, DeployNew, etc.)
     
-    echo -e "${GREEN}✅ Build folder cleaned${NC}"
+    echo -e "${GREEN}✅ Build folder cleaned (Pods preserved)${NC}"
     echo ""
 fi
 
@@ -529,6 +519,47 @@ if xcodebuild \
     > /tmp/app_build.log 2>&1; then
     echo -e "${GREEN}✅ Build SUCCEEDED!${NC}"
     echo ""
+    
+    # Установка на симулятор (если destination - симулятор)
+    if [[ "$DESTINATION" == *"Simulator"* ]]; then
+        echo -e "${BLUE}📲 Installing app on simulator...${NC}"
+        
+        # Извлекаем имя симулятора из destination
+        SIMULATOR_NAME=$(echo "$DESTINATION" | sed -n 's/.*name=\([^)]*\).*/\1/p')
+        
+        if [ -n "$SIMULATOR_NAME" ]; then
+            # Запускаем симулятор, если он не запущен
+            SIMULATOR_UDID=$(xcrun simctl list devices available | grep "$SIMULATOR_NAME" | head -1 | grep -oE '[A-F0-9-]{36}' | head -1)
+            
+            if [ -n "$SIMULATOR_UDID" ]; then
+                # Запускаем симулятор
+                xcrun simctl boot "$SIMULATOR_UDID" 2>/dev/null || true
+                echo "  ✅ Simulator $SIMULATOR_NAME is ready"
+                
+                # Находим путь к собранному приложению
+                APP_PATH=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme "$SCHEME" -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILT_PRODUCTS_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+                APP_BUNDLE="${APP_PATH}/${SCHEME}.app"
+                
+                if [ -d "$APP_BUNDLE" ]; then
+                    # Устанавливаем приложение
+                    xcrun simctl install "$SIMULATOR_UDID" "$APP_BUNDLE" 2>&1 | grep -v "warning" || true
+                    echo "  ✅ App installed on simulator"
+                    
+                    # Получаем Bundle ID
+                    BUNDLE_ID=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme "$SCHEME" -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*PRODUCT_BUNDLE_IDENTIFIER" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+                    
+                    if [ -n "$BUNDLE_ID" ]; then
+                        echo "  📱 Bundle ID: $BUNDLE_ID"
+                        echo "  💡 To launch: xcrun simctl launch $SIMULATOR_UDID $BUNDLE_ID"
+                    fi
+                else
+                    echo "  ⚠️  App bundle not found at: $APP_BUNDLE"
+                fi
+            else
+                echo "  ⚠️  Could not find simulator: $SIMULATOR_NAME"
+            fi
+        fi
+    fi
     
     # Открытие workspace после успешной сборки (если запрошено)
     if [ "$OPEN_WORKSPACE" = true ]; then
