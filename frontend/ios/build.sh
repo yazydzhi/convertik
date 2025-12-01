@@ -136,19 +136,19 @@ increment_build_number() {
     # Обновляем Info.plist
     if command -v plutil &> /dev/null; then
         plutil -replace CFBundleVersion -string "$new_build" "$info_plist" 2>/dev/null || {
-            # Fallback: используем sed для XML (многострочный паттерн)
+            # Fallback: используем sed для XML
             if [[ "$OSTYPE" == "darwin"* ]]; then
-                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
             else
-                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
             fi
         }
     else
-        # Используем sed для обновления (многострочный паттерн)
+        # Используем sed для обновления
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+            sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
         else
-            sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
+            sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$info_plist"
         fi
     fi
     
@@ -166,16 +166,16 @@ increment_build_number() {
         if command -v plutil &> /dev/null; then
             plutil -replace CFBundleVersion -string "$new_build" "$test_info_plist" 2>/dev/null || {
                 if [[ "$OSTYPE" == "darwin"* ]]; then
-                    sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                    sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
                 else
-                    sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                    sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
                 fi
             }
         else
             if [[ "$OSTYPE" == "darwin"* ]]; then
-                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                sed -i '' "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
             else
-                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>.*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
+                sed -i "/<key>CFBundleVersion<\/key>/,/<\/string>/s/<string>[^<]*<\/string>/<string>${new_build}<\/string>/" "$test_info_plist"
             fi
         fi
     fi
