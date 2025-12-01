@@ -83,7 +83,11 @@ get_bundle_id() {
     local bundle_id=""
     
     # Сначала пробуем из xcconfig файлов (более надежно)
-    if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
+    if [ "$CONFIGURATION" = "DeployOld" ] && [ -f "Configs/DeployOld.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployOld.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "DeployNew" ] && [ -f "Configs/DeployNew.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployNew.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
     elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
