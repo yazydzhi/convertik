@@ -7,7 +7,19 @@ set -e
 echo "🔧 [Pre-Build] Building Pods first..."
 
 # Определяем конфигурацию и destination из переменных окружения Xcode
-CONFIGURATION="${CONFIGURATION:-Debug}"
+# Маппинг новых конфигураций на стандартные для Pods
+RAW_CONFIGURATION="${CONFIGURATION:-Debug}"
+case "$RAW_CONFIGURATION" in
+    DebugOld|DebugNew)
+        CONFIGURATION="Debug"
+        ;;
+    DeployOld|DeployNew)
+        CONFIGURATION="Release"
+        ;;
+    *)
+        CONFIGURATION="$RAW_CONFIGURATION"
+        ;;
+esac
 DESTINATION="${PLATFORM_NAME:-iphonesimulator}"
 
 # Определяем путь к workspace
