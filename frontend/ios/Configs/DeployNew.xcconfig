@@ -5,6 +5,11 @@
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.release.xcconfig"
 
+// Override PODS_CONFIGURATION_BUILD_DIR to use Release instead of DeployNew
+// This ensures Pods frameworks are found when building with DeployNew configuration
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/Release$(EFFECTIVE_PLATFORM_NAME)
+PODS_XCFRAMEWORKS_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/XCFrameworkIntermediates
+
 // Bundle Identifier
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 

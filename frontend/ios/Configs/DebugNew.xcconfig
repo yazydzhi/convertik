@@ -5,6 +5,11 @@
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"
 
+// Override PODS_CONFIGURATION_BUILD_DIR to use Debug instead of DebugNew
+// This ensures Pods frameworks are found when building with DebugNew configuration
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/Debug$(EFFECTIVE_PLATFORM_NAME)
+PODS_XCFRAMEWORKS_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/XCFrameworkIntermediates
+
 // Bundle Identifier (новая версия)
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 

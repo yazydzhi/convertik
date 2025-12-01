@@ -5,6 +5,11 @@
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"
 
+// Override PODS_CONFIGURATION_BUILD_DIR to use Debug instead of DebugOld
+// This ensures Pods frameworks are found when building with DebugOld configuration
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/Debug$(EFFECTIVE_PLATFORM_NAME)
+PODS_XCFRAMEWORKS_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/XCFrameworkIntermediates
+
 // Bundle Identifier (старая версия)
 PRODUCT_BUNDLE_IDENTIFIER = com.yazydzhi.convertik
 
@@ -16,7 +21,7 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_OLD
 
 // App Version (старая версия)
 INFOPLIST_KEY_CFBundleShortVersionString = 2.4
-INFOPLIST_KEY_CFBundleVersion = 1
+INFOPLIST_KEY_CFBundleVersion = 2
 
 // App Encryption Export Compliance Code
 ITSAppUsesNonExemptEncryption = NO
