@@ -324,6 +324,20 @@ struct DebugInfoView: View {
                         value: AdConfig.Rewarded.main,
                         themeManager: themeManager
                     )
+                    
+                    Divider()
+                    
+                    // App Encryption Export Compliance
+                    InfoRow(
+                        title: "Encryption Export Compliance",
+                        value: {
+                            if let value = Bundle.main.object(forInfoDictionaryKey: "ITSAppUsesNonExemptEncryption") as? Bool {
+                                return value ? "Uses encryption" : "No encryption (exempt)"
+                            }
+                            return "Not set"
+                        }(),
+                        themeManager: themeManager
+                    )
                 }
                 .padding()
             }
