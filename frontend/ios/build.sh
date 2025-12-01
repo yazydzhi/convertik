@@ -54,10 +54,8 @@ if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = 
     echo "Выберите конфигурацию:"
     echo "  1) Debug (разработка, Bundle ID: com.azg.Convertik)"
     echo "  2) Release (продакшн, Bundle ID: com.azg.Convertik)"
-    echo "  3) DeployOld (старая версия, Bundle ID: com.yazydzhi.convertik)"
-    echo "  4) DeployNew (новая версия, Bundle ID: com.azg.Convertik)"
     echo ""
-    read -p "Ваш выбор [1-4] (по умолчанию: 1): " config_choice
+    read -p "Ваш выбор [1-2] (по умолчанию: 1): " config_choice
     config_choice=${config_choice:-1}
     
     case $config_choice in
@@ -67,14 +65,6 @@ if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = 
             ;;
         2) 
             CONFIGURATION="Release"
-            SCHEME="Convertik"
-            ;;
-        3) 
-            CONFIGURATION="DeployOld"
-            SCHEME="Convertik"
-            ;;
-        4) 
-            CONFIGURATION="DeployNew"
             SCHEME="Convertik"
             ;;
         *) 
@@ -183,11 +173,7 @@ get_bundle_id() {
     local bundle_id=""
     
     # Сначала пробуем из xcconfig файлов (более надежно)
-    if [ "$CONFIGURATION" = "DeployOld" ] && [ -f "Configs/DeployOld.xcconfig" ]; then
-        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployOld.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
-    elif [ "$CONFIGURATION" = "DeployNew" ] && [ -f "Configs/DeployNew.xcconfig" ]; then
-        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployNew.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
-    elif [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
+    if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
     elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
