@@ -419,10 +419,22 @@ fi
 
 # Шаг 1: Сборка Pods
 echo -e "${YELLOW}📦 Step 1: Building Pods...${NC}"
+
+# Определяем конфигурацию для Pods (маппинг новых конфигураций на стандартные)
+PODS_CONFIGURATION="$CONFIGURATION"
+case "$CONFIGURATION" in
+    DebugOld|DebugNew)
+        PODS_CONFIGURATION="Debug"
+        ;;
+    DeployOld|DeployNew)
+        PODS_CONFIGURATION="Release"
+        ;;
+esac
+
 if xcodebuild \
     -workspace Convertik.xcworkspace \
     -scheme Pods-Convertik \
-    -configuration "$CONFIGURATION" \
+    -configuration "$PODS_CONFIGURATION" \
     -destination "$DESTINATION" \
     build \
     CODE_SIGN_IDENTITY="" \
