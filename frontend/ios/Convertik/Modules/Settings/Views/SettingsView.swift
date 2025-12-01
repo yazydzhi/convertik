@@ -329,12 +329,12 @@ struct DebugInfoView: View {
                     
                     // App Encryption Export Compliance
                     InfoRow(
-                        title: "Encryption Export Compliance",
+                        title: "ITSAppUsesNonExemptEncryption",
                         value: {
                             if let value = Bundle.main.object(forInfoDictionaryKey: "ITSAppUsesNonExemptEncryption") as? Bool {
-                                return value ? "Uses encryption" : "No encryption (exempt)"
+                                return value ? "true" : "false"
                             }
-                            return "Not set"
+                            return "not set"
                         }(),
                         themeManager: themeManager
                     )
