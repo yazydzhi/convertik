@@ -407,9 +407,85 @@ if [ "$CLEAN_CACHE" = true ]; then
     echo ""
 fi
 
-# Шаг 1: Сборка приложения
-# Pods будут собраны автоматически через Pre-Build Script в Xcode
-echo -e "${YELLOW}📱 Step 1: Building $SCHEME...${NC}"
+# Шаг 1: Сборка Pods (обязательно перед основной сборкой)
+echo -e "${YELLOW}📦 Step 1: Building Pods...${NC}"
+
+# Определяем конфигурацию для Pods (маппинг новых конфигураций на стандартные)
+PODS_CONFIGURATION="$CONFIGURATION"
+case "$CONFIGURATION" in
+    DebugOld|DebugNew)
+        PODS_CONFIGURATION="Debug"
+        ;;
+    DeployOld|DeployNew)
+        PODS_CONFIGURATION="Release"
+        ;;
+esac
+
+# Собираем Google-Mobile-Ads-SDK
+echo "  Building Google-Mobile-Ads-SDK for $PODS_CONFIGURATION..."
+xcodebuild \
+    -workspace Convertik.xcworkspace \
+    -scheme Google-Mobile-Ads-SDK \
+    -configuration "$PODS_CONFIGURATION" \
+    -destination "$DESTINATION" \
+    build \
+    CODE_SIGN_IDENTITY="" \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGNING_ALLOWED=NO \
+    > /tmp/admob_build.log 2>&1 || echo "  ⚠️  Google-Mobile-Ads-SDK build had warnings"
+
+# Собираем Pods-Convertik
+echo "  Building Pods-Convertik for $PODS_CONFIGURATION..."
+xcodebuild \
+    -workspace Convertik.xcworkspace \
+    -scheme Pods-Convertik \
+    -configuration "$PODS_CONFIGURATION" \
+    -destination "$DESTINATION" \
+    build \
+    CODE_SIGN_IDENTITY="" \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGNING_ALLOWED=NO \
+    > /tmp/pods_build.log 2>&1 || echo "  ⚠️  Pods-Convertik build had warnings"
+
+echo -e "${GREEN}✅ Pods built${NC}"
+echo ""
+
+# Шаг 2: Создаем симлинки для нестандартных конфигураций (если нужно)
+if [ "$CONFIGURATION" != "$PODS_CONFIGURATION" ]; then
+    echo -e "${YELLOW}🔗 Step 2: Creating symlinks for $CONFIGURATION -> $PODS_CONFIGURATION...${NC}"
+    
+    BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Convertik -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    PODS_BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Pods-Convertik -configuration "$PODS_CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    
+    if [ -n "$BUILD_DIR" ] && [ -n "$PODS_BUILD_DIR" ]; then
+        if [[ "$DESTINATION" == *"Simulator"* ]]; then
+            EFFECTIVE_PLATFORM="-iphonesimulator"
+        else
+            EFFECTIVE_PLATFORM="-iphoneos"
+        fi
+        
+        SOURCE_DIR="${PODS_BUILD_DIR}/${PODS_CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        TARGET_DIR="${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        
+        mkdir -p "$TARGET_DIR"
+        
+        if [ -d "${SOURCE_DIR}/Google-Mobile-Ads-SDK" ]; then
+            rm -rf "${TARGET_DIR}/Google-Mobile-Ads-SDK" 2>/dev/null || true
+            ln -sf "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+            echo "  ✅ Created symlink: Google-Mobile-Ads-SDK"
+        fi
+        
+        if [ -d "${SOURCE_DIR}/XCFrameworkIntermediates" ]; then
+            rm -rf "${TARGET_DIR}/XCFrameworkIntermediates" 2>/dev/null || true
+            ln -sf "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/XCFrameworkIntermediates"
+            echo "  ✅ Created symlink: XCFrameworkIntermediates"
+        fi
+    fi
+    echo ""
+fi
+
+# Шаг 3: Сборка приложения
+echo -e "${YELLOW}📱 Step 3: Building $SCHEME...${NC}"
 if xcodebuild \
     -workspace Convertik.xcworkspace \
     -scheme "$SCHEME" \
