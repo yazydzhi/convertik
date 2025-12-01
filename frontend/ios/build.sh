@@ -63,23 +63,23 @@ if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = 
     case $config_choice in
         1) 
             CONFIGURATION="DebugOld"
-            SCHEME="Convertik"
+            SCHEME="Convertik-DebugOld"
             ;;
         2) 
             CONFIGURATION="DebugNew"
-            SCHEME="Convertik"
+            SCHEME="Convertik-DebugNew"
             ;;
         3) 
             CONFIGURATION="DeployOld"
-            SCHEME="Convertik"
+            SCHEME="Convertik-DeployOld"
             ;;
         4) 
             CONFIGURATION="DeployNew"
-            SCHEME="Convertik"
+            SCHEME="Convertik-DeployNew"
             ;;
         *) 
             CONFIGURATION="DebugNew"
-            SCHEME="Convertik"
+            SCHEME="Convertik-DebugNew"
             ;;
     esac
     
@@ -147,7 +147,19 @@ else
     # Параметры по умолчанию (если переданы аргументы)
     CONFIGURATION="${ARGS[0]:-Debug}"
     DESTINATION="${ARGS[1]:-platform=iOS Simulator,name=iPhone 17 Pro Max}"
-    SCHEME="${ARGS[2]:-Convertik}"
+    
+    # Если схема не указана, определяем автоматически по конфигурации
+    if [ -n "${ARGS[2]}" ]; then
+        SCHEME="${ARGS[2]}"
+    else
+        case "$CONFIGURATION" in
+            DebugOld) SCHEME="Convertik-DebugOld" ;;
+            DebugNew) SCHEME="Convertik-DebugNew" ;;
+            DeployOld) SCHEME="Convertik-DeployOld" ;;
+            DeployNew) SCHEME="Convertik-DeployNew" ;;
+            *) SCHEME="Convertik" ;;
+        esac
+    fi
 fi
 
 # Функция для чтения версии и сборки из xcconfig или Info.plist
@@ -450,36 +462,53 @@ xcodebuild \
 echo -e "${GREEN}✅ Pods built${NC}"
 echo ""
 
-# Шаг 2: Создаем симлинки для нестандартных конфигураций (если нужно)
+# Шаг 2: Копируем фреймворки для нестандартных конфигураций (если нужно)
 if [ "$CONFIGURATION" != "$PODS_CONFIGURATION" ]; then
-    echo -e "${YELLOW}🔗 Step 2: Creating symlinks for $CONFIGURATION -> $PODS_CONFIGURATION...${NC}"
+    echo -e "${YELLOW}📋 Step 2: Copying frameworks from $PODS_CONFIGURATION to $CONFIGURATION...${NC}"
     
-    BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Convertik -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
-    PODS_BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme Pods-Convertik -configuration "$PODS_CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    DERIVED_DATA=$(find ~/Library/Developer/Xcode/DerivedData -maxdepth 1 -name "Convertik-*" -type d | head -1)
     
-    if [ -n "$BUILD_DIR" ] && [ -n "$PODS_BUILD_DIR" ]; then
+    if [ -n "$DERIVED_DATA" ]; then
         if [[ "$DESTINATION" == *"Simulator"* ]]; then
             EFFECTIVE_PLATFORM="-iphonesimulator"
         else
             EFFECTIVE_PLATFORM="-iphoneos"
         fi
         
-        SOURCE_DIR="${PODS_BUILD_DIR}/${PODS_CONFIGURATION}${EFFECTIVE_PLATFORM}"
-        TARGET_DIR="${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        SOURCE_DIR="${DERIVED_DATA}/Build/Products/${PODS_CONFIGURATION}${EFFECTIVE_PLATFORM}"
+        TARGET_DIR="${DERIVED_DATA}/Build/Products/${CONFIGURATION}${EFFECTIVE_PLATFORM}"
         
         mkdir -p "$TARGET_DIR"
         
+        # Копируем Google-Mobile-Ads-SDK
         if [ -d "${SOURCE_DIR}/Google-Mobile-Ads-SDK" ]; then
-            rm -rf "${TARGET_DIR}/Google-Mobile-Ads-SDK" 2>/dev/null || true
-            ln -sf "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/Google-Mobile-Ads-SDK"
-            echo "  ✅ Created symlink: Google-Mobile-Ads-SDK"
+            rm -rf "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+            cp -R "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/"
+            echo "  ✅ Copied Google-Mobile-Ads-SDK"
         fi
         
+        # Копируем XCFrameworkIntermediates
         if [ -d "${SOURCE_DIR}/XCFrameworkIntermediates" ]; then
-            rm -rf "${TARGET_DIR}/XCFrameworkIntermediates" 2>/dev/null || true
-            ln -sf "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/XCFrameworkIntermediates"
-            echo "  ✅ Created symlink: XCFrameworkIntermediates"
+            rm -rf "${TARGET_DIR}/XCFrameworkIntermediates"
+            cp -R "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/"
+            echo "  ✅ Copied XCFrameworkIntermediates"
         fi
+        
+        # Копируем GoogleUserMessagingPlatform
+        if [ -d "${SOURCE_DIR}/GoogleUserMessagingPlatform" ]; then
+            rm -rf "${TARGET_DIR}/GoogleUserMessagingPlatform"
+            cp -R "${SOURCE_DIR}/GoogleUserMessagingPlatform" "${TARGET_DIR}/"
+            echo "  ✅ Copied GoogleUserMessagingPlatform"
+        fi
+        
+        # Копируем Pods_Convertik.framework
+        if [ -d "${SOURCE_DIR}/Pods_Convertik.framework" ]; then
+            rm -rf "${TARGET_DIR}/Pods_Convertik.framework"
+            cp -R "${SOURCE_DIR}/Pods_Convertik.framework" "${TARGET_DIR}/"
+            echo "  ✅ Copied Pods_Convertik.framework"
+        fi
+    else
+        echo "  ⚠️  DerivedData not found, skipping framework copy"
     fi
     echo ""
 fi
@@ -514,7 +543,9 @@ if xcodebuild \
                 
                 # Находим путь к собранному приложению
                 APP_PATH=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme "$SCHEME" -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*BUILT_PRODUCTS_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
-                APP_BUNDLE="${APP_PATH}/${SCHEME}.app"
+                PRODUCT_NAME=$(xcodebuild -showBuildSettings -workspace Convertik.xcworkspace -scheme "$SCHEME" -configuration "$CONFIGURATION" -destination "$DESTINATION" 2>/dev/null | grep "^[ ]*PRODUCT_NAME" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+                PRODUCT_NAME="${PRODUCT_NAME:-Convertik}"
+                APP_BUNDLE="${APP_PATH}/${PRODUCT_NAME}.app"
                 
                 if [ -d "$APP_BUNDLE" ]; then
                     # Устанавливаем приложение
