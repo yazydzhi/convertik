@@ -3,6 +3,7 @@
 # Автоматически собирает Pods перед основной сборкой
 #
 # Использование:
+#   ./build.sh                                    # Интерактивное меню
 #   ./build.sh [Debug|Release] [destination] [scheme] [--clean] [--open] [--increment-build]
 #
 # Опции:
@@ -11,6 +12,7 @@
 #   --increment-build Увеличить номер сборки перед сборкой
 #
 # Примеры:
+#   ./build.sh                                    # Интерактивное меню для выбора всех параметров
 #   ./build.sh Debug "generic/platform=iOS Simulator" Convertik
 #   ./build.sh Debug "generic/platform=iOS Simulator" Convertik --clean
 #   ./build.sh --clean --open  # Очистка, сборка и открытие workspace
