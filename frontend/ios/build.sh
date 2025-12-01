@@ -431,6 +431,25 @@ case "$CONFIGURATION" in
         ;;
 esac
 
+# Сначала собираем Google-Mobile-Ads-SDK явно
+echo "  Building Google-Mobile-Ads-SDK..."
+if xcodebuild \
+    -workspace Convertik.xcworkspace \
+    -scheme Google-Mobile-Ads-SDK \
+    -configuration "$PODS_CONFIGURATION" \
+    -destination "$DESTINATION" \
+    build \
+    CODE_SIGN_IDENTITY="" \
+    CODE_SIGNING_REQUIRED=NO \
+    CODE_SIGNING_ALLOWED=NO \
+    > /tmp/admob_build.log 2>&1; then
+    echo -e "${GREEN}  ✅ Google-Mobile-Ads-SDK built${NC}"
+else
+    echo -e "${YELLOW}  ⚠️  Google-Mobile-Ads-SDK build had warnings${NC}"
+fi
+
+# Затем собираем Pods-Convertik
+echo "  Building Pods-Convertik..."
 if xcodebuild \
     -workspace Convertik.xcworkspace \
     -scheme Pods-Convertik \
