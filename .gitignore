@@ -151,8 +151,6 @@ frontend/ios/fastlane/test_output
 frontend/ios/AuthKey_*.p8
 
 # iOS Product Deployment Configs (contains production secrets!)
-frontend/ios/Configs/DeployOld.xcconfig
-frontend/ios/Configs/DeployNew.xcconfig
 # Allow example/template configs
 !frontend/ios/Configs/*.example
 !frontend/ios/Configs/*.template
