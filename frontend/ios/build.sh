@@ -46,7 +46,66 @@ CONFIGURATION="${ARGS[0]:-Debug}"
 DESTINATION="${ARGS[1]:-generic/platform=iOS Simulator}"
 SCHEME="${ARGS[2]:-Convertik}"
 
+# Функция для чтения версии и сборки из Info.plist
+get_app_version() {
+    local info_plist="Info.plist"
+    if [ ! -f "$info_plist" ]; then
+        echo "Unknown"
+        return
+    fi
+    
+    # Пытаемся использовать plutil (macOS)
+    if command -v plutil &> /dev/null; then
+        local version=$(plutil -extract CFBundleShortVersionString raw "$info_plist" 2>/dev/null || echo "Unknown")
+        local build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "Unknown")
+        echo "${version} (${build})"
+    # Альтернатива: используем defaults read
+    elif command -v defaults &> /dev/null; then
+        local version=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleShortVersionString 2>/dev/null || echo "Unknown")
+        local build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "Unknown")
+        echo "${version} (${build})"
+    # Фолбэк: парсим XML через grep/sed
+    else
+        local version=$(grep -A 1 "CFBundleShortVersionString" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+        local build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+        if [ -z "$version" ]; then version="Unknown"; fi
+        if [ -z "$build" ]; then build="Unknown"; fi
+        echo "${version} (${build})"
+    fi
+}
+
+# Функция для получения bundle ID из xcconfig или build settings
+get_bundle_id() {
+    # Пытаемся получить из build settings
+    local bundle_id=$(xcodebuild -showBuildSettings \
+        -workspace Convertik.xcworkspace \
+        -scheme "$SCHEME" \
+        -configuration "$CONFIGURATION" \
+        2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | head -1 | sed 's/.*= *//' | tr -d ' ')
+    
+    if [ -z "$bundle_id" ] || [ "$bundle_id" = "$(PRODUCT_BUNDLE_IDENTIFIER)" ]; then
+        # Если не получилось, пробуем из xcconfig файлов
+        if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
+            bundle_id=$(grep "PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ')
+        elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
+            bundle_id=$(grep "PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ')
+        fi
+    fi
+    
+    if [ -z "$bundle_id" ]; then
+        echo "Unknown"
+    else
+        echo "$bundle_id"
+    fi
+}
+
+# Получаем версию, сборку и bundle ID
+APP_VERSION=$(get_app_version)
+BUNDLE_ID=$(get_bundle_id)
+
 echo -e "${GREEN}🔧 Building Convertik${NC}"
+echo -e "${BLUE}📱 App Version: ${APP_VERSION}${NC}"
+echo -e "${BLUE}🆔 Bundle ID: ${BUNDLE_ID}${NC}"
 echo "Configuration: $CONFIGURATION"
 echo "Destination: $DESTINATION"
 echo "Scheme: $SCHEME"
