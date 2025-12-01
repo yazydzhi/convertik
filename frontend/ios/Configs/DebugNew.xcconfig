@@ -10,6 +10,16 @@
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/Debug$(EFFECTIVE_PLATFORM_NAME)
 PODS_XCFRAMEWORKS_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/XCFrameworkIntermediates
 
+// Add explicit framework search paths for GoogleMobileAds
+// These paths point to Debug build products (since DebugNew maps to Debug for Pods)
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" "${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK"
+
+// Add Swift include paths for module resolution
+SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK"
+
+// Add Swift flags for framework search
+OTHER_SWIFT_FLAGS = $(inherited) -F"${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" -F"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK" -I"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK/GoogleMobileAds.framework/Modules"
+
 // Bundle Identifier (новая версия)
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 
@@ -21,7 +31,7 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_NEW
 
 // App Version (новая версия)
 INFOPLIST_KEY_CFBundleShortVersionString = 2.5
-INFOPLIST_KEY_CFBundleVersion = 6
+INFOPLIST_KEY_CFBundleVersion = 7
 
 // App Encryption Export Compliance Code
 ITSAppUsesNonExemptEncryption = NO

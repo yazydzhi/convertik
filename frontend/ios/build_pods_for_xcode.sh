@@ -47,6 +47,8 @@ if [ ! -f "$WORKSPACE_PATH/contents.xcworkspacedata" ]; then
 fi
 
 # Шаг 1: Собираем Google-Mobile-Ads-SDK явно
+# Используем отдельный DerivedData, чтобы избежать конфликтов с основной сборкой
+TEMP_DERIVED_DATA="/tmp/PodsBuild-$$"
 echo "📦 Building Google-Mobile-Ads-SDK for $PODS_CONFIGURATION..."
 BUILD_LOG="/tmp/admob_build_$$.log"
 xcodebuild \
@@ -54,6 +56,7 @@ xcodebuild \
     -scheme Google-Mobile-Ads-SDK \
     -configuration "$PODS_CONFIGURATION" \
     -destination "$BUILD_DESTINATION" \
+    -derivedDataPath "$TEMP_DERIVED_DATA" \
     build \
     CODE_SIGN_IDENTITY="" \
     CODE_SIGNING_REQUIRED=NO \
@@ -62,14 +65,25 @@ xcodebuild \
 
 if [ $? -eq 0 ]; then
     echo "  ✅ Google-Mobile-Ads-SDK built successfully"
+    # Копируем собранные фреймворки в основной DerivedData
+    if [ -d "$TEMP_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator/Google-Mobile-Ads-SDK" ]; then
+        MAIN_DERIVED_DATA=$(xcodebuild -showBuildSettings -workspace "$WORKSPACE_PATH" -scheme Pods-Convertik -configuration "$PODS_CONFIGURATION" -destination "$BUILD_DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t' | sed 's|/Build/Products.*||')
+        if [ -n "$MAIN_DERIVED_DATA" ]; then
+            mkdir -p "$MAIN_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator"
+            cp -R "$TEMP_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator/Google-Mobile-Ads-SDK" "$MAIN_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator/" 2>/dev/null || true
+        fi
+    fi
 else
     echo "  ⚠️  Google-Mobile-Ads-SDK build had warnings/errors"
     # Показываем последние строки лога для отладки
     tail -5 "$BUILD_LOG" | grep -E "(error|warning|succeeded)" || true
 fi
 rm -f "$BUILD_LOG"
+rm -rf "$TEMP_DERIVED_DATA"
 
 # Шаг 2: Собираем Pods-Convertik
+# Используем отдельный DerivedData, чтобы избежать конфликтов
+TEMP_DERIVED_DATA="/tmp/PodsBuild-$$"
 echo "📦 Building Pods-Convertik for $PODS_CONFIGURATION..."
 BUILD_LOG="/tmp/pods_build_$$.log"
 xcodebuild \
@@ -77,6 +91,7 @@ xcodebuild \
     -scheme Pods-Convertik \
     -configuration "$PODS_CONFIGURATION" \
     -destination "$BUILD_DESTINATION" \
+    -derivedDataPath "$TEMP_DERIVED_DATA" \
     build \
     CODE_SIGN_IDENTITY="" \
     CODE_SIGNING_REQUIRED=NO \
@@ -85,6 +100,14 @@ xcodebuild \
 
 if [ $? -eq 0 ]; then
     echo "  ✅ Pods-Convertik built successfully"
+    # Копируем собранные фреймворки в основной DerivedData
+    if [ -d "$TEMP_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator" ]; then
+        MAIN_DERIVED_DATA=$(xcodebuild -showBuildSettings -workspace "$WORKSPACE_PATH" -scheme Pods-Convertik -configuration "$PODS_CONFIGURATION" -destination "$BUILD_DESTINATION" 2>/dev/null | grep "^[ ]*BUILD_DIR" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t' | sed 's|/Build/Products.*||')
+        if [ -n "$MAIN_DERIVED_DATA" ]; then
+            mkdir -p "$MAIN_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator"
+            cp -R "$TEMP_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator"/* "$MAIN_DERIVED_DATA/Build/Products/$PODS_CONFIGURATION-iphonesimulator/" 2>/dev/null || true
+        fi
+    fi
 else
     echo "  ⚠️  Pods-Convertik build had warnings/errors"
     # Проверяем, есть ли критические ошибки
@@ -96,6 +119,7 @@ else
     fi
 fi
 rm -f "$BUILD_LOG"
+rm -rf "$TEMP_DERIVED_DATA"
 
 # Шаг 3: Создаем символические ссылки для нестандартных конфигураций
 if [ "$RAW_CONFIGURATION" != "$PODS_CONFIGURATION" ]; then

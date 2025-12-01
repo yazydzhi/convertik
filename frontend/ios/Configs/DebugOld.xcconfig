@@ -10,6 +10,16 @@
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/Debug$(EFFECTIVE_PLATFORM_NAME)
 PODS_XCFRAMEWORKS_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/XCFrameworkIntermediates
 
+// Add explicit framework search paths for GoogleMobileAds
+// These paths point to Debug build products (since DebugOld maps to Debug for Pods)
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" "${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK"
+
+// Add Swift include paths for module resolution
+SWIFT_INCLUDE_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK"
+
+// Add Swift flags for framework search
+OTHER_SWIFT_FLAGS = $(inherited) -F"${PODS_CONFIGURATION_BUILD_DIR}/Google-Mobile-Ads-SDK" -F"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK" -I"${PODS_XCFRAMEWORKS_BUILD_DIR}/Google-Mobile-Ads-SDK/GoogleMobileAds.framework/Modules"
+
 // Bundle Identifier (старая версия)
 PRODUCT_BUNDLE_IDENTIFIER = com.yazydzhi.convertik
 
