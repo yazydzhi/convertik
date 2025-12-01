@@ -45,10 +45,107 @@ for arg in "$@"; do
     fi
 done
 
-# Параметры по умолчанию
-CONFIGURATION="${ARGS[0]:-Debug}"
-DESTINATION="${ARGS[1]:-generic/platform=iOS Simulator}"
-SCHEME="${ARGS[2]:-Convertik}"
+# Интерактивное меню, если запущено без параметров
+if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = false ] && [ "$INCREMENT_BUILD" = false ]; then
+    echo -e "${GREEN}🔧 Convertik Build Script${NC}"
+    echo ""
+    echo "Выберите конфигурацию:"
+    echo "  1) Debug (разработка)"
+    echo "  2) Release (продакшн)"
+    echo "  3) DeployOld (старая версия: com.yazydzhi.convertik)"
+    echo "  4) DeployNew (новая версия: com.azg.Convertik)"
+    echo ""
+    read -p "Ваш выбор [1-4] (по умолчанию: 1): " config_choice
+    config_choice=${config_choice:-1}
+    
+    case $config_choice in
+        1) CONFIGURATION="Debug" ;;
+        2) CONFIGURATION="Release" ;;
+        3) CONFIGURATION="DeployOld" ;;
+        4) CONFIGURATION="DeployNew" ;;
+        *) CONFIGURATION="Debug" ;;
+    esac
+    
+    echo ""
+    echo "Выберите destination:"
+    echo "  1) iOS Simulator (generic/platform=iOS Simulator)"
+    echo "  2) iPhone 15 Pro Simulator"
+    echo "  3) iPhone 16 Pro Simulator"
+    echo "  4) iPad Pro Simulator"
+    echo "  5) Generic iOS Device"
+    echo ""
+    read -p "Ваш выбор [1-5] (по умолчанию: 1): " dest_choice
+    dest_choice=${dest_choice:-1}
+    
+    case $dest_choice in
+        1) DESTINATION="generic/platform=iOS Simulator" ;;
+        2) DESTINATION="platform=iOS Simulator,name=iPhone 15 Pro" ;;
+        3) DESTINATION="platform=iOS Simulator,name=iPhone 16 Pro" ;;
+        4) DESTINATION="platform=iOS Simulator,name=iPad Pro (12.9-inch) (6th generation)" ;;
+        5) DESTINATION="generic/platform=iOS" ;;
+        *) DESTINATION="generic/platform=iOS Simulator" ;;
+    esac
+    
+    echo ""
+    echo "Выберите схему:"
+    echo "  1) Convertik (основная)"
+    echo "  2) Convertik-Old (старая версия)"
+    echo "  3) Convertik-New (новая версия)"
+    echo ""
+    read -p "Ваш выбор [1-3] (по умолчанию: 1): " scheme_choice
+    scheme_choice=${scheme_choice:-1}
+    
+    case $scheme_choice in
+        1) SCHEME="Convertik" ;;
+        2) SCHEME="Convertik-Old" ;;
+        3) SCHEME="Convertik-New" ;;
+        *) SCHEME="Convertik" ;;
+    esac
+    
+    echo ""
+    echo "Дополнительные опции:"
+    read -p "Очистить кэш перед сборкой? [y/N]: " clean_choice
+    if [[ "$clean_choice" =~ ^[Yy]$ ]]; then
+        CLEAN_CACHE=true
+    fi
+    
+    read -p "Увеличить номер сборки? [y/N]: " increment_choice
+    if [[ "$increment_choice" =~ ^[Yy]$ ]]; then
+        INCREMENT_BUILD=true
+    fi
+    
+    read -p "Открыть workspace после сборки? [y/N]: " open_choice
+    if [[ "$open_choice" =~ ^[Yy]$ ]]; then
+        OPEN_WORKSPACE=true
+    fi
+    
+    echo ""
+    echo -e "${BLUE}📋 Выбранные параметры:${NC}"
+    echo "  Configuration: $CONFIGURATION"
+    echo "  Destination: $DESTINATION"
+    echo "  Scheme: $SCHEME"
+    if [ "$CLEAN_CACHE" = true ]; then
+        echo "  Clean cache: ENABLED"
+    fi
+    if [ "$INCREMENT_BUILD" = true ]; then
+        echo "  Increment build: ENABLED"
+    fi
+    if [ "$OPEN_WORKSPACE" = true ]; then
+        echo "  Open workspace: ENABLED"
+    fi
+    echo ""
+    read -p "Продолжить? [Y/n]: " confirm
+    if [[ "$confirm" =~ ^[Nn]$ ]]; then
+        echo "Отменено."
+        exit 0
+    fi
+    echo ""
+else
+    # Параметры по умолчанию (если переданы аргументы)
+    CONFIGURATION="${ARGS[0]:-Debug}"
+    DESTINATION="${ARGS[1]:-generic/platform=iOS Simulator}"
+    SCHEME="${ARGS[2]:-Convertik}"
+fi
 
 # Функция для чтения версии и сборки из Info.plist
 get_app_version() {
