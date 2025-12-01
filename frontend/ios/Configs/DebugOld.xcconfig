@@ -1,28 +1,28 @@
 //
-//  Debug.xcconfig
-//  Debug конфигурация с тестовыми данными
+//  DebugOld.xcconfig
+//  Debug конфигурация для старой версии приложения (com.yazydzhi.convertik)
 //
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"
 
-// Bundle Identifier (используем новую версию для debug)
-PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
+// Bundle Identifier (старая версия)
+PRODUCT_BUNDLE_IDENTIFIER = com.yazydzhi.convertik
 
-// IAP Product SKU (тестовый)
-IAP_PRODUCT_SKU = com.azg.Convertik
+// IAP Product SKU (тестовый для старой версии)
+IAP_PRODUCT_SKU = com.yazydzhi.convertik
 
 // Swift Compilation Flags
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_NEW
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_OLD
 
-// App Version (новая версия)
-INFOPLIST_KEY_CFBundleShortVersionString = 2.5
-INFOPLIST_KEY_CFBundleVersion = 6
+// App Version (старая версия)
+INFOPLIST_KEY_CFBundleShortVersionString = 2.4
+INFOPLIST_KEY_CFBundleVersion = 1
 
 // App Encryption Export Compliance Code
 ITSAppUsesNonExemptEncryption = NO
 
 // Info.plist values (для чтения во время выполнения)
-INFOPLIST_KEY_IAP_PRODUCT_SKU = com.azg.Convertik
+INFOPLIST_KEY_IAP_PRODUCT_SKU = com.yazydzhi.convertik
 INFOPLIST_KEY_ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
 INFOPLIST_KEY_ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3940256099942544/2934735716
 INFOPLIST_KEY_ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3940256099942544/4411468910
@@ -42,5 +42,5 @@ ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3940256099942544/4411468910
 ADMOB_REWARDED_MAIN = ca-app-pub-3940256099942544/1712485313
 
 // Background Task Identifier
-BG_TASK_REFRESH_IDENTIFIER = com.azg.convertik.refresh
+BG_TASK_REFRESH_IDENTIFIER = com.yazydzhi.convertik.refresh
 

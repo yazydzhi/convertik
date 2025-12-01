@@ -52,23 +52,33 @@ if [ ${#ARGS[@]} -eq 0 ] && [ "$CLEAN_CACHE" = false ] && [ "$OPEN_WORKSPACE" = 
     echo -e "${GREEN}🔧 Convertik Build Script${NC}"
     echo ""
     echo "Выберите конфигурацию:"
-    echo "  1) Debug (разработка, Bundle ID: com.azg.Convertik)"
-    echo "  2) Release (продакшн, Bundle ID: com.azg.Convertik)"
+    echo "  1) DebugOld (старая версия, debug, Bundle ID: com.yazydzhi.convertik, версия: 2.4)"
+    echo "  2) DebugNew (новая версия, debug, Bundle ID: com.azg.Convertik, версия: 2.5)"
+    echo "  3) DeployOld (старая версия, продакшн, Bundle ID: com.yazydzhi.convertik, версия: 2.4)"
+    echo "  4) DeployNew (новая версия, продакшн, Bundle ID: com.azg.Convertik, версия: 2.5)"
     echo ""
-    read -p "Ваш выбор [1-2] (по умолчанию: 1): " config_choice
-    config_choice=${config_choice:-1}
+    read -p "Ваш выбор [1-4] (по умолчанию: 2): " config_choice
+    config_choice=${config_choice:-2}
     
     case $config_choice in
         1) 
-            CONFIGURATION="Debug"
+            CONFIGURATION="DebugOld"
             SCHEME="Convertik"
             ;;
         2) 
-            CONFIGURATION="Release"
+            CONFIGURATION="DebugNew"
+            SCHEME="Convertik"
+            ;;
+        3) 
+            CONFIGURATION="DeployOld"
+            SCHEME="Convertik"
+            ;;
+        4) 
+            CONFIGURATION="DeployNew"
             SCHEME="Convertik"
             ;;
         *) 
-            CONFIGURATION="Debug"
+            CONFIGURATION="DebugNew"
             SCHEME="Convertik"
             ;;
     esac
@@ -140,32 +150,47 @@ else
     SCHEME="${ARGS[2]:-Convertik}"
 fi
 
-# Функция для чтения версии и сборки из Info.plist
+# Функция для чтения версии и сборки из xcconfig или Info.plist
 get_app_version() {
-    local info_plist="Info.plist"
-    if [ ! -f "$info_plist" ]; then
-        echo "Unknown"
-        return
+    local version=""
+    local build=""
+    
+    # Сначала пробуем из xcconfig файлов (приоритет)
+    local xcconfig_file=""
+    case "$CONFIGURATION" in
+        DebugOld) xcconfig_file="Configs/DebugOld.xcconfig" ;;
+        DebugNew) xcconfig_file="Configs/DebugNew.xcconfig" ;;
+        DeployOld) xcconfig_file="Configs/DeployOld.xcconfig" ;;
+        DeployNew) xcconfig_file="Configs/DeployNew.xcconfig" ;;
+        Release) xcconfig_file="Configs/Release.xcconfig" ;;
+        Debug) xcconfig_file="Configs/Debug.xcconfig" ;;
+    esac
+    
+    if [ -n "$xcconfig_file" ] && [ -f "$xcconfig_file" ]; then
+        version=$(grep "^INFOPLIST_KEY_CFBundleShortVersionString" "$xcconfig_file" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+        build=$(grep "^INFOPLIST_KEY_CFBundleVersion" "$xcconfig_file" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
     fi
     
-    # Пытаемся использовать plutil (macOS)
-    if command -v plutil &> /dev/null; then
-        local version=$(plutil -extract CFBundleShortVersionString raw "$info_plist" 2>/dev/null || echo "Unknown")
-        local build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "Unknown")
-        echo "${version} (${build})"
-    # Альтернатива: используем defaults read
-    elif command -v defaults &> /dev/null; then
-        local version=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleShortVersionString 2>/dev/null || echo "Unknown")
-        local build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "Unknown")
-        echo "${version} (${build})"
-    # Фолбэк: парсим XML через grep/sed
-    else
-        local version=$(grep -A 1 "CFBundleShortVersionString" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
-        local build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
-        if [ -z "$version" ]; then version="Unknown"; fi
-        if [ -z "$build" ]; then build="Unknown"; fi
-        echo "${version} (${build})"
+    # Если не получилось из xcconfig, пробуем Info.plist
+    if [ -z "$version" ] || [ -z "$build" ]; then
+        local info_plist="Info.plist"
+        if [ -f "$info_plist" ]; then
+            if command -v plutil &> /dev/null; then
+                version=$(plutil -extract CFBundleShortVersionString raw "$info_plist" 2>/dev/null || echo "")
+                build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "")
+            elif command -v defaults &> /dev/null; then
+                version=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleShortVersionString 2>/dev/null || echo "")
+                build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "")
+            else
+                version=$(grep -A 1 "CFBundleShortVersionString" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+                build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+            fi
+        fi
     fi
+    
+    if [ -z "$version" ]; then version="Unknown"; fi
+    if [ -z "$build" ]; then build="Unknown"; fi
+    echo "${version} (${build})"
 }
 
 # Функция для получения bundle ID из xcconfig или build settings
@@ -173,7 +198,15 @@ get_bundle_id() {
     local bundle_id=""
     
     # Сначала пробуем из xcconfig файлов (более надежно)
-    if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
+    if [ "$CONFIGURATION" = "DebugOld" ] && [ -f "Configs/DebugOld.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DebugOld.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "DebugNew" ] && [ -f "Configs/DebugNew.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DebugNew.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "DeployOld" ] && [ -f "Configs/DeployOld.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployOld.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "DeployNew" ] && [ -f "Configs/DeployNew.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/DeployNew.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
     elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
         bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
@@ -203,14 +236,32 @@ increment_build_number() {
     local project_yml="project.yml"
     local test_info_plist="ConvertikTests/Info.plist"
     
-    # Получаем текущий номер сборки
+    # Определяем xcconfig файл для текущей конфигурации
+    local xcconfig_file=""
+    case "$CONFIGURATION" in
+        DebugOld) xcconfig_file="Configs/DebugOld.xcconfig" ;;
+        DebugNew) xcconfig_file="Configs/DebugNew.xcconfig" ;;
+        DeployOld) xcconfig_file="Configs/DeployOld.xcconfig" ;;
+        DeployNew) xcconfig_file="Configs/DeployNew.xcconfig" ;;
+        Release) xcconfig_file="Configs/Release.xcconfig" ;;
+        Debug) xcconfig_file="Configs/Debug.xcconfig" ;;
+    esac
+    
+    # Получаем текущий номер сборки из xcconfig (приоритет) или Info.plist
     local current_build=""
-    if command -v plutil &> /dev/null; then
-        current_build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "")
-    elif command -v defaults &> /dev/null; then
-        current_build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "")
-    else
-        current_build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+    if [ -n "$xcconfig_file" ] && [ -f "$xcconfig_file" ]; then
+        current_build=$(grep "^INFOPLIST_KEY_CFBundleVersion" "$xcconfig_file" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    fi
+    
+    # Если не получилось из xcconfig, пробуем Info.plist
+    if [ -z "$current_build" ]; then
+        if command -v plutil &> /dev/null; then
+            current_build=$(plutil -extract CFBundleVersion raw "$info_plist" 2>/dev/null || echo "")
+        elif command -v defaults &> /dev/null; then
+            current_build=$(defaults read "$SCRIPT_DIR/$info_plist" CFBundleVersion 2>/dev/null || echo "")
+        else
+            current_build=$(grep -A 1 "CFBundleVersion" "$info_plist" | grep "<string>" | sed 's/.*<string>\(.*\)<\/string>.*/\1/' | head -1)
+        fi
     fi
     
     if [ -z "$current_build" ]; then
@@ -221,9 +272,19 @@ increment_build_number() {
     # Увеличиваем номер сборки
     local new_build=$((current_build + 1))
     
-    echo -e "${YELLOW}📈 Incrementing build number: ${current_build} → ${new_build}${NC}"
+    echo -e "${YELLOW}📈 Incrementing build number for $CONFIGURATION: ${current_build} → ${new_build}${NC}"
     
-    # Обновляем Info.plist
+    # Обновляем xcconfig файл (приоритет)
+    if [ -n "$xcconfig_file" ] && [ -f "$xcconfig_file" ]; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/^INFOPLIST_KEY_CFBundleVersion = .*/INFOPLIST_KEY_CFBundleVersion = ${new_build}/" "$xcconfig_file"
+        else
+            sed -i "s/^INFOPLIST_KEY_CFBundleVersion = .*/INFOPLIST_KEY_CFBundleVersion = ${new_build}/" "$xcconfig_file"
+        fi
+        echo -e "${GREEN}✅ Updated build number in $xcconfig_file${NC}"
+    fi
+    
+    # Также обновляем Info.plist (для совместимости)
     if command -v plutil &> /dev/null; then
         plutil -replace CFBundleVersion -string "$new_build" "$info_plist" 2>/dev/null || {
             # Fallback: используем sed для XML

@@ -1,6 +1,6 @@
 //
-//  Release.xcconfig
-//  Release конфигурация с продакшн данными
+//  DeployNew.xcconfig
+//  Config для новой версии приложения (com.azg.Convertik)
 //
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.release.xcconfig"
@@ -8,7 +8,7 @@
 // Bundle Identifier
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 
-// IAP Product SKU (продакшн)
+// IAP Product SKU
 IAP_PRODUCT_SKU = com.azg.Convertik
 
 // Swift Compilation Flags
@@ -23,25 +23,24 @@ ITSAppUsesNonExemptEncryption = NO
 
 // Info.plist values (для чтения во время выполнения)
 INFOPLIST_KEY_IAP_PRODUCT_SKU = com.azg.Convertik
-INFOPLIST_KEY_ADMOB_APP_ID = ca-app-pub-3963008621997262~3198843168
-INFOPLIST_KEY_ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3963008621997262/9525729746
-INFOPLIST_KEY_ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3963008621997262/2960321390
-INFOPLIST_KEY_ADMOB_REWARDED_MAIN = ca-app-pub-3963008621997262/rewarded_main_old
+INFOPLIST_KEY_ADMOB_APP_ID = ca-app-pub-3963008621997262~7232833541
+INFOPLIST_KEY_ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3963008621997262/6595790670
+INFOPLIST_KEY_ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3963008621997262/7703529229
+INFOPLIST_KEY_ADMOB_REWARDED_MAIN = ca-app-pub-3963008621997262/rewarded_main_new
 
-// Google Ads Configuration - Production IDs
+// Google Ads Configuration
 // App ID
-ADMOB_APP_ID = ca-app-pub-3963008621997262~3198843168
+ADMOB_APP_ID = ca-app-pub-3963008621997262~7232833541
 
 // Banner Ad Unit IDs
-ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3963008621997262/9525729746
+ADMOB_BANNER_MAIN_BOTTOM = ca-app-pub-3963008621997262/6595790670
 
 // Interstitial Ad Unit IDs
-ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3963008621997262/2960321390
+ADMOB_INTERSTITIAL_MAIN = ca-app-pub-3963008621997262/7703529229
 
 // Rewarded Ad Unit IDs
-ADMOB_REWARDED_MAIN = ca-app-pub-3963008621997262/rewarded_main_old
+ADMOB_REWARDED_MAIN = ca-app-pub-3963008621997262/rewarded_main_new
 
 // Background Task Identifier
 BG_TASK_REFRESH_IDENTIFIER = com.azg.convertik.refresh
-
 

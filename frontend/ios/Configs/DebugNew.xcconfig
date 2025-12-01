@@ -1,14 +1,14 @@
 //
-//  Debug.xcconfig
-//  Debug конфигурация с тестовыми данными
+//  DebugNew.xcconfig
+//  Debug конфигурация для новой версии приложения (com.azg.Convertik)
 //
 
 #include "../Pods/Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"
 
-// Bundle Identifier (используем новую версию для debug)
+// Bundle Identifier (новая версия)
 PRODUCT_BUNDLE_IDENTIFIER = com.azg.Convertik
 
-// IAP Product SKU (тестовый)
+// IAP Product SKU (тестовый для новой версии)
 IAP_PRODUCT_SKU = com.azg.Convertik
 
 // Swift Compilation Flags

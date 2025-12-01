@@ -10,7 +10,11 @@ options:
 
 configs:
   Debug: Configs/Debug.xcconfig
+  DebugOld: Configs/DebugOld.xcconfig
+  DebugNew: Configs/DebugNew.xcconfig
   Release: Configs/Release.xcconfig
+  DeployOld: Configs/DeployOld.xcconfig
+  DeployNew: Configs/DeployNew.xcconfig
 
 fileGroups:
   - Configs
@@ -52,7 +56,7 @@ targets:
       properties:
         CFBundleDisplayName: Конвертик
         CFBundleShortVersionString: "2.5"
-        CFBundleVersion: "5"
+        CFBundleVersion: "6"
         GADApplicationIdentifier: "ca-app-pub-3963008621997262~3198843168"
         ITSAppUsesNonExemptEncryption: false
         LSApplicationCategoryType: "public.app-category.finance"
