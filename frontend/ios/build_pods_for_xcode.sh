@@ -3,9 +3,13 @@
 # Автоматически собирает Pods перед основной сборкой
 # Решает проблему "Unable to find module dependency: 'GoogleMobileAds'"
 
-set -e
+# НЕ используем set -e, чтобы скрипт не падал на предупреждениях
+set +e
 
 echo "🔧 [Pre-Build] Building Pods first..."
+echo "   Configuration: ${CONFIGURATION:-Debug}"
+echo "   Platform: ${PLATFORM_NAME:-iphonesimulator}"
+echo "   SRCROOT: ${SRCROOT:-not set}"
 
 # Определяем конфигурацию и destination из переменных окружения Xcode
 # Маппинг новых конфигураций на стандартные для Pods
@@ -44,6 +48,7 @@ fi
 
 # Шаг 1: Собираем Google-Mobile-Ads-SDK явно
 echo "📦 Building Google-Mobile-Ads-SDK for $PODS_CONFIGURATION..."
+BUILD_LOG="/tmp/admob_build_$$.log"
 xcodebuild \
     -workspace "$WORKSPACE_PATH" \
     -scheme Google-Mobile-Ads-SDK \
@@ -53,10 +58,20 @@ xcodebuild \
     CODE_SIGN_IDENTITY="" \
     CODE_SIGNING_REQUIRED=NO \
     CODE_SIGNING_ALLOWED=NO \
-    > /dev/null 2>&1 || echo "⚠️  Google-Mobile-Ads-SDK build had warnings"
+    > "$BUILD_LOG" 2>&1
+
+if [ $? -eq 0 ]; then
+    echo "  ✅ Google-Mobile-Ads-SDK built successfully"
+else
+    echo "  ⚠️  Google-Mobile-Ads-SDK build had warnings/errors"
+    # Показываем последние строки лога для отладки
+    tail -5 "$BUILD_LOG" | grep -E "(error|warning|succeeded)" || true
+fi
+rm -f "$BUILD_LOG"
 
 # Шаг 2: Собираем Pods-Convertik
 echo "📦 Building Pods-Convertik for $PODS_CONFIGURATION..."
+BUILD_LOG="/tmp/pods_build_$$.log"
 xcodebuild \
     -workspace "$WORKSPACE_PATH" \
     -scheme Pods-Convertik \
@@ -66,7 +81,21 @@ xcodebuild \
     CODE_SIGN_IDENTITY="" \
     CODE_SIGNING_REQUIRED=NO \
     CODE_SIGNING_ALLOWED=NO \
-    > /dev/null 2>&1 || echo "⚠️  Pods-Convertik build had warnings"
+    > "$BUILD_LOG" 2>&1
+
+if [ $? -eq 0 ]; then
+    echo "  ✅ Pods-Convertik built successfully"
+else
+    echo "  ⚠️  Pods-Convertik build had warnings/errors"
+    # Проверяем, есть ли критические ошибки
+    if grep -q "error:" "$BUILD_LOG"; then
+        echo "  ❌ Critical errors found:"
+        grep "error:" "$BUILD_LOG" | head -3
+    else
+        echo "  ⚠️  Warnings only (usually OK)"
+    fi
+fi
+rm -f "$BUILD_LOG"
 
 # Шаг 3: Создаем символические ссылки для нестандартных конфигураций
 if [ "$RAW_CONFIGURATION" != "$PODS_CONFIGURATION" ]; then
@@ -92,17 +121,27 @@ if [ "$RAW_CONFIGURATION" != "$PODS_CONFIGURATION" ]; then
         
         # Создаем символические ссылки
         if [ -d "${SOURCE_DIR}/Google-Mobile-Ads-SDK" ]; then
-            if [ ! -e "${TARGET_DIR}/Google-Mobile-Ads-SDK" ]; then
-                ln -sf "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/Google-Mobile-Ads-SDK"
-                echo "  ✅ Created symlink: Google-Mobile-Ads-SDK"
-            fi
+            # Удаляем старую ссылку или директорию, если есть
+            [ -L "${TARGET_DIR}/Google-Mobile-Ads-SDK" ] && rm "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+            [ -d "${TARGET_DIR}/Google-Mobile-Ads-SDK" ] && rm -rf "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+            ln -sf "${SOURCE_DIR}/Google-Mobile-Ads-SDK" "${TARGET_DIR}/Google-Mobile-Ads-SDK"
+            echo "  ✅ Created symlink: Google-Mobile-Ads-SDK"
+            echo "     From: ${SOURCE_DIR}/Google-Mobile-Ads-SDK"
+            echo "     To: ${TARGET_DIR}/Google-Mobile-Ads-SDK"
+        else
+            echo "  ⚠️  Source directory not found: ${SOURCE_DIR}/Google-Mobile-Ads-SDK"
         fi
         
         if [ -d "${SOURCE_DIR}/XCFrameworkIntermediates" ]; then
-            if [ ! -e "${TARGET_DIR}/XCFrameworkIntermediates" ]; then
-                ln -sf "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/XCFrameworkIntermediates"
-                echo "  ✅ Created symlink: XCFrameworkIntermediates"
-            fi
+            # Удаляем старую ссылку или директорию, если есть
+            [ -L "${TARGET_DIR}/XCFrameworkIntermediates" ] && rm "${TARGET_DIR}/XCFrameworkIntermediates"
+            [ -d "${TARGET_DIR}/XCFrameworkIntermediates" ] && rm -rf "${TARGET_DIR}/XCFrameworkIntermediates"
+            ln -sf "${SOURCE_DIR}/XCFrameworkIntermediates" "${TARGET_DIR}/XCFrameworkIntermediates"
+            echo "  ✅ Created symlink: XCFrameworkIntermediates"
+            echo "     From: ${SOURCE_DIR}/XCFrameworkIntermediates"
+            echo "     To: ${TARGET_DIR}/XCFrameworkIntermediates"
+        else
+            echo "  ⚠️  Source directory not found: ${SOURCE_DIR}/XCFrameworkIntermediates"
         fi
     fi
 fi
