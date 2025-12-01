@@ -83,7 +83,8 @@ get_bundle_id() {
         -configuration "$CONFIGURATION" \
         2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | head -1 | sed 's/.*= *//' | tr -d ' ')
     
-    if [ -z "$bundle_id" ] || [ "$bundle_id" = "$(PRODUCT_BUNDLE_IDENTIFIER)" ]; then
+    # Проверяем, что bundle_id не пустой и не содержит переменную (начинается с $)
+    if [ -z "$bundle_id" ] || [[ "$bundle_id" == *"$("* ]]; then
         # Если не получилось, пробуем из xcconfig файлов
         if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
             bundle_id=$(grep "PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ')

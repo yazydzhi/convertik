@@ -28,6 +28,7 @@
 		4E7CE3422E39B32F07A276C4 /* star_premium_clean_1024x1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BD8241A50096A073B3DDAD6 /* star_premium_clean_1024x1024.png */; };
 		5BCC914FD6646725C1419192 /* UserCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */; };
 		6E9A1C416722426FC639EB5D /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */; };
+		823254F6548E431F83CD7121 /* UpdateRequiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823254F6548E431F83CD7122 /* UpdateRequiredView.swift */; };
 		718BECCAEC85D8A5A413AA7E /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B2B61DCAF110550897C8A /* Components.swift */; };
 		72230B44363B9C09EC27981F /* Pods_Convertik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A9C899D6FEE67B406ACD92 /* Pods_Convertik.framework */; };
 		789D40E36A4B3DDA2256F57F /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58AF660130C11D152C46CD0 /* StoreService.swift */; };
@@ -82,6 +83,7 @@
 		B702A6BB882C5E80F08E0946 /* RatesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesRepository.swift; sourceTree = "<group>"; };
 		C0267707EED86F1F8DDCBAE8 /* Pods-Convertik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.release.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.release.xcconfig"; sourceTree = "<group>"; };
 		C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		823254F6548E431F83CD7122 /* UpdateRequiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequiredView.swift; sourceTree = "<group>"; };
 		C20D9C352254817F4E94C43E /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		C34595F1F0E2E1951ED9BA3D /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
 		CA0DF738BEE5ABE3E5C725DA /* ThemePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreviewView.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */,
+				823254F6548E431F83CD7122 /* UpdateRequiredView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				B73941EEDBDFEF590ED1825C /* MainListView.swift in Sources */,
 				1FB87A221B2CE1CF11E2D7DD /* MainListViewModel.swift in Sources */,
 				6E9A1C416722426FC639EB5D /* PaywallView.swift in Sources */,
+				823254F6548E431F83CD7121 /* UpdateRequiredView.swift in Sources */,
 				D0DC1E84340142E9623A8773 /* Rate.swift in Sources */,
 				92CAA73AA6BC3E0BE4ABBB91 /* RateEntity+CoreDataClass.swift in Sources */,
 				394FAE3B16182B97A9E5AB36 /* RatesRepository.swift in Sources */,
