@@ -76,24 +76,27 @@ get_app_version() {
 
 # Функция для получения bundle ID из xcconfig или build settings
 get_bundle_id() {
-    # Пытаемся получить из build settings
-    local bundle_id=$(xcodebuild -showBuildSettings \
-        -workspace Convertik.xcworkspace \
-        -scheme "$SCHEME" \
-        -configuration "$CONFIGURATION" \
-        2>/dev/null | grep "PRODUCT_BUNDLE_IDENTIFIER" | head -1 | sed 's/.*= *//' | tr -d ' ')
+    local bundle_id=""
     
-    # Проверяем, что bundle_id не пустой и не содержит переменную (начинается с $)
-    if [ -z "$bundle_id" ] || echo "$bundle_id" | grep -q '\$('; then
-        # Если не получилось, пробуем из xcconfig файлов
-        if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
-            bundle_id=$(grep "PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ')
-        elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
-            bundle_id=$(grep "PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ')
-        fi
+    # Сначала пробуем из xcconfig файлов (более надежно)
+    if [ "$CONFIGURATION" = "Release" ] && [ -f "Configs/Release.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Release.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    elif [ "$CONFIGURATION" = "Debug" ] && [ -f "Configs/Debug.xcconfig" ]; then
+        bundle_id=$(grep "^PRODUCT_BUNDLE_IDENTIFIER" Configs/Debug.xcconfig | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
     fi
     
-    if [ -z "$bundle_id" ]; then
+    # Проверяем, что bundle_id валидный (не пустой, не "NO", не содержит переменную)
+    if [ -z "$bundle_id" ] || [ "$bundle_id" = "NO" ] || echo "$bundle_id" | grep -q '\$('; then
+        # Если не получилось из xcconfig, пробуем из build settings
+        bundle_id=$(xcodebuild -showBuildSettings \
+            -workspace Convertik.xcworkspace \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            2>/dev/null | grep "^[ ]*PRODUCT_BUNDLE_IDENTIFIER" | head -1 | sed 's/.*= *//' | tr -d ' ' | tr -d '\t')
+    fi
+    
+    # Финальная проверка
+    if [ -z "$bundle_id" ] || [ "$bundle_id" = "NO" ] || echo "$bundle_id" | grep -q '\$('; then
         echo "Unknown"
     else
         echo "$bundle_id"
