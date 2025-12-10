@@ -15,8 +15,8 @@ IAP_PRODUCT_SKU = com.azg.Convertik
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_NEW
 
 // App Version (новая версия)
-INFOPLIST_KEY_CFBundleShortVersionString = 2.5
-INFOPLIST_KEY_CFBundleVersion = 6
+INFOPLIST_KEY_CFBundleShortVersionString = 2.6
+INFOPLIST_KEY_CFBundleVersion = 9
 
 // App Encryption Export Compliance Code
 ITSAppUsesNonExemptEncryption = NO
