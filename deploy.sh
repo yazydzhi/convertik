@@ -108,13 +108,13 @@ deploy_backend() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}🐳 Деплой бэкенда...${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    
+
     # Создаем временную директорию для rsync
     TEMP_DIR=$(mktemp -d)
     trap "rm -rf $TEMP_DIR" EXIT
-    
+
     echo -e "${YELLOW}📦 Копируем файлы бэкенда на сервер...${NC}"
-    
+
     # Копируем файлы бэкенда
     if [ -n "$RSYNC_SSH_OPTS" ]; then
         rsync -avz --delete --rsh="$RSYNC_SSH_OPTS" \
@@ -139,9 +139,9 @@ deploy_backend() {
             --exclude='*.log' \
             backend/ ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_BACKEND_PATH}/
     fi
-    
+
     echo -e "${GREEN}✅ Файлы бэкенда скопированы${NC}"
-    
+
     # Копируем .env.production если он существует локально
     if [ -f "backend/.env.production" ]; then
         echo -e "${YELLOW}📋 Копируем .env.production на сервер...${NC}"
@@ -150,48 +150,62 @@ deploy_backend() {
         echo -e "${YELLOW}⚠️  backend/.env.production не найден локально${NC}"
         echo -e "${YELLOW}⚠️  Убедитесь что .env.production существует на сервере${NC}"
     fi
-    
+
     echo -e "${YELLOW}🔧 Запускаем деплой скрипт на сервере...${NC}"
-    
+
     # Запускаем деплой скрипт на сервере
     if [ -n "$SSH_OPTS" ]; then
         ssh $SSH_OPTS ${DEPLOY_USER}@${DEPLOY_HOST} << EOF
         set -e
         cd ${DEPLOY_BACKEND_PATH}
-        
+
         # Проверяем наличие .env.production
         if [ ! -f ".env.production" ]; then
             echo -e "${RED}❌ Ошибка: .env.production не найден на сервере${NC}"
             echo "Создайте его: cp env.production.example .env.production"
             exit 1
         fi
-        
-        # Делаем скрипт исполняемым
-        chmod +x deploy.sh
-        
-        # Запускаем деплой
-        ./deploy.sh
+
+        # Делаем скрипт исполняемым (используем server-deploy.sh если есть, иначе deploy.sh)
+        if [ -f "server-deploy.sh" ]; then
+            chmod +x server-deploy.sh
+            ./server-deploy.sh
+        elif [ -f "deploy.sh" ]; then
+            chmod +x deploy.sh
+            ./deploy.sh
+        else
+            echo -e "${RED}❌ Ошибка: Не найден скрипт деплоя на сервере${NC}"
+            echo "Ожидался server-deploy.sh или deploy.sh в ${DEPLOY_BACKEND_PATH}"
+            exit 1
+        fi
 EOF
     else
         ssh ${DEPLOY_USER}@${DEPLOY_HOST} << EOF
         set -e
         cd ${DEPLOY_BACKEND_PATH}
-        
+
         # Проверяем наличие .env.production
         if [ ! -f ".env.production" ]; then
             echo -e "${RED}❌ Ошибка: .env.production не найден на сервере${NC}"
             echo "Создайте его: cp env.production.example .env.production"
             exit 1
         fi
-        
-        # Делаем скрипт исполняемым
-        chmod +x deploy.sh
-        
-        # Запускаем деплой
-        ./deploy.sh
+
+        # Делаем скрипт исполняемым (используем server-deploy.sh если есть, иначе deploy.sh)
+        if [ -f "server-deploy.sh" ]; then
+            chmod +x server-deploy.sh
+            ./server-deploy.sh
+        elif [ -f "deploy.sh" ]; then
+            chmod +x deploy.sh
+            ./deploy.sh
+        else
+            echo -e "${RED}❌ Ошибка: Не найден скрипт деплоя на сервере${NC}"
+            echo "Ожидался server-deploy.sh или deploy.sh в ${DEPLOY_BACKEND_PATH}"
+            exit 1
+        fi
 EOF
     fi
-    
+
     echo -e "${GREEN}✅ Бэкенд успешно задеплоен!${NC}"
     echo ""
 }
@@ -201,12 +215,12 @@ deploy_frontend() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}🌐 Деплой фронтенда...${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    
+
     echo -e "${YELLOW}📦 Копируем файлы фронтенда на сервер...${NC}"
-    
+
     # Создаем директорию если её нет
     ssh_cmd "mkdir -p ${DEPLOY_FRONTEND_PATH}"
-    
+
     # Копируем файлы фронтенда
     if [ -n "$RSYNC_SSH_OPTS" ]; then
         rsync -avz --delete --rsh="$RSYNC_SSH_OPTS" \
@@ -219,13 +233,13 @@ deploy_frontend() {
             --exclude='README.md' \
             frontend/convertik/ ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_FRONTEND_PATH}/
     fi
-    
+
     echo -e "${GREEN}✅ Файлы фронтенда скопированы${NC}"
-    
+
     # Проверяем доступность сайта
     echo -e "${YELLOW}🔍 Проверяем доступность сайта...${NC}"
     sleep 2
-    
+
     if [ -n "$DEPLOY_FRONTEND_DOMAIN" ]; then
         if curl -s -o /dev/null -w "%{http_code}" "https://${DEPLOY_FRONTEND_DOMAIN}" | grep -q "200\|301\|302"; then
             echo -e "${GREEN}✅ Сайт доступен: https://${DEPLOY_FRONTEND_DOMAIN}${NC}"
@@ -233,7 +247,7 @@ deploy_frontend() {
             echo -e "${YELLOW}⚠️  Сайт может быть недоступен или еще не настроен${NC}"
         fi
     fi
-    
+
     echo -e "${GREEN}✅ Фронтенд успешно задеплоен!${NC}"
     echo ""
 }

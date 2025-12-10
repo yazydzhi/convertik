@@ -509,3 +509,4 @@ async def get_metrics_for_monitoring(
 - [ANALYTICS.md](./ANALYTICS.md) — Спецификация аналитики
 - [azg_admin MONITORING_GUIDE.md](../../azg_admin/docs/MONITORING_GUIDE.md) — Руководство по мониторингу
 
+
