@@ -10,10 +10,9 @@ struct ContentView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            // Автоматически обновляем курсы при загрузке приложения
-            Task {
-                await ratesRepository.syncRemote()
-            }
+            // НЕ запускаем синхронизацию здесь - RatesRepository уже запускает её через 1 секунду
+            // Это предотвращает дублирование синхронизаций и ускоряет запуск
+            // Локальные данные уже загружены в RatesRepository.init()
         }
     }
 }

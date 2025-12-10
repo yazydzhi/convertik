@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Convertik"
+               BlueprintIdentifier = "A24412A872A5DCB8729596AC"
                BuildableName = "Convertik.app"
                BlueprintName = "Convertik"
                ReferencedContainer = "container:Convertik.xcodeproj">
@@ -44,7 +44,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Convertik"
+            BlueprintIdentifier = "A24412A872A5DCB8729596AC"
             BuildableName = "Convertik.app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
@@ -61,7 +61,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Convertik"
+            BlueprintIdentifier = "A24412A872A5DCB8729596AC"
             BuildableName = "Convertik.app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">

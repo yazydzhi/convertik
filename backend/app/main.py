@@ -35,13 +35,13 @@ async def lifespan(app: FastAPI):
     """Управление жизненным циклом приложения"""
     # Startup
     logger.info("Starting Convertik API", version=settings.app_version)
-    
+
     # Запускаем планировщик задач
     from .tasks.scheduler import task_scheduler
     await task_scheduler.start()
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down Convertik API")
     await task_scheduler.stop()
@@ -71,7 +71,7 @@ app.add_middleware(
 async def log_requests(request: Request, call_next):
     """Middleware для логирования запросов"""
     start_time = time.time()
-    
+
     # Логируем входящий запрос
     logger.info(
         "Incoming request",
@@ -80,9 +80,9 @@ async def log_requests(request: Request, call_next):
         client_ip=request.client.host if request.client else None,
         user_agent=request.headers.get("user-agent")
     )
-    
+
     response = await call_next(request)
-    
+
     # Логируем ответ
     process_time = time.time() - start_time
     logger.info(
@@ -92,7 +92,7 @@ async def log_requests(request: Request, call_next):
         status_code=response.status_code,
         process_time=round(process_time, 4)
     )
-    
+
     return response
 
 
@@ -106,7 +106,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         error=str(exc),
         exc_info=True
     )
-    
+
     return JSONResponse(
         status_code=500,
         content={
@@ -141,12 +141,14 @@ async def health_check():
 
 # Импорт роутов
 from .routes import rates_router, stats_router, admin_router, iap_router
+from .routes.metrics import router as metrics_router
 
 # Подключение роутов
 app.include_router(rates_router, prefix="/api/v1", tags=["rates"])
 app.include_router(stats_router, prefix="/api/v1", tags=["stats"])
 app.include_router(admin_router, prefix="/api/v1", tags=["admin"])
 app.include_router(iap_router, prefix="/api/v1", tags=["iap"])
+app.include_router(metrics_router, prefix="/api/v1", tags=["metrics"])
 
 
 if __name__ == "__main__":
@@ -157,4 +159,4 @@ if __name__ == "__main__":
         port=8000,
         reload=settings.debug,
         log_level=settings.log_level.lower()
-    ) 
+    )

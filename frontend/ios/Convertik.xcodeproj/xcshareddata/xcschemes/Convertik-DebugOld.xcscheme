@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1600"
-   version = "1.7">
+   version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Convertik"
+               BlueprintIdentifier = "A24412A872A5DCB8729596AC"
                BuildableName = "Convertik.app"
                BlueprintName = "Convertik"
                ReferencedContainer = "container:Convertik.xcodeproj">
@@ -28,7 +28,8 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldAutocreateTestPlan = "YES"
+      storeKitConfigurationFileReference = "container:StoreKit_Test_Old.storekit">
    </TestAction>
    <LaunchAction
       buildConfiguration = "DebugOld"
@@ -39,12 +40,13 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      storeKitConfigurationFileReference = "container:StoreKit_Test_Old.storekit">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Convertik"
+            BlueprintIdentifier = "A24412A872A5DCB8729596AC"
             BuildableName = "Convertik.app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">
@@ -61,7 +63,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Convertik"
+            BlueprintIdentifier = "A24412A872A5DCB8729596AC"
             BuildableName = "Convertik.app"
             BlueprintName = "Convertik"
             ReferencedContainer = "container:Convertik.xcodeproj">

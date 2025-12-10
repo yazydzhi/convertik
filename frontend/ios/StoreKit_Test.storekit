@@ -9,7 +9,7 @@
       }
     ]
   },
-  "identifier" : "56FD97E6",
+  "identifier" : "NEW_VERSION_TEST",
   "nonRenewingSubscriptions" : [
 
   ],
@@ -70,7 +70,7 @@
   },
   "subscriptionGroups" : [
     {
-      "id" : "0948EBA3",
+      "id" : "NEW_GROUP_001",
       "localizations" : [
 
       ],
@@ -86,19 +86,19 @@
           "displayPrice" : "0.99",
           "familyShareable" : true,
           "groupNumber" : 1,
-          "internalID" : "1261104E",
+          "internalID" : "NEW_SUB_001",
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "",
-              "displayName" : "",
+              "description" : "Без рекламы",
+              "displayName" : "Премиум подписка",
               "locale" : "en_US"
             }
           ],
           "productID" : "com.azg.Convertik",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "AdsFree",
-          "subscriptionGroupID" : "0948EBA3",
+          "subscriptionGroupID" : "NEW_GROUP_001",
           "type" : "RecurringSubscription",
           "winbackOffers" : [
 
