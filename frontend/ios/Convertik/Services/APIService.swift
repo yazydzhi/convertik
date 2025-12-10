@@ -103,8 +103,11 @@ final class APIService {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        // ВАЖНО: Backend ожидает объект с полем "events", а не массив напрямую
+        let batch = StatsEventBatch(events: events)
+        
         let encoder = JSONEncoder()
-        request.httpBody = try encoder.encode(events)
+        request.httpBody = try encoder.encode(batch)
 
         let (_, response) = try await session.data(for: request)
 

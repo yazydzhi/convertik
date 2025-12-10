@@ -38,6 +38,10 @@ struct StatsEvent: Codable {
     }
 }
 
+struct StatsEventBatch: Codable {
+    let events: [StatsEvent]
+}
+
 // Helper для Any в JSON
 struct AnyCodable: Codable {
     let value: Any
