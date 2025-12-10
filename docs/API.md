@@ -58,24 +58,34 @@ GET /api/v1/rates
 ### Запрос  
 `Content‑Type: application/json`
 ```json
-[
-  {
-    "name": "app_open",
-    "ts": 1690800000,
-    "device_id": "2cb4e0d4‑b3cf‑46e2‑942c‑0e7d2fc8dcdd"
-  },
-  {
-    "name": "conversion",
-    "device_id": "2cb4e0d4‑b3cf‑46e2‑942c‑0e7d2fc8dcdd",
-    "ts": 1690800010,
-    "params": { "from": "USD", "to": "EUR", "amount": 150 }
-  }
-]
+{
+  "events": [
+    {
+      "name": "app_open",
+      "device_id": "2cb4e0d4-b3cf-46e2-942c-0e7d2fc8dcdd",
+      "ts": 1690800000,
+      "params": null
+    },
+    {
+      "name": "conversion",
+      "device_id": "2cb4e0d4-b3cf-46e2-942c-0e7d2fc8dcdd",
+      "ts": 1690800010,
+      "params": { "from": "USD", "to": "EUR", "amount": 150 }
+    }
+  ]
+}
 ```
 
-### Ответ `202 Accepted`
+**ВАЖНО:** Backend ожидает объект с полем `events`, а не массив напрямую!  
+**Подробная документация:** См. [API_ANALYTICS_EVENTS.md](API_ANALYTICS_EVENTS.md)
+
+### Ответ `200 OK`
 ```json
-{ "accepted": 2 }
+{
+  "status": "success",
+  "processed_events": 2,
+  "message": "Events saved successfully"
+}
 ```
 
 ### Коды ошибок  
