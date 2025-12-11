@@ -4,27 +4,27 @@ import GoogleMobileAds
 // MARK: - UIKit Wrapper для BannerView
 struct AdBannerRepresentable: UIViewRepresentable {
     @ObservedObject var adService: AdService
-    
+
     func makeUIView(context: Context) -> BannerView {
         // Используем адаптивный баннер для лучшего использования пространства
         // Создание BannerView не блокирует UI - это легкая операция
         let bannerView = BannerView(adSize: AdSizeBanner)
         bannerView.adUnitID = adService.bannerAdUnitID
         bannerView.delegate = context.coordinator
-        
+
         print("📱 AdBannerRepresentable: Creating adaptive banner with Ad Unit ID: \(adService.bannerAdUnitID)")
-        
+
         // НЕ получаем rootViewController сразу - это может блокировать UI
         // Установим его асинхронно в updateUIView когда AdMob будет готов
         // Это критично для быстрого запуска и неблокирующего UI
-        
+
         // НЕ загружаем рекламу сразу - отложим до инициализации AdMob SDK
         // Загрузка будет выполнена через updateUIView после инициализации AdMob
         // Это ускоряет показ UI и не блокирует интерфейс
-        
+
         return bannerView
     }
-    
+
     func updateUIView(_ uiView: BannerView, context: Context) {
         // Загружаем рекламу только если AdMob SDK инициализирован и еще не пытались загрузить
         // ВСЕ операции выполняются асинхронно, не блокируя UI
@@ -34,10 +34,10 @@ struct AdBannerRepresentable: UIViewRepresentable {
             Task { @MainActor in
                 let coordinator = context.coordinator
                 let rootVC = coordinator.getRootViewController()
-                
+
                 uiView.rootViewController = rootVC
                 print("📱 AdBannerRepresentable: Root view controller: \(rootVC != nil ? "Found" : "Not found")")
-                
+
                 if rootVC != nil {
                     print("📱 AdBannerRepresentable: Loading banner ad (AdMob is ready, async)...")
                     // Загружаем рекламу асинхронно - это не блокирует UI
@@ -60,66 +60,72 @@ struct AdBannerRepresentable: UIViewRepresentable {
             }
         }
     }
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+
     class Coordinator: NSObject, BannerViewDelegate {
         var parent: AdBannerRepresentable
         private var retryCount = 0
         private let maxRetries = 3 // Максимум 3 попытки
-        
+
         init(_ parent: AdBannerRepresentable) {
             self.parent = parent
         }
-        
+
         func getRootViewController() -> UIViewController? {
             // Получаем rootViewController - должен вызываться на главном потоке
             // Пробуем несколько способов получения rootViewController для надежности
             guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
                 return nil
             }
-            
+
             // Пробуем получить из первого окна
             if let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
                 return window.rootViewController
             }
-            
+
             // Если ключевое окно не найдено, пробуем первое доступное
             if let window = windowScene.windows.first {
                 return window.rootViewController
             }
-            
+
             return nil
         }
-        
+
         // MARK: - BannerViewDelegate
-        
+
         func bannerViewDidReceiveAd(_ bannerView: BannerView) {
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 print("✅ Banner ad loaded successfully!")
                 print("✅ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
+                // Обновляем состояние на главном потоке для правильного обновления SwiftUI
                 self.parent.adService.isBannerLoaded = true
                 self.parent.adService.bannerLoadAttempted = true
                 self.parent.adService.trackAdImpression(adUnitId: bannerView.adUnitID ?? "")
-                
+
+                // Принудительно обновляем view для отображения баннера
+                // Это гарантирует, что SwiftUI обновит opacity
+                print("📱 Banner visibility updated: isBannerLoaded = \(self.parent.adService.isBannerLoaded)")
+
                 // Планируем автоматическое обновление баннера через 45 секунд
                 // Это соответствует рекомендациям Google AdMob
-                DispatchQueue.main.asyncAfter(deadline: .now() + 45.0) {
+                Task { @MainActor in
+                    try? await Task.sleep(nanoseconds: 45_000_000_000) // 45 секунд
                     print("🔄 Auto-refreshing banner ad...")
                     bannerView.load(Request())
                 }
             }
         }
-        
+
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
             DispatchQueue.main.async { [self] in
                 // Проверяем тип ошибки
                 if let admobError = error as NSError? {
                     print("❌ AdMob Error Code: \(admobError.code)")
                     print("❌ AdMob Error Domain: \(admobError.domain)")
-                    
+
                     // Если это ошибка "No ad to show" (код 1) - это нормальная ситуация, не ошибка
                     if admobError.code == 1 && admobError.domain == "com.google.admob" {
                         print("ℹ️ No banner ad available at the moment (this is normal)")
@@ -129,13 +135,13 @@ struct AdBannerRepresentable: UIViewRepresentable {
                         return
                     }
                 }
-                
+
                 // Для всех остальных ошибок показываем детальную информацию
                 print("❌ Banner ad failed to load!")
                 print("❌ Ad Unit ID: \(bannerView.adUnitID ?? "Unknown")")
                 print("❌ Error: \(error.localizedDescription)")
                 print("❌ Error details: \(error)")
-                
+
                 // Для реальных ошибок (не "No ad to show") можем попробовать retry
                 if let admobError = error as NSError?,
                    !(admobError.code == 1 && admobError.domain == "com.google.admob") {
@@ -149,12 +155,12 @@ struct AdBannerRepresentable: UIViewRepresentable {
                         print("❌ Max retry attempts reached, giving up on banner ad")
                     }
                 }
-                
+
                 self.parent.adService.isBannerLoaded = false
                 self.parent.adService.bannerLoadAttempted = true
             }
         }
-        
+
         func bannerViewDidRecordClick(_ bannerView: BannerView) {
             self.parent.adService.trackAdClick(adUnitId: bannerView.adUnitID ?? "")
         }
@@ -165,7 +171,7 @@ struct AdBannerRepresentable: UIViewRepresentable {
 struct AdBannerPlaceholder: View {
     @ObservedObject var adService: AdService
     @Environment(\.themeManager) private var themeManager
-    
+
     var body: some View {
         Rectangle()
             .fill(themeManager.cardBackground)
@@ -174,11 +180,11 @@ struct AdBannerPlaceholder: View {
                     Image(systemName: "megaphone.fill")
                         .font(.title2)
                         .foregroundColor(themeManager.amberAccent)
-                    
+
                     Text("Рекламный баннер")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
-                    
+
                     Text("Здесь будет реклама Google AdMob")
                         .font(.caption2)
                         .foregroundColor(themeManager.textSecondary.opacity(0.7))
@@ -195,7 +201,7 @@ struct AdBannerContainerView: View {
     @EnvironmentObject private var storeService: StoreService
     @Environment(\.themeManager) private var themeManager
     @State private var showingPaywall = false
-    
+
     var body: some View {
         if !storeService.isPremium {
             VStack(spacing: 0) {
@@ -204,13 +210,13 @@ struct AdBannerContainerView: View {
                     Image(systemName: "megaphone.fill")
                         .foregroundColor(themeManager.amberAccent)
                         .font(.caption)
-                    
+
                     Text("Реклама")
                         .font(.caption)
                         .foregroundColor(themeManager.textSecondary)
-                    
+
                     Spacer()
-                    
+
                     Button("Убрать") {
                         showingPaywall = true
                     }
@@ -220,20 +226,19 @@ struct AdBannerContainerView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
                 .background(themeManager.cardBackground)
-                
+
                 // Баннер рекламы
                 // Показываем placeholder сразу, реклама загрузится асинхронно в фоне
                 ZStack {
                     // AdBannerRepresentable создается, но не блокирует UI
                     // Загрузка рекламы происходит асинхронно в фоне
-                    AdBannerRepresentable(adService: adService)
-                        .frame(height: 60)
-                        .opacity(adService.isBannerLoaded ? 1.0 : 0.0)
-                        .allowsHitTesting(adService.isBannerLoaded) // Отключаем взаимодействие пока не загружена
-                    
-                    // Показываем минималистичный placeholder пока реклама не загружена
-                    // Это не блокирует UI - просто визуальный элемент
-                    if !adService.isBannerLoaded {
+                    if adService.isBannerLoaded {
+                        AdBannerRepresentable(adService: adService)
+                            .frame(height: 60)
+                            .transition(.opacity)
+                    } else {
+                        // Показываем минималистичный placeholder пока реклама не загружена
+                        // Это не блокирует UI - просто визуальный элемент
                         Rectangle()
                             .fill(themeManager.cardBackground.opacity(0.5))
                             .frame(height: 60)
@@ -256,6 +261,7 @@ struct AdBannerContainerView: View {
                             )
                     }
                 }
+                .animation(.easeInOut(duration: 0.3), value: adService.isBannerLoaded)
             }
             .background(themeManager.cardBackground)
             .cornerRadius(ConvertikCornerRadius.sm)
@@ -283,4 +289,4 @@ struct AdBannerContainerView: View {
     AdBannerContainerView()
         .environmentObject(SettingsService.shared)
         .environmentObject(ThemeService.shared)
-} 
+}

@@ -107,6 +107,16 @@ final class RatesRepository: ObservableObject {
             return
         }
 
+        // Дополнительная защита: проверяем, не было ли недавнего обновления
+        // Предотвращаем слишком частые синхронизации
+        if let lastSync = lastUpdated {
+            let timeSinceLastSync = Date().timeIntervalSince(lastSync)
+            if timeSinceLastSync < 10 { // Минимум 10 секунд между синхронизациями
+                logger.debug("Sync skipped: too soon after last sync (\(Int(timeSinceLastSync))s ago)")
+                return
+            }
+        }
+
         isSyncing = true
         logger.debug("Starting remote sync...")
 
@@ -131,6 +141,7 @@ final class RatesRepository: ObservableObject {
 
             await MainActor.run {
                 isLoading = false
+                isSyncing = false // Сбрасываем флаг синхронизации
             }
             logger.debug("Remote sync completed successfully")
         } catch {
@@ -158,9 +169,10 @@ final class RatesRepository: ObservableObject {
             }
 
             logger.error("Remote sync failed: \(error)")
+            await MainActor.run {
+                isSyncing = false // Сбрасываем флаг синхронизации при ошибке
+            }
         }
-
-        isSyncing = false // Сбрасываем флаг синхронизации
     }
 
     func rate(for code: String) -> Rate? {

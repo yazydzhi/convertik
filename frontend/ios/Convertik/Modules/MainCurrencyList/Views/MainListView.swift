@@ -75,11 +75,8 @@ struct MainListView: View {
 
             .onAppear {
                 analyticsService.trackAppOpen()
-
-                // Загружаем курсы в фоне
-                Task {
-                    await ratesRepository.syncRemote()
-                }
+                // НЕ запускаем синхронизацию здесь - она уже запускается из RatesRepository.init()
+                // Это предотвращает множественные синхронизации и зависания UI
             }
             .allowsHitTesting(true)
             .onAppear {
@@ -133,7 +130,7 @@ struct MainListView: View {
         }
         .listStyle(PlainListStyle())
     }
-    
+
 
 
     private var centerTitleView: some View {
@@ -142,7 +139,7 @@ struct MainListView: View {
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(themeManager.textPrimary)
-            
+
             if let lastUpdated = ratesRepository.lastUpdated {
                 Text(lastUpdated.formattedForDisplay())
                     .font(.caption2)
@@ -152,7 +149,7 @@ struct MainListView: View {
                     .font(.caption2)
                     .foregroundColor(ConvertikColors.warning)
             }
-            
+
             // Показываем ошибку соединения если есть
             if let connectionError = ratesRepository.connectionError {
                 Text(connectionError)
@@ -180,32 +177,32 @@ struct MainListView: View {
             }
                 }
     }
-    
+
     // MARK: - Actions
-    
+
     private func moveCurrencies(from source: IndexSet, to destination: Int) {
         // Используем moveCurrency из SettingsService который уже содержит логику защиты RUB
         settingsService.moveCurrency(from: source, to: destination)
         viewModel.updateDisplayedCurrencies()
-        
+
         // Отслеживаем перемещение
         if let sourceIndex = source.first {
             let currency = viewModel.displayedCurrencies[sourceIndex]
             analyticsService.trackCurrencyMoved(currency.rate.code)
         }
     }
-    
+
     private func deleteCurrency(_ code: String) {
         settingsService.removeCurrency(code)
         analyticsService.trackCurrencyRemoved(code)
         viewModel.updateDisplayedCurrencies()
     }
-    
+
     // MARK: - Ad Logic
-    
+
     private func triggerAdIfNeeded(action: @escaping () -> Void) {
         adTriggerCount += 1
-        
+
         // Показываем рекламу каждые 3 действия (если не Ads Free)
         if !storeService.isPremium && adTriggerCount % 3 == 0 && interstitialService.isReady {
             // Получаем root view controller для показа рекламы
@@ -213,7 +210,13 @@ struct MainListView: View {
                let window = windowScene.windows.first,
                let rootViewController = window.rootViewController {
                 interstitialService.showAd(from: rootViewController) {
-                    action()
+                    // Выполняем действие на главном потоке с небольшой задержкой
+                    // чтобы UI успел обновиться после закрытия рекламы
+                    Task { @MainActor in
+                        // Дополнительная задержка для стабилизации UI
+                        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 секунды
+                        action()
+                    }
                 }
             } else {
                 action()

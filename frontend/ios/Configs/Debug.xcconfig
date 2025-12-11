@@ -16,7 +16,7 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG DEPLOY_NEW
 
 // App Version (новая версия)
 INFOPLIST_KEY_CFBundleShortVersionString = 2.6
-INFOPLIST_KEY_CFBundleVersion = 9
+INFOPLIST_KEY_CFBundleVersion = 10
 
 // App Encryption Export Compliance Code
 ITSAppUsesNonExemptEncryption = NO
