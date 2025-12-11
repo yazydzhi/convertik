@@ -16,6 +16,57 @@ final class APIService {
         self.session = URLSession(configuration: config)
     }
 
+    // MARK: - Date Parsing Helper
+
+    /// Парсит строку даты в различных форматах ISO8601
+    /// Поддерживает форматы с "Z" (UTC), с часовым поясом (+03:00), с микросекундами
+    private func parseDate(from dateString: String, container: SingleValueDecodingContainer) throws -> Date {
+        // Поддерживаем различные форматы ISO8601:
+        // 1. С "Z" (UTC): "2025-12-11T06:06:00Z"
+        // 2. С часовым поясом: "2025-12-11T06:06:00+03:00"
+        // 3. С микросекундами: "2025-12-11T06:06:00.123456Z"
+
+        // Используем ISO8601DateFormatter, который автоматически обрабатывает часовые пояса
+        let formatter = ISO8601DateFormatter()
+
+        // Пробуем сначала с микросекундами
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: dateString) {
+            return date
+        }
+
+        // Fallback к стандартному ISO8601 без микросекунд
+        formatter.formatOptions = [.withInternetDateTime]
+        if let date = formatter.date(from: dateString) {
+            return date
+        }
+
+        // Если не удалось распарсить, пробуем через DateFormatter для более гибкого парсинга
+        let flexibleFormatter = DateFormatter()
+        flexibleFormatter.locale = Locale(identifier: "en_US_POSIX")
+        flexibleFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+        flexibleFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        if let date = flexibleFormatter.date(from: dateString) {
+            return date
+        }
+
+        flexibleFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        if let date = flexibleFormatter.date(from: dateString) {
+            return date
+        }
+
+        // Пробуем парсить с часовым поясом (например, +03:00)
+        flexibleFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        if let date = flexibleFormatter.date(from: dateString) {
+            return date
+        }
+
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "Date string does not match expected format: \(dateString)"
+        )
+    }
+
     // MARK: - Rates API
 
     func fetchRates() async throws -> RatesResponse {
@@ -32,25 +83,7 @@ final class APIService {
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
             let dateString = try container.decode(String.self)
-            
-            // Поддерживаем формат с микросекундами: "2025-08-02T14:15:13.649148Z"
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            
-            if let date = formatter.date(from: dateString) {
-                return date
-            }
-            
-            // Fallback к стандартному ISO8601 без микросекунд
-            formatter.formatOptions = [.withInternetDateTime]
-            if let date = formatter.date(from: dateString) {
-                return date
-            }
-            
-            throw DecodingError.dataCorruptedError(
-                in: container,
-                debugDescription: "Date string does not match expected format"
-            )
+            return try self.parseDate(from: dateString, container: container)
         }
 
         return try decoder.decode(RatesResponse.self, from: data)
@@ -70,25 +103,7 @@ final class APIService {
         decoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
             let dateString = try container.decode(String.self)
-            
-            // Поддерживаем формат с микросекундами: "2025-08-02T14:15:13.649148Z"
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            
-            if let date = formatter.date(from: dateString) {
-                return date
-            }
-            
-            // Fallback к стандартному ISO8601 без микросекунд
-            formatter.formatOptions = [.withInternetDateTime]
-            if let date = formatter.date(from: dateString) {
-                return date
-            }
-            
-            throw DecodingError.dataCorruptedError(
-                in: container,
-                debugDescription: "Date string does not match expected format"
-            )
+            return try self.parseDate(from: dateString, container: container)
         }
 
         return try decoder.decode(CurrencyNamesResponse.self, from: data)
@@ -105,7 +120,7 @@ final class APIService {
 
         // ВАЖНО: Backend ожидает объект с полем "events", а не массив напрямую
         let batch = StatsEventBatch(events: events)
-        
+
         let encoder = JSONEncoder()
         request.httpBody = try encoder.encode(batch)
 
