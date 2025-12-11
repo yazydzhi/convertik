@@ -203,3 +203,4 @@ curl "https://api.convertik.ponravilos.ru/api/v1/stats/metrics?start_date=2025-1
 
 Выполните все команды из Шага 1 и пришлите результаты. Это поможет определить точную причину проблемы.
 
+

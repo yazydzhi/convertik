@@ -510,3 +510,4 @@ async def get_metrics_for_monitoring(
 - [azg_admin MONITORING_GUIDE.md](../../azg_admin/docs/MONITORING_GUIDE.md) — Руководство по мониторингу
 
 
+

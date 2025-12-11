@@ -121,7 +121,7 @@ struct StatsEvent: Codable {
     let deviceId: String
     let timestamp: Int
     let params: [String: AnyCodable]?
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case deviceId = "device_id"
@@ -137,19 +137,19 @@ struct StatsEventBatch: Codable {
 // Отправка событий
 func sendStats(_ events: [StatsEvent]) async throws {
     let url = URL(string: "https://api.convertik.ponravilos.ru/api/v1/stats")!
-    
+
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
+
     // ВАЖНО: Обернуть массив в объект с полем events
     let batch = StatsEventBatch(events: events)
-    
+
     let encoder = JSONEncoder()
     request.httpBody = try encoder.encode(batch)
-    
+
     let (_, response) = try await URLSession.shared.data(for: request)
-    
+
     guard let httpResponse = response as? HTTPURLResponse,
           200...299 ~= httpResponse.statusCode else {
         throw APIError.invalidResponse
@@ -248,7 +248,7 @@ print(response.json())
 class AnalyticsService {
     private var eventQueue: [StatsEvent] = []
     private let maxBatchSize = 50
-    
+
     func track(event: String, params: [String: Any]? = nil) {
         let statsEvent = StatsEvent(
             name: event,
@@ -256,9 +256,9 @@ class AnalyticsService {
             timestamp: Int(Date().timeIntervalSince1970),
             params: params?.mapValues(AnyCodable.init)
         )
-        
+
         eventQueue.append(statsEvent)
-        
+
         // Отправляем батч если достигли лимита
         if eventQueue.count >= maxBatchSize {
             Task {
@@ -266,12 +266,12 @@ class AnalyticsService {
             }
         }
     }
-    
+
     func sendQueuedEvents() async {
         guard !eventQueue.isEmpty else { return }
-        
+
         let eventsToSend = Array(eventQueue.prefix(maxBatchSize))
-        
+
         do {
             try await sendStats(eventsToSend)
             eventQueue.removeFirst(eventsToSend.count)
@@ -367,4 +367,5 @@ request.httpBody = try encoder.encode(batch)
 - [ ] Обрабатываются ошибки отправки
 - [ ] Реализована очередь событий для batch отправки
 - [ ] События отправляются при достижении лимита или при закрытии приложения
+
 
