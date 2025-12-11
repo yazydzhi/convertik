@@ -32,3 +32,4 @@ docker exec -e PGPASSWORD="${POSTGRES_PASSWORD:-convertik}" convertik-db psql -U
 echo ""
 echo "✅ Проверка завершена"
 
+

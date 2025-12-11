@@ -25,3 +25,4 @@ curl -s "https://api.convertik.ponravilos.ru/api/v1/stats/metrics?period=day" | 
 echo ""
 echo "✅ Проверка завершена"
 
+
