@@ -46,6 +46,7 @@
 		DECE878E800CF5177DDF5E69 /* AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */; };
 		E9E69A99A4050B4AEE799027 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */; };
 		ED2DF4A6B3C468556F58CA6B /* AddCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141704D4367968EBA2F4C8CC /* AddCurrencyView.swift */; };
+		EF68FC9D271B0968D0253A83 /* Pods_Convertik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25077E3C0C8B5CB78EF8F2D6 /* Pods_Convertik.framework */; };
 		F0876FD22A108E259061B896 /* RewardedAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB1D74438267828D1D72F7F /* RewardedAdView.swift */; };
 		FDC63EA1933637944ED40D0F /* AdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A7C4918F704152B465049 /* AdService.swift */; };
 /* End PBXBuildFile section */
@@ -57,10 +58,12 @@
 		1DB1D74438267828D1D72F7F /* RewardedAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdView.swift; sourceTree = "<group>"; };
 		1EEB2901D7848058D7CC2AAD /* UpdateRequiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequiredView.swift; sourceTree = "<group>"; };
 		1F8A7C4918F704152B465049 /* AdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdService.swift; sourceTree = "<group>"; };
+		25077E3C0C8B5CB78EF8F2D6 /* Pods_Convertik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Convertik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2683A09A4E9C65626B63B3A1 /* CurrencyRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRowView.swift; sourceTree = "<group>"; };
 		278280FD697FEDD79881D094 /* RewardedAdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAdService.swift; sourceTree = "<group>"; };
 		2A1B2B61DCAF110550897C8A /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		2BD8241A50096A073B3DDAD6 /* star_premium_clean_1024x1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_premium_clean_1024x1024.png; sourceTree = "<group>"; };
+		325261A8563BA50BE45396E2 /* Pods-Convertik.debugold.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debugold.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debugold.xcconfig"; sourceTree = "<group>"; };
 		3265FDF798774107AFE72B12 /* BackgroundService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundService.swift; sourceTree = "<group>"; };
 		39E704D05FFEDDB62D9DEF9E /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
 		3BCD1C1C2EDDF1E8005FE5B7 /* StoreKit_Test.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKit_Test.storekit; sourceTree = "<group>"; };
@@ -71,21 +74,25 @@
 		5662F467D00C205126E15956 /* DeployOld.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeployOld.xcconfig; sourceTree = "<group>"; };
 		58DB194544F7A0CBEB93C5D2 /* AdBannerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerRepresentable.swift; sourceTree = "<group>"; };
 		5922C4142D30494A520B5D2A /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		5BD8C54A4E20DBF3020AA4AE /* Pods-Convertik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debug.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debug.xcconfig"; sourceTree = "<group>"; };
 		68C1170118A2AF2DADBB5BB4 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		70EE793C1838BFF2EACEA2E8 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		736CC7E5996D8A7D4ED957A0 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7392B7CF6A4D52D513E98643 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		88BA5CF1F4CAEBBD2801AB49 /* DebugNew.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugNew.xcconfig; sourceTree = "<group>"; };
 		AB10EB238E92F1D9E0096C61 /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
+		AC12844C02024D2824E4FC28 /* Pods-Convertik.deployold.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.deployold.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.deployold.xcconfig"; sourceTree = "<group>"; };
 		AFD2C577D0DE55594174D842 /* ConvertikApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertikApp.swift; sourceTree = "<group>"; };
 		B09C49DACA90E8BFC7C32EF8 /* RateEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RateEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B1B9E0E86D99C1352D92E139 /* ThemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeService.swift; sourceTree = "<group>"; };
 		B53F6DA502B4C0C957A8D894 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B702A6BB882C5E80F08E0946 /* RatesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesRepository.swift; sourceTree = "<group>"; };
+		B7B984D504E94A932C7B20FC /* Pods-Convertik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.release.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.release.xcconfig"; sourceTree = "<group>"; };
 		C0FD5CAACC7D2C5F0DFDD65B /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		C20D9C352254817F4E94C43E /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		C34595F1F0E2E1951ED9BA3D /* Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rate.swift; sourceTree = "<group>"; };
 		CA0DF738BEE5ABE3E5C725DA /* ThemePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreviewView.swift; sourceTree = "<group>"; };
+		CE85AB3ED797F9CB8D7146E4 /* Pods-Convertik.debugnew.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.debugnew.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.debugnew.xcconfig"; sourceTree = "<group>"; };
 		CFC5246EE34A33B59848B671 /* InterstitialAdService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdService.swift; sourceTree = "<group>"; };
 		D06801B82FB7652D862A9C9F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0940F69ED0A430D656997AC /* DeployNew.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DeployNew.xcconfig; sourceTree = "<group>"; };
@@ -93,6 +100,7 @@
 		D73E5ACE20DAD35FFAAE0144 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
 		DA136F3375AA8EE040270B1B /* Convertik.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Convertik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4A2E9A88A1DE59C2C8F526 /* UserCurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCurrency.swift; sourceTree = "<group>"; };
+		DAEFE6AE0AA3A1F2AA1816BA /* Pods-Convertik.deploynew.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Convertik.deploynew.xcconfig"; path = "Target Support Files/Pods-Convertik/Pods-Convertik.deploynew.xcconfig"; sourceTree = "<group>"; };
 		DB0D1F118510CA58BBA43556 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		E56F7572D799B40226A6DF91 /* ConvertikDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConvertikDataModel.xcdatamodel; sourceTree = "<group>"; };
 		E5F3FF07B4AA25A2E65F8E90 /* star_premium_clean.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = star_premium_clean.svg; sourceTree = "<group>"; };
@@ -100,6 +108,17 @@
 		FDEF3F07AE512E2B9B29012F /* UserCurrencyEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCurrencyEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FE4CFC624A438422BD75BF7A /* DebugOld.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DebugOld.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EA377128A104300ECCB7BCE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF68FC9D271B0968D0253A83 /* Pods_Convertik.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1417590BE3CDE540E2A58F34 /* Views */ = {
@@ -128,6 +147,8 @@
 				46FA768462331FAA88A944A6 /* Configs */,
 				D34D63D91BAE744CAEAFFA58 /* Convertik */,
 				25C6848C13264F8C54A7F4C4 /* Products */,
+				4A725832F198DD596D8B0797 /* Pods */,
+				2FC64222295F4AA7CA1F6E08 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +158,14 @@
 				DA136F3375AA8EE040270B1B /* Convertik.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2FC64222295F4AA7CA1F6E08 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25077E3C0C8B5CB78EF8F2D6 /* Pods_Convertik.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		34A8CD57C9254314B2D54CC3 /* Views */ = {
@@ -178,6 +207,20 @@
 				500B712C20EAD921F549D121 /* MainListView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4A725832F198DD596D8B0797 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BD8C54A4E20DBF3020AA4AE /* Pods-Convertik.debug.xcconfig */,
+				CE85AB3ED797F9CB8D7146E4 /* Pods-Convertik.debugnew.xcconfig */,
+				325261A8563BA50BE45396E2 /* Pods-Convertik.debugold.xcconfig */,
+				DAEFE6AE0AA3A1F2AA1816BA /* Pods-Convertik.deploynew.xcconfig */,
+				AC12844C02024D2824E4FC28 /* Pods-Convertik.deployold.xcconfig */,
+				B7B984D504E94A932C7B20FC /* Pods-Convertik.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		558D146F88BE057A21C4D961 /* Services */ = {
@@ -331,16 +374,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43E22285C7020C9C184ED1C5 /* Build configuration list for PBXNativeTarget "Convertik" */;
 			buildPhases = (
+				8A08016838CFC447022FB266 /* [CP] Check Pods Manifest.lock */,
 				36097644B896D79319D99E29 /* Sources */,
 				F9AEB818949A6DCDA57539B2 /* Resources */,
+				8EA377128A104300ECCB7BCE /* Frameworks */,
+				686FBF131392D4217579CC75 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Convertik;
-			packageProductDependencies = (
-			);
 			productName = Convertik;
 			productReference = DA136F3375AA8EE040270B1B /* Convertik.app */;
 			productType = "com.apple.product-type.application";
@@ -370,6 +414,7 @@
 			);
 			mainGroup = 1F48656B267F839A4F542F5E;
 			minimizedProjectReferenceProxies = 1;
+			productRefGroup = 25C6848C13264F8C54A7F4C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -391,6 +436,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		686FBF131392D4217579CC75 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Convertik/Pods-Convertik-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A08016838CFC447022FB266 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Convertik-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		36097644B896D79319D99E29 /* Sources */ = {
@@ -480,6 +567,7 @@
 		};
 		20AF9F7DC48338A8DD4A4DC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7B984D504E94A932C7B20FC /* Pods-Convertik.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -528,6 +616,7 @@
 		};
 		327E61693B1B0085BF15F5B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BD8C54A4E20DBF3020AA4AE /* Pods-Convertik.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
